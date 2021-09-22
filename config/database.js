@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 module.exports = {
     // config db
     username: process.env.DB_USERNAME || "root",
