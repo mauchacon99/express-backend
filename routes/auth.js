@@ -17,23 +17,23 @@ const requireAuth = passport.authenticate('jwt', {
  *    post:
  *      tags:
  *        - auth
- *      summary: "registro de usuario"
- *      description: registrar usuario en la aplicacion
+ *      summary: "register user"
+ *      description: "register user in application"
  *      responses:
  *        '200':
- *          description: Retorna el objeto insertado en la coleccion.
+ *          description: "Return user and token."
  *        '422':
- *          description: Email ya esta registrado o campos no cumplen validacion.
+ *          description: "Email is already registered or fields do not meet validation."
  *    parameters:
  *      -  in: "body"
  *         name: "body"
- *         description: "parametros requeridos para insertar usuario"
+ *         description: "parameters required to insert user"
  *         required: true
  *         schema:
  *            $ref: "#/definitions/authRegister"
  *    responses:
  *      '201':
- *        description: retorna el objeto insertado en la coleccion
+ *        description: "description: Return user and token."
  */
 router.post(
     '/register',
@@ -109,37 +109,6 @@ router.post(
 
 /**
  * @swagger
- * /social:
- *    post:
- *      tags:
- *        - auth
- *      summary: "Registrar usuario por facebook - google"
- *      description: registrar usuario por redes sociales
- *      responses:
- *        '200':
- *          description: Retorna usuario registrado
- *        '422':
- *          description:  Campos no cumplen validacion.
- *    parameters:
- *      -  in: "body"
- *         name: "body"
- *         description: "parametros requeridos para reegistro"
- *         required: true
- *         schema:
- *            $ref: "#/definitions/authSocial"
- *    responses:
- *      '201':
- *        description: retorna usuario registrado
- */
-// router.post(
-//     '/social',
-//     trimRequest.all,
-//     validate.social,
-//     controller.registerSocial
-// )
-
-/**
- * @swagger
  * /reset:
  *    post:
  *      tags:
@@ -201,31 +170,31 @@ router.post(
  *    post:
  *      tags:
  *        - auth
- *      summary: "acceso al sistema"
- *      description: permitir el acceso a la aplicacion
+ *      summary: "login"
+ *      description: "access to application"
  *      responses:
  *        '200':
- *          description: Retorna el objeto  del usuario y el token asignado.
+ *          description: "Return user and token."
  *        '422':
- *          description: campos no cumplen validacion.
+ *          description: "fields do not meet validation."
  *        '404':
- *          description: email o password equivocados.
+ *          description: "wrong email or password."
  *    parameters:
  *      -  in: "body"
  *         name: "body"
- *         description: "parametros requeridos para insertar usuario"
+ *         description: "parameters required to login"
  *         required: true
  *         schema:
  *            $ref: "#/definitions/authLogin"
  *    responses:
  *      '201':
- *        description: retorna el objeto correspondiente a los datos del usuario
+ *        description: "Return user and token."
  */
-// router.post(
-//     '/login',
-//     trimRequest.all,
-//     validate.login,
-//     controller.login
-// )
+router.post(
+    '/login',
+    trimRequest.all,
+    validate.login,
+    controller.login
+)
 
 module.exports = router

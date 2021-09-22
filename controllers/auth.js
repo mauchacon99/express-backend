@@ -24,6 +24,10 @@ const findUser = async (email) => {
     })
 }
 
+/**
+ * Register function called by route
+ * @param {Object} req - request object
+ */
 const registerUser = async (req) => {
     return new Promise((resolve, reject) => {
         const password = auth.encrypt(req.password)
@@ -54,7 +58,32 @@ exports.register = async (req, res) => {
         const user = await registerUser(req)
         const userInfo = auth.setUserInfo(user)
         const response = auth.returnRegisterToken(userInfo)
-        res.status(201).json(response)
+        res.status(200).json(response)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
+ * Login function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.login = async (req, res) => {
+    try {
+        const data = matchedData(req)
+        const user = await findUser(data.email)
+        const isPasswordMatch = await auth.checkPassword(data.password, user.password)
+        console.log('check', isPasswordMatch)
+        if (!isPasswordMatch) {
+            utils.handleError(res, utils.buildErrObject(409, 'WRONG_PASSWORD'))
+        } else {
+            // all ok return user and token
+            res.status(200).json({
+                token: auth.generateToken(user.id),
+                user: auth.setUserInfo(user)
+            })
+        }
     } catch (error) {
         utils.handleError(res, error)
     }

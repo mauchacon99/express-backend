@@ -25,7 +25,7 @@ exports.generateToken = (user) => {
  */
 exports.setUserInfo = (user) => {
     return {
-        id: user.id,
+        // id: user.id,
         name: user.name,
         email: user.email
     }
@@ -41,6 +41,19 @@ exports.returnRegisterToken = (user) => {
         token: this.generateToken(id),
         item
     }
+}
+
+/**
+ * Checks is password matches
+ * @param {string} password - password
+ * @param {string} user - user object
+ * @returns {boolean}
+ */
+exports.checkPassword = async (password, user) => {
+    return new Promise((resolve) => {
+        bcrypt.compare(password, user, (err, result) => resolve(result))
+    })
+
 }
 
 /**
