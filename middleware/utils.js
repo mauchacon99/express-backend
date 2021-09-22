@@ -1,4 +1,3 @@
-const requestIp = require('request-ip')
 const { validationResult } = require('express-validator')
 const User = require('../models/User')
 
@@ -9,24 +8,6 @@ const User = require('../models/User')
 exports.removeExtensionFromFile = (file) => {
     return file.split('.').slice(0, -1).join('.').toString()
 }
-
-/**
- * Gets IP from user
- * @param {*} req - request object
- */
-exports.getIP = (req) => requestIp.getClientIp(req)
-
-/**
- * Gets browser info from user
- * @param {*} req - request object
- */
-exports.getBrowserInfo = (req) => req.headers['user-agent']
-
-/**
- * Gets country from user using CloudFlare header 'cf-ipcountry'
- * @param {*} req - request object
- */
-exports.getCountry = (req) => req.headers['cf-ipcountry'] ? req.headers['cf-ipcountry'] : 'XX'
 
 /**
  * Handles error by printing to console in development env and builds and sends an error response
@@ -77,16 +58,6 @@ exports.validationResult = (req, res, next) => {
 }
 
 /**
- * Builds success object
- * @param {string} message - success text
- */
-exports.buildSuccObject = (message) => {
-    return {
-        msg: message
-    }
-}
-
-/**
  * Item not found
  * @param {Object} err - error object
  * @param {Object} item - item result object
@@ -100,32 +71,4 @@ exports.itemNotFound = (err, item, reject, message) => {
     if (!item) {
         reject(this.buildErrObject(404, message))
     }
-}
-
-/**
- * Item already exists
- * @param {Object} err - error object
- * @param {Object} item - item result object
- * @param {Object} reject - reject object
- * @param {string} message - message
- */
-exports.itemAlreadyExists = (err, item, reject, message) => {
-    if (err) {
-        reject(this.buildErrObject(422, err.message))
-    }
-    if (item) {
-        reject(this.buildErrObject(422, message))
-    }
-}
-
-exports.findByID = (id) => {
-    return new Promise((resolve, reject) => {
-        User.findById(id, (err, result) => {
-            if (!err) {
-                resolve(result)
-            } else {
-                reject(err)
-            }
-        })
-    })
 }

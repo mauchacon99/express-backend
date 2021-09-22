@@ -11,7 +11,7 @@ const {matchedData} = require("express-validator");
  * Finds user by email
  * @param {string} email - user´s email
  */
-const findUser = async (email) => {
+const findUserByEmail = async (email) => {
     return new Promise((resolve, reject) => {
         User.findOne({
             where: { email }
@@ -43,8 +43,6 @@ const registerUser = async (req) => {
     })
 }
 
-
-
 /*
 *  Public functions
 */
@@ -74,7 +72,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUser(data.email)
+        const user = await findUserByEmail(data.email)
         const isPasswordMatch = await auth.checkPassword(data.password, user.password)
         if (!isPasswordMatch) {
             utils.handleError(res, utils.buildErrObject(409, 'WRONG_PASSWORD'))

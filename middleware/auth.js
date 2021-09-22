@@ -33,6 +33,10 @@ const encryptCrypto = (text) => {
 *  Public functions
 */
 
+/**
+ * Generates a token
+ * @param {string} user - user id
+ */
 exports.generateToken = (user) => {
     // Gets expiration time
     const expiration = Math.floor(Date.now() / 1000) + 60 * process.env.JWT_EXPIRATION_IN_MINUTES

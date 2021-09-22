@@ -44,118 +44,20 @@ router.post(
 
 /**
  * @swagger
- * /verify:
- *    post:
- *      tags:
- *        - auth
- *      summary: "Verificar email"
- *      description: verificar codigo atravez de email
- *      responses:
- *        '200':
- *          description: Retorna el email y la verificacion verdadera.
- *        '422':
- *          description: Campos no cumplen validacion.
- *        '404':
- *          description: Mensaje de errors de no verificado o no encontrado.
- *    parameters:
- *      -  in: "body"
- *         name: "body"
- *         description: "parametros requeridos para verificar email"
- *         required: true
- *         schema:
- *            $ref: "#/definitions/authVerify"
- *    responses:
- *      '201':
- *        description: retorna el objeto insertado en la coleccion
- */
-
-// router.post(
-//     '/verify',
-//     trimRequest.all,
-//     validate.verify,
-//     controller.verify
-// )
-
-/**
- * @swagger
- * /forgot:
- *    post:
- *      tags:
- *        - auth
- *      summary: "restablecer password"
- *      description: restablecer password solicitando solo email
- *      responses:
- *        '200':
- *          description: Retorna un nuevo codigo de verificacion.
- *        '422':
- *          description:  Campos no cumplen validacion.
- *    parameters:
- *      -  in: "body"
- *         name: "body"
- *         description: "parametros requeridos para restablecer password"
- *         required: true
- *         schema:
- *            $ref: "#/definitions/authForgot"
- *    responses:
- *      '201':
- *        description: retorna el objeto insertado en la coleccion
- */
-// router.post(
-//     '/forgot',
-//     trimRequest.all,
-//     validate.forgotPassword,
-//     controller.forgotPassword
-// )
-
-/**
- * @swagger
- * /reset:
- *    post:
- *      tags:
- *        - auth
- *      summary: "reasignar  password"
- *      description: restablecer password solicitando verificacion y password
- *      responses:
- *        '200':
- *          description: Retorna un nuevo codigo de verificacion.
- *        '422':
- *          description:  Campos no cumplen validacion.
- *        '404':
- *          description:  No se a encontrado o ya existe usuario
- *    parameters:
- *      -  in: "body"
- *         name: "body"
- *         description: "parametros requeridos para reasignar password a usuario"
- *         required: true
- *         schema:
- *            $ref: "#/definitions/authReset"
- *    responses:
- *      '201':
- *        description: retorna el objeto del usuario
- */
-// router.post(
-//     '/reset',
-//     trimRequest.all,
-//     validate.resetPassword,
-//     controller.resetPassword
-// )
-
-/**
- * @swagger
  * /token:
  *    get:
  *      tags:
  *        - auth
- *      summary: "asigna un nuevo token "
- *      description: asigna un nuevo token al usuario logeado
+ *      summary: "assign new token"
+ *      description: "reset token of user logged"
  *      responses:
  *        '200':
- *          description: retorna nuevo token
+ *          description: "return user and new token"
  *        '401':
- *          description:  desautorizado
+ *          description:  "unauthorized"
  *    responses:
  *      '200':
- *        description: retorna el token del usuario logeado
+ *        description: "return user and new token"
  */
 router.get(
     '/token',
