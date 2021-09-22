@@ -11,6 +11,7 @@ const port = process.env.PORT || 3000
 
 const app = express()
 
+require('./swagger-options')(app)
 app.use(cors())
 app.use(compression())
 app.use(logger('dev'))

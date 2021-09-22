@@ -7,7 +7,6 @@ const {matchedData} = require("express-validator");
 *  Private functions
 */
 
-
 /**
  * Finds user by email
  * @param {string} email - user´s email
@@ -24,6 +23,7 @@ const findUser = async (email) => {
             .catch((err) => utils.itemNotFound(err, null, reject, 'USER_DOES_NOT_EXIST'))
     })
 }
+
 const registerUser = async (req) => {
     return new Promise((resolve, reject) => {
         const password = auth.encrypt(req.password)
