@@ -1,7 +1,8 @@
 /* eslint-disable import/order */
 const passport = require('passport')
-const User = require('../models/user')
+const {User} = require('../models')
 const auth = require('../middleware/auth')
+const utils = require("../middleware/utils");
 const JwtStrategy = require('passport-jwt').Strategy
 
 /**
@@ -20,7 +21,7 @@ const jwtExtractor = (req) => {
     }
     if (token) {
         // Decrypts token
-        token = auth.decrypt(token)
+        token = auth.decryptCrypto(token)
     }
     return token
 }
@@ -37,12 +38,9 @@ const jwtOptions = {
  * Login with JWT middleware
  */
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-    User.findByPk(payload.data.id, (err, user) => {
-        if (err) {
-            return done(err, false)
-        }
-        return !user ? done(null, false) : done(null, user)
-    })
+    User.findByPk(payload.data.id)
+        .then((item) => !item ? done(null, false) : done(null, item))
+        .catch((err) => done(err, false))
 })
 
 passport.use(jwtLogin)

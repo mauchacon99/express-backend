@@ -43,6 +43,8 @@ const registerUser = async (req) => {
     })
 }
 
+
+
 /*
 *  Public functions
 */
@@ -74,7 +76,6 @@ exports.login = async (req, res) => {
         const data = matchedData(req)
         const user = await findUser(data.email)
         const isPasswordMatch = await auth.checkPassword(data.password, user.password)
-        console.log('check', isPasswordMatch)
         if (!isPasswordMatch) {
             utils.handleError(res, utils.buildErrObject(409, 'WRONG_PASSWORD'))
         } else {
@@ -88,3 +89,26 @@ exports.login = async (req, res) => {
         utils.handleError(res, error)
     }
 }
+
+/**
+ * Refresh token function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.getRefreshToken = async (req, res) => {
+    try {
+        const tokenEncrypted = req.headers.authorization
+            .replace('Bearer ', '')
+            .trim()
+        const id = await auth.getUserIdFromToken(tokenEncrypted)
+        const user = await auth.findUserById(id)
+
+        res.status(200).json({
+            token: auth.generateToken(user.id),
+            user: auth.setUserInfo(user)
+        })
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+

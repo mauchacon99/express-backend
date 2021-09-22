@@ -157,12 +157,12 @@ router.post(
  *      '200':
  *        description: retorna el token del usuario logeado
  */
-// router.get(
-//     '/token',
-//     requireAuth,
-//     trimRequest.all,
-//     controller.getRefreshToken
-// )
+router.get(
+    '/token',
+    requireAuth,
+    trimRequest.all,
+    controller.getRefreshToken
+)
 
 /**
  * @swagger
