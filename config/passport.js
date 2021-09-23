@@ -1,4 +1,4 @@
-/* eslint-disable import/order */
+
 const passport = require('passport')
 const {User} = require('../models')
 const auth = require('../middleware/auth')
