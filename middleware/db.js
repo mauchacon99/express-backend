@@ -4,9 +4,8 @@ const utils = require("./utils");
  * Gets items from database
  * @param {Object} req - request object
  * @param {Object} model - model of db
- * @param {Object} query - query object
  */
-exports.getItems = (req, model, query) => {
+exports.getItems = (req, model) => {
     return new Promise((resolve, reject) => {
         model.findAll({})
             .then(item => {
@@ -48,7 +47,7 @@ exports.createItem = (req, model) => {
                     ? utils.itemNotFound({message: 'error create'}, item, reject, 'NOT_CREATED')
                     : resolve(item)
             })
-            .catch(() => utils.itemNotFound({message: 'error create'}, item, reject, 'NOT_CREATED'))
+            .catch(() => utils.itemNotFound({message: 'error create'}, null, reject, 'NOT_CREATED'))
     })
 }
 
@@ -62,9 +61,10 @@ exports.updateItem = (id, model, req) => {
     return new Promise((resolve, reject) => {
         model.update(req, { where: { id } })
             .then(item => {
-                !item
-                    ? utils.itemNotFound({message: 'error update'}, item, reject, 'NOT_UPDATED')
-                    : resolve(item)
+                if(!item) utils.itemNotFound({message: 'error update'}, item, reject, 'NOT_UPDATED')
+                else {
+                    model.findOne({ where: { id } }).then(res => resolve(res))
+                }
             })
             .catch(() => utils.itemNotFound({message: 'error update'}, item, reject, 'NOT_UPDATED'))
     })
@@ -79,7 +79,7 @@ exports.deleteItem =(id, model) => {
     return new Promise((resolve, reject) => {
         model.destroy({ where: { id } })
             .then(item => {
-                resolve(item)
+                resolve({message: 'deleted'})
             })
             .catch(() => utils.itemNotFound({message: 'error  not exist'}, item, reject, 'DOES_NOT_EXIST'))
     })
