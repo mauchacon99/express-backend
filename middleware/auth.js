@@ -124,12 +124,6 @@ exports.findUserById = (id) => {
 }
 
 /**
- * Encrypts text
- * @param {string} text - text to encrypt
- */
-exports.encrypt = (text)  => bcrypt.hashSync(text, 10)
-
-/**
  * Decrypts text
  * @param {string} text - text to decrypt
  */
