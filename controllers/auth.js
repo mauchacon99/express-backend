@@ -30,11 +30,10 @@ const findUserByEmail = async (email) => {
  */
 const registerUser = async (req) => {
     return new Promise((resolve, reject) => {
-        const password = auth.encrypt(req.password)
         const user = {
             name: req.name,
             email: req.email,
-            password
+            password: req.password
         }
 
         User.create(user)

@@ -15,7 +15,10 @@ const auth = require("../middleware/auth");
  */
 exports.getItems = async (req, res) => {
     try {
-        res.status(200).json(await db.getItems(req, User))
+        const data = await User.findAll({
+            attributes: ['name', 'email', 'createdAt']
+        })
+        res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -61,7 +64,6 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        req.password = auth.encrypt(req.password)
         const { dataValues } = await db.createItem(req, User)
         const { password, ...data } = dataValues
         res.status(200).json(data)
