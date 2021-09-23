@@ -6,7 +6,7 @@ const compression = require('compression')
 const logger = require('morgan')
 const cors = require('cors')
 const passport = require('passport')
-const helmet = require("helmet")
+const helmet = require('helmet')
 const port = process.env.PORT || 3000
 
 const app = express()
@@ -25,4 +25,4 @@ app.use(require('./routes'))
 console.log(`*** Run in http://localhost:${port} ***`)
 app.listen(app.get('port'))
 
-module.exports = app
+module.exports = app    
