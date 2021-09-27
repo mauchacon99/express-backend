@@ -11,7 +11,7 @@ const swaggerOptions = {
                 name: 'Developer'
             },
             servers: [
-                'http://localhost:3000'
+                `http://localhost:${process.env.PORT}`
             ]
         },
         schemes: ['http'],
