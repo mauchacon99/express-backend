@@ -42,14 +42,14 @@ if (process.env.NODE_ENV === 'production') {
     };
     const httpsServer = https.createServer(credentials, app)
 
-    httpsServer.listen(port, () => {
-        console.log(`HTTPS Server running on port ${port}`)
+    httpsServer.listen(3001, () => {
+        console.log(`HTTPS Server running on port 3001`)
     });
 }
 
 const httpServer = http.createServer(app);
-httpServer.listen(port, () => {
-    console.log(`HTTP Server running on port ${port}`)
+httpServer.listen(3000, () => {
+    console.log(`HTTP Server running on port 3000`)
 });
 // app.listen(app.get('port'))
 
