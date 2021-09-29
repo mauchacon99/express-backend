@@ -17,7 +17,7 @@ const findUserByEmail = async (email) => {
             where: { email }
         })
             .then((item) => {
-                if(!item) reject(utils.itemNotFound('not found', item, 'USER_DOES_NOT_EXIST'))
+                if(!item) reject(utils.itemNotFound({message: 'not found'}, item, 'USER_DOES_NOT_EXIST'))
                 else resolve(item)
             })
             .catch((err) => reject(utils.itemNotFound(err, null, 'USER_DOES_NOT_EXIST')))
