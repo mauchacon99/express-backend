@@ -16,27 +16,27 @@ module.exports = (sequelize, DataTypes) => {
   phone.init({
     number: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     internationalNumber: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     nationalNumber: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     countryCode: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     dialCode: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
-    modelName: 'phone',
+    modelName: 'Phone',
   });
   return phone;
 };

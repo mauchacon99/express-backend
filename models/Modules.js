@@ -14,14 +14,29 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   modules.init({
-    status: DataTypes.BOOLEAN,
-    methods: DataTypes.STRING,
-    icon: DataTypes.STRING,
-    name: DataTypes.STRING,
-    route: DataTypes.STRING
+    status: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN
+    },
+    methods: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    icon: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    route: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
   }, {
     sequelize,
-    modelName: 'modules',
+    modelName: 'Modules',
   });
   return modules;
 };

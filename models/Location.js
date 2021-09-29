@@ -16,30 +16,30 @@ module.exports = (sequelize, DataTypes) => {
   location.init({
     lat: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     lng: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     address: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     cityName: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     stateCode: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     countryName: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     countryCode: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
   }, {
     sequelize,
-    modelName: 'location',
+    modelName: 'Location',
   });
   return location;
 };

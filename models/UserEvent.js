@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model, Sequelize
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class UserEvent extends Model {
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   UserEvent.init({
     event: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     }
   }, {

@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model, Sequelize
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class permissions extends Model {
@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   permissions.init({
     status: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     methods: {
       allowNull: false,
-      type: Sequelize.BOOLEAN
+      type: DataTypes.BOOLEAN
     },
   }, {
     sequelize,
