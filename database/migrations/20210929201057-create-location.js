@@ -26,9 +26,6 @@ module.exports = {
       cityName: {
         type: Sequelize.STRING
       },
-      stateCode: {
-        type: Sequelize.STRING
-      },
       countryName: {
         type: Sequelize.STRING
       },
