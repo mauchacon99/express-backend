@@ -6,7 +6,15 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production pm2 start server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "cross-env NODE_ENV=production nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "npx sequelize-cli db:seed:all",
+    "migrate": "npx sequelize-cli db:migrate",
+    "clean-migrations": "npx sequelize db:migrate:undo:all",
+    "clean-seed": "npx sequelize db:seed:undo:all",
+    "clean-all": "npm run clean-seed && npm run clean-migrations",
+    "fulldb": "npm run migrate && npm run seed",
+    "fresh": "npm run clean-all && npm run fulldb"
   },
   "keywords": [],
   "author": "",

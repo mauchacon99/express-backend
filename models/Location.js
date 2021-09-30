@@ -32,9 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     cityName: {
       type: DataTypes.STRING
     },
-    stateCode: {
-      type: DataTypes.STRING
-    },
     countryName: {
       type: DataTypes.STRING
     },
