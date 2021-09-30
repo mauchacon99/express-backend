@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/modules')
-const validate = require('../controllers/modules.validate')
+const controller = require('../controllers/permissions')
+const validate = require('../controllers/permissions.validate')
 
 const router = express.Router()
 require('../config/passport')
@@ -12,32 +12,32 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 /*
- * Modules routes
+ * Permissions routes
  */
 
 /**
  * @swagger
- * /modules:
+ * /permissions:
  *    post:
  *      tags:
- *        - modules
- *      summary: "Add new module"
- *      description: "Add new module"
+ *        - permissions
+ *      summary: "Add new permission"
+ *      description: "Add new permission"
  *      responses:
  *        '200':
- *          description: "return module created"
+ *          description: "return permission created"
  *        '422':
  *          description: "Validation error in any of the fields entered."
  *      parameters:
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert module"
+ *           description: "parameters required to insert permission"
  *           required: true
  *           schema:
- *                $ref: "#/definitions/modules"
+ *                $ref: "#/definitions/permissions"
  *    responses:
  *      '200':
- *        description: "return module created"
+ *        description: "return permission created"
  */
 router.post(
     '/',
@@ -49,15 +49,15 @@ router.post(
 
 /**
  * @swagger
- * /modules/{id}:
+ * /permission/{id}:
  *    get:
  *      tags:
- *        - modules
- *      summary: "search module for id"
- *      description: "search module for id"
+ *        - permission
+ *      summary: "search permission for id"
+ *      description: "search permission for id"
  *      responses:
  *        '200':
- *          description: "return module"
+ *          description: "return permission"
  *        '404':
  *          description: "not found"
  *        '422':
@@ -65,14 +65,14 @@ router.post(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of module"
+ *          description: "id of permission"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *    responses:
  *      '200':
- *        description: "return module"
+ *        description: "return permission"
  */
 router.get(
     '/:id',
@@ -84,20 +84,20 @@ router.get(
 
 /**
  * @swagger
- * /modules:
+ * /permissions:
  *    get:
  *      tags:
- *        - modules
- *      summary: "get all modules"
- *      description: "get all modules"
+ *        - permissions
+ *      summary: "get all permissions"
+ *      description: "get all permissions"
  *      responses:
  *        '200':
- *          description: "return modules"
+ *          description: "return permissions"
  *        '404':
  *          description: "not founds"
  *    responses:
  *      '200':
- *        description: "return modules"
+ *        description: "return permissions"
  */
 router.get(
     '/',
@@ -108,15 +108,15 @@ router.get(
 
 /**
  * @swagger
- * /modules/{id}:
+ * /permissions/{id}:
  *    patch:
  *      tags:
- *        - modules
- *      summary: "update module for id"
- *      description: "search module and update"
+ *        - permissions
+ *      summary: "update permission for id"
+ *      description: "search permission and update"
  *      responses:
  *        '200':
- *          description: "return module updated."
+ *          description: "return permission updated."
  *        '404':
  *          description: "Not found"
  *        '422':
@@ -124,20 +124,20 @@ router.get(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of module"
+ *          description: "id of permission"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert module."
+ *           description: "parameters required to insert permission."
  *           required: true
  *           schema:
- *                $ref: "#/definitions/modules"
+ *                $ref: "#/definitions/permissions"
  *    responses:
  *      '200':
- *        description: "return module updated."
+ *        description: "return permission updated."
  */
 router.patch(
     '/:id',
@@ -149,12 +149,12 @@ router.patch(
 
 /**
  * @swagger
- * /modules/{id}:
+ * /permissions/{id}:
  *    delete:
  *      tags:
- *        - modules
- *      summary: "delete module for id"
- *      description: "delete module for id"
+ *        - permissions
+ *      summary: "delete permission for id"
+ *      description: "delete permission for id"
  *      responses:
  *        '200':
  *          description: "message deleted"
@@ -165,7 +165,7 @@ router.patch(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of module"
+ *          description: "id of permission"
  *          required: true
  *          schema:
  *            type: number

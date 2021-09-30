@@ -45,7 +45,7 @@ const swaggerOptions = {
                     name: 'user',
                     email: 'user1@user.com',
                     password: '123456',
-                    roleId: 'admin',
+                    roleId: 2,
                     lastname: "test"
                 }
             },
@@ -57,8 +57,8 @@ const swaggerOptions = {
                     password: { type: 'string' }
                 },
                 example: {
-                    email: 'user@user.com',
-                    password: '12345'
+                    email: 'admin@admin.com',
+                    password: '123456'
                 }
             },
             users: {
@@ -80,7 +80,7 @@ const swaggerOptions = {
                     name: 'user',
                     email: 'user1@user.com',
                     password: '123456',
-                    roleId: 1,
+                    roleId: 2,
                     lastname: "test"
                 }
             },
