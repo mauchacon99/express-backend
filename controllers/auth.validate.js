@@ -12,11 +12,7 @@ exports.register = [
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('lastname')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('roleId')
         .exists()
         .withMessage('MISSING')

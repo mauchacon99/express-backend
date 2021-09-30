@@ -32,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     route: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true
     },
   }, {
     sequelize,

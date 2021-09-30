@@ -84,6 +84,20 @@ const swaggerOptions = {
                     lastname: "test"
                 }
             },
+            roles: {
+                type: 'object',
+                required: [
+                    'name'
+                ],
+                properties: {
+                    name: { type: 'string' },
+                    description: { type: 'string' }
+                },
+                example: {
+                    name: 'admin',
+                    description: 'role admin',
+                }
+            }
         }
     },
     // routers
