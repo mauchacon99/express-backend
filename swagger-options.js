@@ -97,6 +97,50 @@ const swaggerOptions = {
                     name: 'admin',
                     description: 'role admin',
                 }
+            },
+            modules: {
+                type: 'object',
+                required: [
+                    'name',
+                    'status',
+                    'methods',
+                    'route'
+                ],
+                properties: {
+                    name: { type: 'string' },
+                    status: { type: 'boolean' },
+                    methods: { type: 'string' },
+                    route: { type: 'string' },
+                    icon: { type: 'string' }
+                },
+                example: {
+                    name: 'users',
+                    status: true,
+                    methods: '["get","post","delete","patch"]',
+                    route: '/users',
+                    icon: 'icon.svg'
+                }
+            },
+            permissions: {
+                type: 'object',
+                required: [
+                    'roleId',
+                    'moduleId',
+                    'status',
+                    'methods'
+                ],
+                properties: {
+                    roleId: { type: 'number' },
+                    moduleId: { type: 'number' },
+                    status: { type: 'boolean' },
+                    methods: { type: 'string' }
+                },
+                example: {
+                    roleId: 1,
+                    moduleId: 2,
+                    status: true,
+                    methods: '["get","post","delete","patch"]',
+                }
             }
         }
     },
