@@ -33,7 +33,9 @@ const registerUser = async (req) => {
         const user = {
             name: req.name,
             email: req.email,
-            password: req.password
+            password: req.password,
+            roleId: req.roleId,
+            lastname: req.lastname
         }
 
         User.create(user)
