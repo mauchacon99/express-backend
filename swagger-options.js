@@ -31,17 +31,22 @@ const swaggerOptions = {
                 required: [
                     'name',
                     'email',
-                    'password'
+                    'password',
+                    'roleId'
                 ],
                 properties: {
                     name: { type: 'string' },
                     email: { type: 'string' },
-                    password: { type: 'string' }
+                    password: { type: 'string' },
+                    roleId: { type: 'number' },
+                    lastname: { type: 'string' },
                 },
                 example: {
-                    name: 'user test',
+                    name: 'user',
                     email: 'user1@user.com',
-                    password: '123456'
+                    password: '123456',
+                    roleId: 'admin',
+                    lastname: "test"
                 }
             },
             authLogin: {
@@ -61,18 +66,22 @@ const swaggerOptions = {
                 required: [
                     'name',
                     'email',
-                    'password'
+                    'password',
+                    'roleId'
                 ],
                 properties: {
-                    name: {
-                        type: 'string'
-                    },
-                    email: {
-                        type: 'string'
-                    },
-                    password: {
-                        type: 'string'
-                    }
+                    name: { type: 'string' },
+                    email: { type: 'string' },
+                    password: { type: 'string' },
+                    roleId: { type: 'number' },
+                    lastname: { type: 'string' },
+                },
+                example: {
+                    name: 'user',
+                    email: 'user1@user.com',
+                    password: '123456',
+                    roleId: 1,
+                    lastname: "test"
                 }
             },
         }

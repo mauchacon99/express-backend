@@ -1,34 +1,36 @@
 'use strict';
-const {Sequelize} = require("sequelize");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('phones', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      roleId: {
+      userId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
+      number: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
-      lastname: {
-        type: Sequelize.STRING,
-        allowNull: false
+      internationalNumber: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
+      nationalNumber: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
+      countryCode: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      dialCode: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +43,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('phones');
   }
 };

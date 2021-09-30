@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const {User} = require('../models')
+const {User, Roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 const auth = require("../middleware/auth");
@@ -16,7 +16,13 @@ const auth = require("../middleware/auth");
 exports.getItems = async (req, res) => {
     try {
         const data = await User.findAll({
-            attributes: ['name', 'email', 'createdAt']
+            attributes: ['name', 'email', 'createdAt'],
+            include: [
+                {
+                    model: Roles,
+                    as: 'roleU'
+                }
+            ]
         })
         res.status(200).json(data)
     } catch (error) {

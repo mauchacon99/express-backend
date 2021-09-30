@@ -116,10 +116,10 @@ exports.findUserById = (id) => {
     return new Promise((resolve, reject) => {
         User.findByPk(id)
             .then((item) => {
-                if(!item)  utils.itemNotFound({message: 'not found'}, reject, item, 'USER_DOES_NOT_EXIST')
+                if(!item)  reject(utils.itemNotFound({message: 'not found'}, item, 'USER_DOES_NOT_EXIST'))
                 else resolve(item)
             })
-            .catch((err) => utils.itemNotFound(err, null, reject, 'USER_DOES_NOT_EXIST'))
+            .catch((err) => reject(utils.itemNotFound(err, null, 'USER_DOES_NOT_EXIST')))
     })
 }
 

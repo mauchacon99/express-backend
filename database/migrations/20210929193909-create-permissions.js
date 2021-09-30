@@ -1,8 +1,7 @@
 'use strict';
-const {Sequelize} = require("sequelize");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('permissions', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,22 +12,17 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      name: {
-        type: Sequelize.STRING,
+      moduleId: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
-      lastname: {
-        type: Sequelize.STRING,
-        allowNull: false
+      status: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
       },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
+      methods: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +35,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('permissions');
   }
 };
