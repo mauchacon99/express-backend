@@ -16,7 +16,7 @@ const auth = require("../middleware/auth");
 exports.getItems = async (req, res) => {
     try {
         const data = await User.findAll({
-            attributes: ['name', 'email', 'createdAt'],
+            attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
                     model: Roles,
@@ -38,8 +38,16 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const { dataValues } = await db.getItem(id, User)
-        const { password, ...data } = dataValues
+        const data = await User.findOne({
+            attributes: ['name', 'email', 'createdAt'],
+            where: { id },
+            include: [
+                {
+                    model: Roles,
+                    as: 'roleU'
+                }
+            ]
+        })
         res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)

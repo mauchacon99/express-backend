@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { Permissions } = require('../models')
+const { Permissions, Modules, Roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -14,7 +14,19 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
-        res.status(200).json(await Permissions.findAll({}))
+        const data = await Permissions.findAll({
+            include: [
+                {
+                    model: Roles,
+                    as: 'roleP'
+                },
+                {
+                    model: Modules,
+                    as: 'module'
+                }
+            ]
+        })
+        res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -28,7 +40,20 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        res.status(200).json(await db.getItem(id, Permissions))
+        const data = await Permissions.findOne({
+            where: { id },
+            include: [
+                {
+                    model: Roles,
+                    as: 'roleP'
+                },
+                {
+                    model: Modules,
+                    as: 'module'
+                }
+            ]
+        })
+        res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }

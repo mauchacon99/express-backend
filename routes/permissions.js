@@ -52,7 +52,7 @@ router.post(
  * /permission/{id}:
  *    get:
  *      tags:
- *        - permission
+ *        - permissions
  *      summary: "search permission for id"
  *      description: "search permission for id"
  *      responses:
