@@ -19,8 +19,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN
     },
     methods: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      get: function() {
+        return JSON.parse(this.getDataValue('methods'));
+      },
+      set: function(value) {
+        return this.setDataValue('methods', JSON.stringify(value));
+      }
     },
     icon: {
       allowNull: true,

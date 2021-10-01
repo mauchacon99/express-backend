@@ -109,14 +109,14 @@ const swaggerOptions = {
                 properties: {
                     name: { type: 'string' },
                     status: { type: 'boolean' },
-                    methods: { type: 'string' },
+                    methods: { type: 'array' },
                     route: { type: 'string' },
                     icon: { type: 'string' }
                 },
                 example: {
                     name: 'users',
                     status: true,
-                    methods: '["get","post","delete","patch"]',
+                    methods: ['get','post','delete','patch'],
                     route: '/users',
                     icon: 'icon.svg'
                 }
@@ -133,13 +133,13 @@ const swaggerOptions = {
                     roleId: { type: 'number' },
                     moduleId: { type: 'number' },
                     status: { type: 'boolean' },
-                    methods: { type: 'string' }
+                    methods: { type: 'array' }
                 },
                 example: {
                     roleId: 1,
                     moduleId: 2,
                     status: true,
-                    methods: '["get","post","delete","patch"]',
+                    methods: ['get','post','delete','patch']
                 }
             }
         }

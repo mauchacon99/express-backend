@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto')
-const {User} = require("../models");
+const { User, Permissions, Roles, Modules} = require("../models");
 const utils = require("../middleware/utils");
 
 const secret = process.env.JWT_SECRET
@@ -63,20 +63,32 @@ exports.setUserInfo = (user) => {
     return {
         // id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        lastname: user.lastname,
+        roleId: user.roleId
     }
 }
 
 /**
- * Creates an object with user info
- * @param {Object} user - request object
+ * Get permissions for role
+ * @param {number} roleId - role id
  */
-exports.returnRegisterToken = (user) => {
-    const {id, ...item} = user
-    return {
-        token: this.generateToken(id),
-        item
-    }
+exports.getPermissions = (roleId) => {
+    return new Promise((resolve, reject) => {
+        Permissions.findAll({
+            where: { roleId },
+            include: [
+                {
+                    model: Modules,
+                    as: 'module'
+                }
+            ]
+        })
+        .then((resp) => {
+            resolve(resp)
+        })
+        .catch(() => reject(utils.buildErrObject(403, 'DONT_HAVE_PERMISSIONS')))
+    })
 }
 
 /**

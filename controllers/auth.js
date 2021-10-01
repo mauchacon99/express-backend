@@ -57,9 +57,11 @@ exports.register = async (req, res) => {
     try {
         req = matchedData(req)
         const user = await registerUser(req)
-        const userInfo = auth.setUserInfo(user)
-        const response = auth.returnRegisterToken(userInfo)
-        res.status(201).json(response)
+        res.status(201).json({
+            token: auth.generateToken(user.id),
+            user: auth.setUserInfo(user),
+            permissions: await auth.getPermissions(user.roleId)
+        })
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
     }
@@ -81,7 +83,8 @@ exports.login = async (req, res) => {
             // all ok return user and token
             res.status(202).json({
                 token: auth.generateToken(user.id),
-                user: auth.setUserInfo(user)
+                user: auth.setUserInfo(user),
+                permissions: await auth.getPermissions(user.roleId)
             })
         }
     } catch (error) {
@@ -104,7 +107,8 @@ exports.getRefreshToken = async (req, res) => {
 
         res.status(202).json({
             token: auth.generateToken(user.id),
-            user: auth.setUserInfo(user)
+            user: auth.setUserInfo(user),
+            permissions: await auth.getPermissions(user.roleId)
         })
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(403, 'BAD_TOKEN'))
