@@ -10,18 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.User, {as: 'userE', foreignKey: 'userId'})
+      this.belongsTo(models.User, {as: 'userP', foreignKey: 'userId'})
     }
   };
   UserEvent.init({
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    event: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
+    userId: DataTypes.STRING,
+    event: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'UserEvent',
