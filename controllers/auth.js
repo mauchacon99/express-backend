@@ -59,9 +59,9 @@ exports.register = async (req, res) => {
         const user = await registerUser(req)
         const userInfo = auth.setUserInfo(user)
         const response = auth.returnRegisterToken(userInfo)
-        res.status(200).json(response)
+        res.status(201).json(response)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, {code: 400, message: error.message})
     }
 }
 
@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
             utils.handleError(res, utils.buildErrObject(409, 'WRONG_PASSWORD'))
         } else {
             // all ok return user and token
-            res.status(200).json({
+            res.status(202).json({
                 token: auth.generateToken(user.id),
                 user: auth.setUserInfo(user)
             })
@@ -102,7 +102,7 @@ exports.getRefreshToken = async (req, res) => {
         const id = await auth.getUserIdFromToken(tokenEncrypted)
         const user = await auth.findUserById(id)
 
-        res.status(200).json({
+        res.status(202).json({
             token: auth.generateToken(user.id),
             user: auth.setUserInfo(user)
         })

@@ -42,7 +42,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.updateItem(req.id, Modules, req))
+        res.status(201).json(await db.updateItem(req.id, Modules, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -56,7 +56,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, Modules))
+        res.status(201).json(await db.createItem(req, Modules))
     } catch (error) {
         utils.handleError(res, error)
     }

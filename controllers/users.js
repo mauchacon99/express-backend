@@ -64,7 +64,7 @@ exports.updateItem = async (req, res) => {
         req = matchedData(req)
         const { dataValues } = await db.updateItem(req.id, User, req)
         const { password, ...data } = dataValues
-        res.status(200).json(data)
+        res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -80,7 +80,7 @@ exports.createItem = async (req, res) => {
         req = matchedData(req)
         const { dataValues } = await db.createItem(req, User)
         const { password, ...data } = dataValues
-        res.status(200).json(data)
+        res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }

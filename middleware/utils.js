@@ -20,7 +20,7 @@ exports.handleError = (res, err) => {
         console.log(err)
     }
     // Sends error to user
-    res.status(500).json({
+    res.status(err.code).json({
         errors: {
             msg: err.message
         }
