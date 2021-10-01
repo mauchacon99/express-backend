@@ -1,5 +1,5 @@
 const utils = require("./utils");
-
+const { Op } = require("sequelize");
 /**
  * Gets items from database
  * @param {Object} req - request object
@@ -7,7 +7,7 @@ const utils = require("./utils");
  */
 exports.getItems = (req, model) => {
     return new Promise((resolve, reject) => {
-        model.findAll({})
+        model.findAll(filter(req))
             .then(item => {
                 !item
                     ? reject(utils.itemNotFound({message: 'error not found'}, item, 'NOT_FOU)ND'))
@@ -16,6 +16,37 @@ exports.getItems = (req, model) => {
             .catch(() => reject(utils.itemNotFound({message: 'error not found'}, null, 'NOT_FOUND')))
     })
 }
+
+
+/**
+ * create object for search in single table
+ * @param {string} params - params of the request example req.query
+ */
+
+function filter(params){
+    const filter = ((params.filter).split(","))[0]
+    const fields = []
+    const arrayFields = (params.fields).split(",")
+
+    arrayFields.forEach(element => {
+        fields.push(
+            {
+                [element]:filter
+            }
+        )
+    });
+
+    return {
+        where:{
+            [Op.or]:[
+                fields
+            ]
+        }
+    }
+}
+
+
+
 
 /**
  * Gets item from database by id
@@ -75,7 +106,7 @@ exports.updateItem = (id, model, req) => {
  * @param {string} id - id of item
  * @param {Object} model - model of db
  */
-exports.deleteItem =(id, model) => {
+exports.deleteItem = (id, model) => {
     return new Promise((resolve, reject) => {
         model.destroy({ where: { id } })
             .then(() => {
@@ -84,3 +115,6 @@ exports.deleteItem =(id, model) => {
             .catch(() => reject(utils.itemNotFound({message: 'error  not exist'}, null, 'DOES_NOT_EXIST')))
     })
 }
+
+
+
