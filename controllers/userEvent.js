@@ -53,8 +53,7 @@ exports.getItem = async (req, res) => {
 
 exports.getItems = async (req, res) => {
     try {
-        const data = await UserEvent.findAll()
-        res.status(200).json(data)
+        res.status(200).json(await db.getItems(req.query,UserEvent))
     } catch (error) {
         utils.handleError(res, error)
     }

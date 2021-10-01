@@ -45,7 +45,7 @@ const requireAuth = passport.authenticate('jwt', {
  */
 router.get(
     '/:id',
-    requireAuth,
+    //requireAuth,
     trimRequest.all,
     validate.getItem,
     controller.getItem
@@ -73,7 +73,7 @@ router.get(
  */
 router.get(
     '/',
-    requireAuth,
+   // requireAuth,
     trimRequest.all,
     controller.getItems
 )

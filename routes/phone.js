@@ -3,7 +3,7 @@ const passport = require('passport')
 const trimRequest = require('trim-request')
 const controller = require('../controllers/phone')
 const validate = require('../controllers/phone.validate')
-
+const db = require('../middleware/db')
 const router = express.Router()
 require('../config/passport')
 
@@ -20,7 +20,7 @@ const requireAuth = passport.authenticate('jwt', {
  * /phone:
  *    post:
  *      tags:
- *        - phones
+ *        - phone
  *      summary: "create new phone for user"
  *      description: "create new phone for user"
  *      responses:
@@ -37,19 +37,19 @@ const requireAuth = passport.authenticate('jwt', {
  *        - name: id
  * 
  *          in: query
- *          description: "id of user"
+ *          description: ""
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *    responses:
  *      '200':
- *        description: "return user"
+ *        description: "return phone"
  */
 
 router.post(
     '/',
-   // requireAuth,
+    requireAuth,
     trimRequest.all,
     validate.createItem,
     controller.createItem
@@ -60,7 +60,7 @@ router.post(
  * /phone/{id}:
  *    get:
  *      tags:
- *        - phones
+ *        - phone
  *      summary: "search phone for id"
  *      description: "search user for id"
  *      responses:
@@ -84,7 +84,7 @@ router.post(
  */
 router.get(
     '/:id',
-   // requireAuth,
+    requireAuth,
     trimRequest.all,
     validate.getItem,
     controller.getItem
@@ -95,22 +95,22 @@ router.get(
  * /phone:
  *    get:
  *      tags:
- *        - users
- *      summary: "get all users"
- *      description: "get all users"
+ *        - phone
+ *      summary: "get all phones with any filter "
+ *      description: "example /even?fields=userId&filter=1"
  *      responses:
  *        '200':
- *          description: "return users"
+ *          description: "return phones"
  *        '404':
  *          description: "not founds"
  *    responses:
  *      '200':
- *        description: "return users"
+ *        description: "return phones"
  */
 router.get(
     '/',
-   // requireAuth,
-   // trimRequest.all,
+    requireAuth,
+    trimRequest.all,
     controller.getItems
 )
 
@@ -119,12 +119,12 @@ router.get(
  * /phone/{id}:
  *    patch:
  *      tags:
- *        - users
- *      summary: "update user for id"
- *      description: "search user and update"
+ *        - phone
+ *      summary: "update phone for id"
+ *      description: "search phone and update"
  *      responses:
  *        '200':
- *          description: "return user updated."
+ *          description: "return phone updated."
  *        '404':
  *          description: "Not found"
  *        '422':
@@ -132,20 +132,20 @@ router.get(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of phone"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert user."
+ *           description: "parameters required to insert phone."
  *           required: true
  *           schema:
- *                $ref: "#/definitions/users"
+ *                
  *    responses:
  *      '200':
- *        description: "return user updated."
+ *        description: "return phone updated."
  */
 router.patch(
     '/:id',
@@ -160,9 +160,9 @@ router.patch(
  * /phone/{id}:
  *    delete:
  *      tags:
- *        - users
- *      summary: "delete user for id"
- *      description: "delete user for id"
+ *        - phone
+ *      summary: "delete phone for id"
+ *      description: "delete phone for id"
  *      responses:
  *        '200':
  *          description: "message deleted"
@@ -173,7 +173,7 @@ router.patch(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of phone"
  *          required: true
  *          schema:
  *            type: number

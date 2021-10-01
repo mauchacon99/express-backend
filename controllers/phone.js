@@ -2,9 +2,11 @@ const { matchedData } = require('express-validator')
 const { Phone } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
-
+const { Op } = require("sequelize");
 /********************
  * Public functions *
+ * 
+ *
  ********************/
 
 /**
@@ -13,8 +15,9 @@ const db = require('../middleware/db')
  * @param {Object} res - response object
  */
 exports.getItems = async (req, res) => {
+ 
     try {
-        res.status(200).json(await Phone.findAll({}))
+        res.status(200).json(await db.getItems(req.query,Phone))
     } catch (error) {
         utils.handleError(res, error)
     }
