@@ -17,10 +17,10 @@ const findUserByEmail = async (email) => {
             where: { email }
         })
             .then((item) => {
-                if(!item) reject(utils.itemNotFound({message: 'not found'}, item, 'USER_DOES_NOT_EXIST'))
+                if(!item) reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST'))
                 else resolve(item)
             })
-            .catch((err) => reject(utils.itemNotFound(err, null, 'USER_DOES_NOT_EXIST')))
+            .catch((err) => reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST')))
     })
 }
 
@@ -40,7 +40,7 @@ const registerUser = async (req) => {
 
         User.create(user)
             .then(user => resolve(user))
-            .catch(err => reject(utils.buildErrObject(422, err.message)))
+            .catch(() => reject(utils.buildErrObject(400, 'DONT_REGISTER')))
     })
 }
 
@@ -61,7 +61,7 @@ exports.register = async (req, res) => {
         const response = auth.returnRegisterToken(userInfo)
         res.status(201).json(response)
     } catch (error) {
-        utils.handleError(res, {code: 400, message: error.message})
+        utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
     }
 }
 
@@ -76,7 +76,7 @@ exports.login = async (req, res) => {
         const user = await findUserByEmail(data.email)
         const isPasswordMatch = await auth.checkPassword(data.password, user.password)
         if (!isPasswordMatch) {
-            utils.handleError(res, utils.buildErrObject(409, 'WRONG_PASSWORD'))
+            utils.handleError(res, utils.buildErrObject(404, 'WRONG_PASSWORD'))
         } else {
             // all ok return user and token
             res.status(202).json({
@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
             })
         }
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'DONT_LOGIN'))
     }
 }
 
@@ -107,7 +107,7 @@ exports.getRefreshToken = async (req, res) => {
             user: auth.setUserInfo(user)
         })
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(403, 'BAD_TOKEN'))
     }
 }
 

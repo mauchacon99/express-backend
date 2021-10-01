@@ -1,5 +1,15 @@
 const utils = require("./utils");
 
+/*
+* Private functions
+* */
+
+const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
+
+/*
+* Public functions
+* */
+
 /**
  * Gets items from database
  * @param {Object} req - request object
@@ -10,10 +20,10 @@ exports.getItems = (req, model) => {
         model.findAll({})
             .then(item => {
                 !item
-                    ? reject(utils.itemNotFound({message: 'error not found'}, item, 'NOT_FOU)ND'))
+                    ? reject(notFoundErr)
                     : resolve(item)
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error not found'}, null, 'NOT_FOUND')))
+            .catch(() => reject(notFoundErr))
     })
 }
 
@@ -27,10 +37,10 @@ exports.getItem = (id, model) => {
         model.findByPk(id)
         .then(item => {
             !item
-                ? reject(utils.itemNotFound({message: 'error not found'}, item, 'NOT_FOUND'))
+                ? reject(notFoundErr)
                 : resolve(item)
         })
-        .catch(() => reject(utils.itemNotFound({message: 'error not found'}, null, 'NOT_FOUND')))
+        .catch(() => reject(notFoundErr))
     })
 }
 
@@ -44,10 +54,10 @@ exports.createItem = (req, model) => {
         model.create(req)
             .then(item => {
                 !item
-                    ? reject(utils.itemNotFound({message: 'error create'}, item, 'NOT_CREATED'))
+                    ? reject(utils.buildErrObject(400, 'NOT_CREATED'))
                     : resolve(item)
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error create'}, null, 'NOT_CREATED')))
+            .catch(() => reject(utils.buildErrObject(400, 'NOT_CREATED')))
     })
 }
 
@@ -61,12 +71,12 @@ exports.updateItem = (id, model, req) => {
     return new Promise((resolve, reject) => {
         model.update(req, { where: { id } })
             .then(item => {
-                if(!item) reject(utils.itemNotFound({message: 'error update'}, item, 'NOT_UPDATED'))
+                if(!item) reject(utils.buildErrObject(400, 'NOT_UPDATED'))
                 else {
                     model.findOne({ where: { id } }).then(res => resolve(res))
                 }
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error update'}, null, 'NOT_UPDATED')))
+            .catch(() => reject(utils.buildErrObject(400, 'NOT_UPDATED')))
     })
 }
 
@@ -81,6 +91,6 @@ exports.deleteItem =(id, model) => {
             .then(() => {
                 resolve({message: 'deleted'})
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error  not exist'}, null, 'DOES_NOT_EXIST')))
+            .catch(() => reject(notFoundErr))
     })
 }

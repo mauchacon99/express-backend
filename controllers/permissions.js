@@ -28,7 +28,7 @@ exports.getItems = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -55,7 +55,7 @@ exports.getItem = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 

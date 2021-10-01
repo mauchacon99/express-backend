@@ -2,7 +2,6 @@ const { matchedData } = require('express-validator')
 const {User, Roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
-const auth = require("../middleware/auth");
 
 /********************
  * Public functions *
@@ -26,7 +25,7 @@ exports.getItems = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -50,7 +49,7 @@ exports.getItem = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 

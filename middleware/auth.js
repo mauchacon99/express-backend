@@ -101,7 +101,7 @@ exports.getUserIdFromToken = (token) => {
         // Decrypts, verifies and decode token
         jwt.verify(this.decryptCrypto(token), process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
-                reject(utils.buildErrObject(409, 'BAD_TOKEN'))
+                reject(utils.buildErrObject(403, 'BAD_TOKEN'))
             }
             resolve(decoded.data.id)
         })
@@ -116,10 +116,10 @@ exports.findUserById = (id) => {
     return new Promise((resolve, reject) => {
         User.findByPk(id)
             .then((item) => {
-                if(!item)  reject(utils.itemNotFound({message: 'not found'}, item, 'USER_DOES_NOT_EXIST'))
+                if(!item)  reject(utils.buildErrObject(404, 'NOT_FOUND'))
                 else resolve(item)
             })
-            .catch((err) => reject(utils.itemNotFound(err, null, 'USER_DOES_NOT_EXIST')))
+            .catch(() => reject(utils.buildErrObject(404, 'NOT_FOUND')))
     })
 }
 
