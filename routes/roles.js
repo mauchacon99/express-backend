@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/users')
-const validate = require('../controllers/users.validate')
+const controller = require('../controllers/roles')
+const validate = require('../controllers/roles.validate')
 
 const router = express.Router()
 require('../config/passport')
@@ -12,32 +12,32 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 /*
- * Users routes
+ * Roles routes
  */
 
 /**
  * @swagger
- * /users:
+ * /roles:
  *    post:
  *      tags:
- *        - users
- *      summary: "Add new user"
- *      description: "Add new user"
+ *        - roles
+ *      summary: "Add new rol"
+ *      description: "Add new rol"
  *      responses:
  *        '200':
- *          description: "return user created"
+ *          description: "return rol created"
  *        '422':
  *          description: "Validation error in any of the fields entered."
  *      parameters:
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert user"
+ *           description: "parameters required to insert rol"
  *           required: true
  *           schema:
- *                $ref: "#/definitions/users"
+ *                $ref: "#/definitions/roles"
  *    responses:
  *      '200':
- *        description: "return user created"
+ *        description: "return rol created"
  */
 router.post(
     '/',
@@ -49,15 +49,15 @@ router.post(
 
 /**
  * @swagger
- * /users/{id}:
+ * /roles/{id}:
  *    get:
  *      tags:
- *        - users
- *      summary: "search user for id"
- *      description: "search user for id"
+ *        - roles
+ *      summary: "search rol for id"
+ *      description: "search rol for id"
  *      responses:
  *        '200':
- *          description: "return user"
+ *          description: "return rol"
  *        '404':
  *          description: "not found"
  *        '422':
@@ -65,14 +65,14 @@ router.post(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of rol"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *    responses:
  *      '200':
- *        description: "return user"
+ *        description: "return rol"
  */
 router.get(
     '/:id',
@@ -84,20 +84,20 @@ router.get(
 
 /**
  * @swagger
- * /users:
+ * /roles:
  *    get:
  *      tags:
- *        - users
- *      summary: "get all users"
- *      description: "get all users"
+ *        - roles
+ *      summary: "get all roles"
+ *      description: "get all roles"
  *      responses:
  *        '200':
- *          description: "return users"
+ *          description: "return roles"
  *        '404':
  *          description: "not founds"
  *    responses:
  *      '200':
- *        description: "return users"
+ *        description: "return roles"
  */
 router.get(
     '/',
@@ -108,15 +108,15 @@ router.get(
 
 /**
  * @swagger
- * /users/{id}:
+ * /roles/{id}:
  *    patch:
  *      tags:
- *        - users
- *      summary: "update user for id"
- *      description: "search user and update"
+ *        - roles
+ *      summary: "update rol for id"
+ *      description: "search rol and update"
  *      responses:
  *        '200':
- *          description: "return user updated."
+ *          description: "return rol updated."
  *        '404':
  *          description: "Not found"
  *        '422':
@@ -124,20 +124,20 @@ router.get(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of rol"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert user."
+ *           description: "parameters required to insert rol."
  *           required: true
  *           schema:
- *                $ref: "#/definitions/users"
+ *                $ref: "#/definitions/roles"
  *    responses:
  *      '200':
- *        description: "return user updated."
+ *        description: "return rol updated."
  */
 router.patch(
     '/:id',
@@ -149,12 +149,12 @@ router.patch(
 
 /**
  * @swagger
- * /users/{id}:
+ * /roles/{id}:
  *    delete:
  *      tags:
- *        - users
- *      summary: "delete user for id"
- *      description: "delete user for id"
+ *        - roles
+ *      summary: "delete rol for id"
+ *      description: "delete rol for id"
  *      responses:
  *        '200':
  *          description: "message deleted"
@@ -165,7 +165,7 @@ router.patch(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of rol"
  *          required: true
  *          schema:
  *            type: number

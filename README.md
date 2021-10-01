@@ -8,7 +8,8 @@ Config your database and create `.env`
 
 #### Production:
 
-Run migrations `npm run migrate` create tables in db.
+Run `npm run fulldb` to create tables in db and insert seeds
+or `npm run migrate` and `npm run seed`
 
 Run start server `npm run start` init server
 
@@ -24,6 +25,24 @@ Run in production `npm run prod` init server.
 If you want to clean the db and create everything again run `npm run fresh`
 
 ## Documentation
+
+### Users access
+
+Role admin
+```javascript
+{ 
+    email: "admin@admin.com",
+    password: "123456"
+}
+```
+
+Role coach
+```javascript
+{ 
+    email: "coach@coach.com",
+    password: "123456"
+}
+```
 
 Endpoints Documentation with swagger
 `http://localhost:3000/api-docs`
