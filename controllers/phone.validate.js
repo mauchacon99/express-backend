@@ -3,27 +3,40 @@ const { validationResult } = require('../middleware/utils')
 
 /**
  * Validates create new item request
+ * 
  */
 exports.createItem = [
-    check('roleId')
+    check('userId')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('moduleId')
+    check('number')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('status')
+    check('internationalNumber')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('methods')
+    check('nationalNumber')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('countryCode')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('dialCode')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -38,31 +51,37 @@ exports.createItem = [
  * Validates update item request
  */
 exports.updateItem = [
-    check('roleId')
+    check('userId')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('moduleId')
+    check('number')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('status')
+    check('internationalNumber')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('methods')
+    check('nationalNumber')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('id')
+    check('countryCode')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('dialCode')
         .exists()
         .withMessage('MISSING')
         .not()

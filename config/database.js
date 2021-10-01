@@ -5,7 +5,7 @@ require('dotenv-safe').config({
 module.exports = {
     // config db
     username: process.env.DB_USERNAME || "root",
-    password: process.env.DB_PASSWORD || null,
+    password: process.env.DB_PASSWORD || "",
     database: process.env.DB_DATABASE || "database_development",
     dialect: "mariadb",
     dialectOptions: {

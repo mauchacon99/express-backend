@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/modules')
-const validate = require('../controllers/modules.validate')
+const controller = require('../controllers/phone')
+const validate = require('../controllers/phone.validate')
 
 const router = express.Router()
 require('../config/passport')
@@ -12,36 +12,44 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 /*
- * Modules routes
+ * phone routes
  */
 
 /**
  * @swagger
- * /modules:
+ * /phone:
  *    post:
  *      tags:
- *        - modules
- *      summary: "Add new module"
- *      description: "Add new module"
+ *        - phones
+ *      summary: "create new phone for user"
+ *      description: "create new phone for user"
  *      responses:
  *        '200':
- *          description: "return module created"
+ *          description: "return phone created"
+ *        '404':
+ *          description: "not found"
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "error validate"
  *      parameters:
- *        -  in: "body"
- *           name: "body"
- *           description: "parameters required to insert module"
- *           required: true
- *           schema:
- *                $ref: "#/definitions/modules"
+ *       
+ *        - body: id
+ *        - name: id
+ *        - name: id
+ * 
+ *          in: query
+ *          description: "id of user"
+ *          required: true
+ *          schema:
+ *            type: number
+ *            format: number
  *    responses:
  *      '200':
- *        description: "return module created"
+ *        description: "return user"
  */
+
 router.post(
     '/',
-    requireAuth,
+   // requireAuth,
     trimRequest.all,
     validate.createItem,
     controller.createItem
@@ -49,15 +57,15 @@ router.post(
 
 /**
  * @swagger
- * /modules/{id}:
+ * /phone/{id}:
  *    get:
  *      tags:
- *        - modules
- *      summary: "search module for id"
- *      description: "search module for id"
+ *        - phones
+ *      summary: "search phone for id"
+ *      description: "search user for id"
  *      responses:
  *        '200':
- *          description: "return module"
+ *          description: "return user"
  *        '404':
  *          description: "not found"
  *        '422':
@@ -65,18 +73,18 @@ router.post(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of module"
+ *          description: "id of user"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *    responses:
  *      '200':
- *        description: "return module"
+ *        description: "return user"
  */
 router.get(
     '/:id',
-    requireAuth,
+   // requireAuth,
     trimRequest.all,
     validate.getItem,
     controller.getItem
@@ -84,39 +92,39 @@ router.get(
 
 /**
  * @swagger
- * /modules:
+ * /phone:
  *    get:
  *      tags:
- *        - modules
- *      summary: "get all modules"
- *      description: "get all modules"
+ *        - users
+ *      summary: "get all users"
+ *      description: "get all users"
  *      responses:
  *        '200':
- *          description: "return modules"
+ *          description: "return users"
  *        '404':
  *          description: "not founds"
  *    responses:
  *      '200':
- *        description: "return modules"
+ *        description: "return users"
  */
 router.get(
     '/',
-    requireAuth,
-    trimRequest.all,
+   // requireAuth,
+   // trimRequest.all,
     controller.getItems
 )
 
 /**
  * @swagger
- * /modules/{id}:
+ * /phone/{id}:
  *    patch:
  *      tags:
- *        - modules
- *      summary: "update module for id"
- *      description: "search module and update"
+ *        - users
+ *      summary: "update user for id"
+ *      description: "search user and update"
  *      responses:
  *        '200':
- *          description: "return module updated."
+ *          description: "return user updated."
  *        '404':
  *          description: "Not found"
  *        '422':
@@ -124,20 +132,20 @@ router.get(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of module"
+ *          description: "id of user"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert module."
+ *           description: "parameters required to insert user."
  *           required: true
  *           schema:
- *                $ref: "#/definitions/modules"
+ *                $ref: "#/definitions/users"
  *    responses:
  *      '200':
- *        description: "return module updated."
+ *        description: "return user updated."
  */
 router.patch(
     '/:id',
@@ -149,12 +157,12 @@ router.patch(
 
 /**
  * @swagger
- * /modules/{id}:
+ * /phone/{id}:
  *    delete:
  *      tags:
- *        - modules
- *      summary: "delete module for id"
- *      description: "delete module for id"
+ *        - users
+ *      summary: "delete user for id"
+ *      description: "delete user for id"
  *      responses:
  *        '200':
  *          description: "message deleted"
@@ -165,7 +173,7 @@ router.patch(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of module"
+ *          description: "id of user"
  *          required: true
  *          schema:
  *            type: number
