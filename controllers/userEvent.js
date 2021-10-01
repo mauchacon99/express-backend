@@ -1,9 +1,5 @@
 const db = require('../middleware/db')
 const { UserEvent } = require('../models')
-const { matchedData } = require('express-validator')
-const utils = require('../middleware/utils')
-const { id } = require('date-fns/locale')
-
 
 /**
  * Create new event in table userEvent
@@ -11,7 +7,7 @@ const { id } = require('date-fns/locale')
  * @param {string} event - type event
  */
 
-exports.CreateUserEvent = async (userId, event) => {
+module.exports = async function CreateUserEvent(userId,event){
     try {
         req = {
             userId,
@@ -21,40 +17,6 @@ exports.CreateUserEvent = async (userId, event) => {
         }
         const { dataValues } = await db.createItem(req, UserEvent)
         return dataValues
-    } catch (error) {
-        utils.handleError(res, error)
-    }
-}
-
-
-/**
- * Get item function called by route
- * @param {Object} req - request object
- * @param {Object} res - response object
- */
-
-exports.getItem = async (req, res) => {
-    try {
-        const { id } = matchedData(req)
-        const data = await UserEvent.findAll({
-           where:{userId:id}
-        })
-        res.status(200).json(data)
-    } catch (error) {
-        utils.handleError(res, error)
-    }
-}
-
-/**
- * Get item function called by route
- * @param {Object} req - request object
- * @param {Object} res - response object
- */
-
-exports.getItems = async (req, res) => {
-    try {
-        const data = await UserEvent.findAll()
-        res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }

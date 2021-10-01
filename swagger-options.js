@@ -141,59 +141,6 @@ const swaggerOptions = {
                     status: true,
                     methods: '["get","post","delete","patch"]',
                 }
-            },
-            userEvent: {
-                type: 'object',
-                required: [
-                    'userId',
-                    'event',
-                    'createdAt',
-                    'updateAt'
-                ],
-                properties: {
-                    userId: { type: 'number' },
-                    event: { type: 'string' },
-                    createdAt: { type: 'datetime' },
-                    updateAt: { type: 'datetime' }
-                },
-                example: {
-                    id:1,
-                    userId: 1,
-                    event: 'test event',
-                    createdAt: '2021-10-01 13:48:33',
-                    updateAt: '2021-10-01 13:48:33'
-                }
-            },
-
-        
-            phones: {
-                type: 'object',
-                required: [
-                    'userId',
-                    'number',
-                    'internationalNumber',
-                    'nationalNumber',
-                    'countryCode',
-                    'dialCode'
-                ],
-                properties: {
-                    userId: { type: 'number' },
-                    number: { type: 'string' },
-                    internationalNumber:{type: 'string'},
-                    nationalNumber:{type: 'string'},
-                    countryCode:{type: 'string'},
-                    dialCode:{type: 'string'},
-                    
-                },
-                example: {
-                    userId: 1,
-                    number: '3112123658',
-                    internationalNumber:'+57 3112123658',
-                    nationalNumber:'311 2123658',
-                    countryCode:'CO',
-                    dialCode:'+57',
-                   
-                }
             }
         }
     },
