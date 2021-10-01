@@ -11,7 +11,7 @@ const { id } = require('date-fns/locale')
  * @param {string} event - type event
  */
 
-exports.CreateUserEvent = async (userId, event) => {
+exports.createUserEvent = async (userId, event) => {
     try {
         req = {
             userId,
