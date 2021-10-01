@@ -20,10 +20,14 @@ const requireAuth = passport.authenticate('jwt', {
  *      summary: "register user"
  *      description: "register user in application"
  *      responses:
- *        '200':
- *          description: "Return user and token."
+ *        '201':
+ *          description: "Return user, token and permissions."
  *        '422':
- *          description: "Email is already registered or fields do not meet validation."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '400':
+ *          description: "Register failed, email already exist"
+ *        '500':
+ *          description: "Internal server error"
  *    parameters:
  *      -  in: "body"
  *         name: "body"
@@ -31,9 +35,6 @@ const requireAuth = passport.authenticate('jwt', {
  *         required: true
  *         schema:
  *            $ref: "#/definitions/authRegister"
- *    responses:
- *      '201':
- *        description: "description: Return user and token."
  */
 router.post(
     '/register',
@@ -51,13 +52,14 @@ router.post(
  *      summary: "assign new token"
  *      description: "reset token of user logged"
  *      responses:
- *        '200':
- *          description: "return user and new token"
+ *        '202':
+ *          description: "Return user, token and permissions."
  *        '401':
- *          description:  "unauthorized"
- *    responses:
- *      '200':
- *        description: "return user and new token"
+ *          description: "Unauthorized."
+ *        '403':
+ *          description: "Bad token."
+ *        '500':
+ *          description: "Internal server error"
  */
 router.get(
     '/token',
@@ -75,12 +77,16 @@ router.get(
  *      summary: "login"
  *      description: "access to application"
  *      responses:
- *        '200':
- *          description: "Return user and token."
+ *        '202':
+ *          description: "Return user, token and permissions."
+ *        '403':
+ *          description: "Wrong password."
+ *        '404':
+ *          description: "User does not exist."
  *        '422':
  *          description: "fields do not meet validation."
- *        '404':
- *          description: "wrong email or password."
+ *        '500':
+ *          description: "Internal server error"
  *    parameters:
  *      -  in: "body"
  *         name: "body"
@@ -88,9 +94,6 @@ router.get(
  *         required: true
  *         schema:
  *            $ref: "#/definitions/authLogin"
- *    responses:
- *      '201':
- *        description: "Return user and token."
  */
 router.post(
     '/login',

@@ -76,7 +76,7 @@ exports.login = async (req, res) => {
         const user = await findUserByEmail(data.email)
         const isPasswordMatch = await auth.checkPassword(data.password, user.password)
         if (!isPasswordMatch) {
-            utils.handleError(res, utils.buildErrObject(404, 'WRONG_PASSWORD'))
+            utils.handleError(res, utils.buildErrObject(403, 'WRONG_PASSWORD'))
         } else {
             // all ok return user and token
             res.status(202).json({
@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
             })
         }
     } catch (error) {
-        utils.handleError(res, utils.buildErrObject(404, 'DONT_LOGIN'))
+        utils.handleError(res, error)
     }
 }
 
