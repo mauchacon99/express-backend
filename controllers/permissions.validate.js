@@ -2,77 +2,66 @@ const { check } = require('express-validator')
 const { validationResult } = require('../middleware/utils')
 
 /**
- * Validates register request
+ * Validates create new item request
  */
-exports.register = [
-    check('name')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('lastname')
-        .optional(),
+exports.createItem = [
     check('roleId')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('email')
+    check('moduleId')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isEmail()
-        .withMessage('EMAIL_IS_NOT_VALID'),
-    check('password')
+        .withMessage('IS_EMPTY'),
+    check('status')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isLength({
-            min: 5
-        })
-        .withMessage('PASSWORD_TOO_SHORT_MIN_5'),
+        .withMessage('IS_EMPTY'),
+    check('methods')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     (req, res, next) => {
         validationResult(req, res, next)
     }
 ]
 
 /**
- * Validates login request
+ * Validates update item request
  */
-exports.login = [
-    check('email')
+exports.updateItem = [
+    check('roleId')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isEmail()
-        .withMessage('EMAIL_IS_NOT_VALID'),
-    check('password')
+        .withMessage('IS_EMPTY'),
+    check('moduleId')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isLength({
-            min: 5
-        })
-        .withMessage('PASSWORD_TOO_SHORT_MIN_5'),
-    (req, res, next) => {
-        validationResult(req, res, next)
-    }
-]
-
-/**
- * Validates verify request
- */
-exports.verify = [
+        .withMessage('IS_EMPTY'),
+    check('status')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('methods')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('id')
         .exists()
         .withMessage('MISSING')
@@ -85,42 +74,30 @@ exports.verify = [
 ]
 
 /**
- * Validates forgot password request
+ * Validates get item request
  */
-exports.forgotPassword = [
-    check('email')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isEmail()
-        .withMessage('EMAIL_IS_NOT_VALID'),
-    (req, res, next) => {
-        validationResult(req, res, next)
-    }
-]
-
-/**
- * Validates reset password request
- */
-exports.resetPassword = [
+exports.getItem = [
     check('id')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('password')
+    (req, res, next) => {
+        validationResult(req, res, next)
+    }
+]
+
+/**
+ * Validates delete item request
+ */
+exports.deleteItem = [
+    check('id')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isLength({
-            min: 5
-        })
-        .withMessage('PASSWORD_TOO_SHORT_MIN_5'),
+        .withMessage('IS_EMPTY'),
     (req, res, next) => {
         validationResult(req, res, next)
     }

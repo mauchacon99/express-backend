@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/users')
-const validate = require('../controllers/users.validate')
+const controller = require('../controllers/modules')
+const validate = require('../controllers/modules.validate')
 
 const router = express.Router()
 require('../config/passport')
@@ -12,32 +12,32 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 /*
- * Users routes
+ * Modules routes
  */
 
 /**
  * @swagger
- * /users:
+ * /modules:
  *    post:
  *      tags:
- *        - users
- *      summary: "Add new user"
- *      description: "Add new user"
+ *        - modules
+ *      summary: "Add new module"
+ *      description: "Add new module"
  *      responses:
  *        '200':
- *          description: "return user created"
+ *          description: "return module created"
  *        '422':
  *          description: "Validation error in any of the fields entered."
  *      parameters:
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert user"
+ *           description: "parameters required to insert module"
  *           required: true
  *           schema:
- *                $ref: "#/definitions/users"
+ *                $ref: "#/definitions/modules"
  *    responses:
  *      '200':
- *        description: "return user created"
+ *        description: "return module created"
  */
 router.post(
     '/',
@@ -49,15 +49,15 @@ router.post(
 
 /**
  * @swagger
- * /users/{id}:
+ * /modules/{id}:
  *    get:
  *      tags:
- *        - users
- *      summary: "search user for id"
- *      description: "search user for id"
+ *        - modules
+ *      summary: "search module for id"
+ *      description: "search module for id"
  *      responses:
  *        '200':
- *          description: "return user"
+ *          description: "return module"
  *        '404':
  *          description: "not found"
  *        '422':
@@ -65,14 +65,14 @@ router.post(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of module"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *    responses:
  *      '200':
- *        description: "return user"
+ *        description: "return module"
  */
 router.get(
     '/:id',
@@ -84,20 +84,20 @@ router.get(
 
 /**
  * @swagger
- * /users:
+ * /modules:
  *    get:
  *      tags:
- *        - users
- *      summary: "get all users"
- *      description: "get all users"
+ *        - modules
+ *      summary: "get all modules"
+ *      description: "get all modules"
  *      responses:
  *        '200':
- *          description: "return users"
+ *          description: "return modules"
  *        '404':
  *          description: "not founds"
  *    responses:
  *      '200':
- *        description: "return users"
+ *        description: "return modules"
  */
 router.get(
     '/',
@@ -108,15 +108,15 @@ router.get(
 
 /**
  * @swagger
- * /users/{id}:
+ * /modules/{id}:
  *    patch:
  *      tags:
- *        - users
- *      summary: "update user for id"
- *      description: "search user and update"
+ *        - modules
+ *      summary: "update module for id"
+ *      description: "search module and update"
  *      responses:
  *        '200':
- *          description: "return user updated."
+ *          description: "return module updated."
  *        '404':
  *          description: "Not found"
  *        '422':
@@ -124,20 +124,20 @@ router.get(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of module"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert user."
+ *           description: "parameters required to insert module."
  *           required: true
  *           schema:
- *                $ref: "#/definitions/users"
+ *                $ref: "#/definitions/modules"
  *    responses:
  *      '200':
- *        description: "return user updated."
+ *        description: "return module updated."
  */
 router.patch(
     '/:id',
@@ -149,12 +149,12 @@ router.patch(
 
 /**
  * @swagger
- * /users/{id}:
+ * /modules/{id}:
  *    delete:
  *      tags:
- *        - users
- *      summary: "delete user for id"
- *      description: "delete user for id"
+ *        - modules
+ *      summary: "delete module for id"
+ *      description: "delete module for id"
  *      responses:
  *        '200':
  *          description: "message deleted"
@@ -165,7 +165,7 @@ router.patch(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of module"
  *          required: true
  *          schema:
  *            type: number

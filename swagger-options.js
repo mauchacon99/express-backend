@@ -45,7 +45,7 @@ const swaggerOptions = {
                     name: 'user',
                     email: 'user1@user.com',
                     password: '123456',
-                    roleId: 'admin',
+                    roleId: 2,
                     lastname: "test"
                 }
             },
@@ -57,8 +57,8 @@ const swaggerOptions = {
                     password: { type: 'string' }
                 },
                 example: {
-                    email: 'user@user.com',
-                    password: '12345'
+                    email: 'admin@admin.com',
+                    password: '123456'
                 }
             },
             users: {
@@ -80,10 +80,68 @@ const swaggerOptions = {
                     name: 'user',
                     email: 'user1@user.com',
                     password: '123456',
-                    roleId: 1,
+                    roleId: 2,
                     lastname: "test"
                 }
             },
+            roles: {
+                type: 'object',
+                required: [
+                    'name'
+                ],
+                properties: {
+                    name: { type: 'string' },
+                    description: { type: 'string' }
+                },
+                example: {
+                    name: 'admin',
+                    description: 'role admin',
+                }
+            },
+            modules: {
+                type: 'object',
+                required: [
+                    'name',
+                    'status',
+                    'methods',
+                    'route'
+                ],
+                properties: {
+                    name: { type: 'string' },
+                    status: { type: 'boolean' },
+                    methods: { type: 'string' },
+                    route: { type: 'string' },
+                    icon: { type: 'string' }
+                },
+                example: {
+                    name: 'users',
+                    status: true,
+                    methods: '["get","post","delete","patch"]',
+                    route: '/users',
+                    icon: 'icon.svg'
+                }
+            },
+            permissions: {
+                type: 'object',
+                required: [
+                    'roleId',
+                    'moduleId',
+                    'status',
+                    'methods'
+                ],
+                properties: {
+                    roleId: { type: 'number' },
+                    moduleId: { type: 'number' },
+                    status: { type: 'boolean' },
+                    methods: { type: 'string' }
+                },
+                example: {
+                    roleId: 1,
+                    moduleId: 2,
+                    status: true,
+                    methods: '["get","post","delete","patch"]',
+                }
+            }
         }
     },
     // routers
