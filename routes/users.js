@@ -24,10 +24,16 @@ const requireAuth = passport.authenticate('jwt', {
  *      summary: "Add new user"
  *      description: "Add new user"
  *      responses:
- *        '200':
+ *        '201':
  *          description: "return user created"
+ *        '400':
+ *          description: "Created failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        -  in: "body"
  *           name: "body"
@@ -58,10 +64,14 @@ router.post(
  *      responses:
  *        '200':
  *          description: "return user"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error validate"
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -70,9 +80,6 @@ router.post(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "return user"
  */
 router.get(
     '/:id',
@@ -93,11 +100,12 @@ router.get(
  *      responses:
  *        '200':
  *          description: "return users"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not founds"
- *    responses:
- *      '200':
- *        description: "return users"
+ *        '500':
+ *          description: "Internal server error."
  */
 router.get(
     '/',
@@ -115,12 +123,16 @@ router.get(
  *      summary: "update user for id"
  *      description: "search user and update"
  *      responses:
- *        '200':
- *          description: "return user updated."
- *        '404':
- *          description: "Not found"
+ *        '201':
+ *          description: "return user updated"
+ *        '400':
+ *          description: "Updated failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -135,9 +147,6 @@ router.get(
  *           required: true
  *           schema:
  *                $ref: "#/definitions/users"
- *    responses:
- *      '200':
- *        description: "return user updated."
  */
 router.patch(
     '/:id',
@@ -158,10 +167,14 @@ router.patch(
  *      responses:
  *        '200':
  *          description: "message deleted"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error of validate."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -170,9 +183,6 @@ router.patch(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "message deleted"
  */
 router.delete(
     '/:id',

@@ -24,10 +24,16 @@ const requireAuth = passport.authenticate('jwt', {
  *      summary: "Add new module"
  *      description: "Add new module"
  *      responses:
- *        '200':
+ *        '201':
  *          description: "return module created"
+ *        '400':
+ *          description: "Created failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        -  in: "body"
  *           name: "body"
@@ -35,9 +41,6 @@ const requireAuth = passport.authenticate('jwt', {
  *           required: true
  *           schema:
  *                $ref: "#/definitions/modules"
- *    responses:
- *      '200':
- *        description: "return module created"
  */
 router.post(
     '/',
@@ -58,10 +61,14 @@ router.post(
  *      responses:
  *        '200':
  *          description: "return module"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error validate"
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -70,9 +77,6 @@ router.post(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "return module"
  */
 router.get(
     '/:id',
@@ -93,11 +97,12 @@ router.get(
  *      responses:
  *        '200':
  *          description: "return modules"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not founds"
- *    responses:
- *      '200':
- *        description: "return modules"
+ *        '500':
+ *          description: "Internal server error."
  */
 router.get(
     '/',
@@ -115,12 +120,16 @@ router.get(
  *      summary: "update module for id"
  *      description: "search module and update"
  *      responses:
- *        '200':
- *          description: "return module updated."
- *        '404':
- *          description: "Not found"
+ *        '201':
+ *          description: "return module updated"
+ *        '400':
+ *          description: "Updated failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -135,9 +144,6 @@ router.get(
  *           required: true
  *           schema:
  *                $ref: "#/definitions/modules"
- *    responses:
- *      '200':
- *        description: "return module updated."
  */
 router.patch(
     '/:id',
@@ -158,10 +164,14 @@ router.patch(
  *      responses:
  *        '200':
  *          description: "message deleted"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error of validate."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -170,9 +180,6 @@ router.patch(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "message deleted"
  */
 router.delete(
     '/:id',

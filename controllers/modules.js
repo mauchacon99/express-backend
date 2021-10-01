@@ -14,7 +14,7 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
-        res.status(200).json(await Modules.findAll({}))
+        res.status(200).json(await db.getItems(req, Modules))
     } catch (error) {
         utils.handleError(res, error)
     }
