@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const utils = require("./utils");
 
 /*
@@ -17,7 +18,7 @@ const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
  */
 exports.getItems = (req, model) => {
     return new Promise((resolve, reject) => {
-        model.findAll({})
+        model.findAll(filter(req))
             .then(item => {
                 !item
                     ? reject(notFoundErr)
@@ -26,6 +27,37 @@ exports.getItems = (req, model) => {
             .catch(() => reject(notFoundErr))
     })
 }
+
+
+/**
+ * create object for search in single table
+ * @param {string} params - params of the request example req.query
+ */
+
+function filter(params){
+    const filter = ((params.filter).split(","))[0]
+    const fields = []
+    const arrayFields = (params.fields).split(",")
+
+    arrayFields.forEach(element => {
+        fields.push(
+            {
+                [element]:filter
+            }
+        )
+    });
+
+    return {
+        where:{
+            [Op.or]:[
+                fields
+            ]
+        }
+    }
+}
+
+
+
 
 /**
  * Gets item from database by id
@@ -85,7 +117,7 @@ exports.updateItem = (id, model, req) => {
  * @param {string} id - id of item
  * @param {Object} model - model of db
  */
-exports.deleteItem =(id, model) => {
+exports.deleteItem = (id, model) => {
     return new Promise((resolve, reject) => {
         model.destroy({ where: { id } })
             .then(() => {

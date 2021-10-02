@@ -14,14 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   UserEvent.init({
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    event: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
+    userId: DataTypes.STRING,
+    event: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'UserEvent',

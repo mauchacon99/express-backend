@@ -1,9 +1,9 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/users')
-const validate = require('../controllers/users.validate')
-
+const controller = require('../controllers/phone')
+const validate = require('../controllers/phone.validate')
+const db = require('../middleware/db')
 const router = express.Router()
 require('../config/passport')
 const permissions = require("../middleware/permissions");
@@ -13,39 +13,41 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 /*
- * Users routes
+ * phone routes
  */
 
 /**
  * @swagger
- * /users:
+ * /phone:
  *    post:
  *      tags:
- *        - users
- *      summary: "Add new user"
- *      description: "Add new user"
+ *        - phone
+ *      summary: "create new phone for user"
+ *      description: "create new phone for user"
  *      responses:
- *        '201':
- *          description: "return user created"
- *        '400':
- *          description: "Created failed."
- *        '401':
- *          description: "Unauthorized."
+ *        '200':
+ *          description: "return phone created"
+ *        '404':
+ *          description: "not found"
  *        '422':
- *          description: "Validation error in any of the fields entered or a field is missing."
- *        '500':
- *          description: "Internal server error."
+ *          description: "error validate"
  *      parameters:
- *        -  in: "body"
- *           name: "body"
- *           description: "parameters required to insert user"
- *           required: true
- *           schema:
- *                $ref: "#/definitions/users"
+ *
+ *        - body: id
+ *        - name: id
+ *        - name: id
+ *
+ *          in: query
+ *          description: ""
+ *          required: true
+ *          schema:
+ *            type: number
+ *            format: number
  *    responses:
  *      '200':
- *        description: "return user created"
+ *        description: "return phone"
  */
+
 router.post(
     '/',
     requireAuth,
@@ -57,23 +59,19 @@ router.post(
 
 /**
  * @swagger
- * /users/{id}:
+ * /phone/{id}:
  *    get:
  *      tags:
- *        - users
- *      summary: "search user for id"
+ *        - phone
+ *      summary: "search phone for id"
  *      description: "search user for id"
  *      responses:
  *        '200':
  *          description: "return user"
- *        '401':
- *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "Validation error in any of the fields entered or a field is missing."
- *        '500':
- *          description: "Internal server error."
+ *          description: "error validate"
  *      parameters:
  *        - name: id
  *          in: query
@@ -82,6 +80,9 @@ router.post(
  *          schema:
  *            type: number
  *            format: number
+ *    responses:
+ *      '200':
+ *        description: "return user"
  */
 router.get(
     '/:id',
@@ -94,21 +95,20 @@ router.get(
 
 /**
  * @swagger
- * /users:
+ * /phone:
  *    get:
  *      tags:
- *        - users
- *      summary: "get all users"
- *      description: "get all users"
+ *        - phone
+ *      summary: "get all phones with any filter "
+ *      description: "example /even?fields=userId&filter=1"
  *      responses:
  *        '200':
- *          description: "return users"
- *        '401':
- *          description: "Unauthorized."
+ *          description: "return phones"
  *        '404':
  *          description: "not founds"
- *        '500':
- *          description: "Internal server error."
+ *    responses:
+ *      '200':
+ *        description: "return phones"
  */
 router.get(
     '/',
@@ -120,37 +120,36 @@ router.get(
 
 /**
  * @swagger
- * /users/{id}:
+ * /phone/{id}:
  *    patch:
  *      tags:
- *        - users
- *      summary: "update user for id"
- *      description: "search user and update"
+ *        - phone
+ *      summary: "update phone for id"
+ *      description: "search phone and update"
  *      responses:
- *        '201':
- *          description: "return user updated"
- *        '400':
- *          description: "Updated failed."
- *        '401':
- *          description: "Unauthorized."
+ *        '200':
+ *          description: "return phone updated."
+ *        '404':
+ *          description: "Not found"
  *        '422':
- *          description: "Validation error in any of the fields entered or a field is missing."
- *        '500':
- *          description: "Internal server error."
+ *          description: "Validation error in any of the fields entered."
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of phone"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert user."
+ *           description: "parameters required to insert phone."
  *           required: true
  *           schema:
- *                $ref: "#/definitions/users"
+ *
+ *    responses:
+ *      '200':
+ *        description: "return phone updated."
  */
 router.patch(
     '/:id',
@@ -163,31 +162,30 @@ router.patch(
 
 /**
  * @swagger
- * /users/{id}:
+ * /phone/{id}:
  *    delete:
  *      tags:
- *        - users
- *      summary: "delete user for id"
- *      description: "delete user for id"
+ *        - phone
+ *      summary: "delete phone for id"
+ *      description: "delete phone for id"
  *      responses:
  *        '200':
  *          description: "message deleted"
- *        '401':
- *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "Validation error in any of the fields entered or a field is missing."
- *        '500':
- *          description: "Internal server error."
+ *          description: "error of validate."
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of user"
+ *          description: "id of phone"
  *          required: true
  *          schema:
  *            type: number
  *            format: number
+ *    responses:
+ *      '200':
+ *        description: "message deleted"
  */
 router.delete(
     '/:id',

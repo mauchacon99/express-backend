@@ -101,7 +101,6 @@ exports.checkPassword = async (password, user) => {
     return new Promise((resolve) => {
         bcrypt.compare(password, user, (err, result) => resolve(result))
     })
-
 }
 
 /**

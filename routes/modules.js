@@ -3,6 +3,7 @@ const passport = require('passport')
 const trimRequest = require('trim-request')
 const controller = require('../controllers/modules')
 const validate = require('../controllers/modules.validate')
+const permissions = require('../middleware/permissions')
 
 const router = express.Router()
 require('../config/passport')
@@ -45,6 +46,7 @@ const requireAuth = passport.authenticate('jwt', {
 router.post(
     '/',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.createItem,
     controller.createItem
@@ -81,6 +83,7 @@ router.post(
 router.get(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.getItem,
     controller.getItem
@@ -107,6 +110,7 @@ router.get(
 router.get(
     '/',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     controller.getItems
 )
@@ -148,6 +152,7 @@ router.get(
 router.patch(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.updateItem,
     controller.updateItem
@@ -184,6 +189,7 @@ router.patch(
 router.delete(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.deleteItem,
     controller.deleteItem
