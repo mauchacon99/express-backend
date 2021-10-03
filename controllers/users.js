@@ -14,7 +14,9 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
+        const query = await db.checkQuery(req.query)
         const data = await User.findAll({
+            ...query,
             attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
@@ -25,6 +27,7 @@ exports.getItems = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
+        console.log(error)
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }

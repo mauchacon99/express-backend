@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class modules extends Model {
+  class Modules extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Permissions, {as: 'module', foreignKey: 'roleId'})
     }
   };
-  modules.init({
+  Modules.init({
     status: {
       allowNull: false,
       type: DataTypes.BOOLEAN
@@ -44,5 +44,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Modules',
   });
-  return modules;
+  return Modules;
 };

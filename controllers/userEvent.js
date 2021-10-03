@@ -1,42 +1,31 @@
 const db = require('../middleware/db')
-const { UserEvent } = require('../models')
+const { UserEvent, User } = require('../models')
 const { matchedData } = require('express-validator')
 const utils = require('../middleware/utils')
-const { id } = require('date-fns/locale')
 
 
 /**
- * Create new event in table userEvent
- * @param {int} userId - Id from models User
- * @param {string} event - type event
+ * Get item function called by route
+ * @param {Object} req - request object
  */
-exports.CreateUserEvent = async (userId, event) => {
+exports.createItem = async (req) => {
     try {
-        req = {
-            userId,
-            event,
-            createdAt: new Date(),
-            updatedAt: new Date()
-        }
-        const { dataValues } = await db.createItem(req, UserEvent)
-        return dataValues
+        await db.createItem(req, UserEvent)
     } catch (error) {
-        utils.handleError(res, error)
+        console.log(error)
     }
 }
-
 
 /**
  * Get item function called by route
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
         const data = await UserEvent.findAll({
-           where:{userId:id}
+           where:{ userId: id }
         })
         res.status(200).json(data)
     } catch (error) {
@@ -52,7 +41,18 @@ exports.getItem = async (req, res) => {
 
 exports.getItems = async (req, res) => {
     try {
-        res.status(200).json(await db.getItems(req.query,UserEvent))
+        const query = await db.checkQuery(req.query)
+        const data = await User.findAll({
+            ...query,
+            attributes: ['name', 'lastname', 'email', 'createdAt'],
+            include: [
+                {
+                    model: User,
+                    as: 'userE'
+                }
+            ]
+        })
+        res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }

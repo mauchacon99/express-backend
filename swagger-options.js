@@ -6,7 +6,14 @@ const swaggerOptions = {
     swaggerDefinition: {
         info: {
             title: 'enligthneering (Documentation)',
-            description: 'Api for enligthneering',
+            description: 'Api for enligthneering\n\n Example filters (only method get all) this query params are optionals.' +
+                `
+                // this is in endpoints without relations
+                /user?fields=name,email&filter=user@user.com&sort=createdAt&page=1&limit=10&order=ASC
+                
+                // this is in endpoints with relations (relation must be call with alias)
+                /user?fields=name,email&relations=roleU.name&filter=user@user.com&sort=createdAt&page=1&limit=10&order=DESC
+            `,
             contact: {
                 name: 'Developer'
             },

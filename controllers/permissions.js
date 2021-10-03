@@ -14,7 +14,9 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
+        const query = await db.checkQuery(req.query)
         const data = await Permissions.findAll({
+            ...query,
             include: [
                 {
                     model: Roles,

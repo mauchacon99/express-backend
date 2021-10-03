@@ -1,11 +1,111 @@
 const { Op } = require("sequelize");
 const utils = require("./utils");
 
-/*
-* Private functions
-* */
-
 const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
+
+/**
+ * Builds initial options for query
+ * @param {Object} query - query object
+ */
+const listInitOptions = (query) => {
+    return new Promise((resolve) => {
+        const order = [[query.sort || 'createdAt', query.order || 'DESC']]
+        const page = parseInt(query.page, 10) || 1
+        const paginate = parseInt(query.limit, 10) || 10
+        resolve({
+            order,
+            page,
+            paginate
+        })
+    })
+}
+
+/**
+ * create object for search in single table
+ * @param {Object} query - params of the request example req.query
+ */
+const checkQueryStringRelations = (query) => {
+    return new Promise((resolve, reject) => {
+        try {
+            if (typeof query.relations !== 'undefined') {
+                const array = []
+                const arrayRelations = query.relations.split(',')
+                arrayRelations.map((item) => {
+                    array.push({
+                        [`$${item}$`]: {
+                            [Op.like]: `%${query.filter}%`
+                        }
+                    })
+                })
+                resolve(array)
+            } else {
+                resolve({})
+            }
+        } catch (err) {
+            console.log(err.message)
+            reject(utils.buildErrObject(422, 'ERROR_WITH_FILTER_RELATIONS'))
+        }
+    })
+}
+
+/**
+ * create object for search in single table
+ * @param {Object} query - params of the request example req.query
+ */
+exports.checkQueryString= (query) => {
+    return new Promise((resolve, reject) => {
+        try {
+            if (
+                typeof query.filter !== 'undefined'
+                && typeof query.fields !== 'undefined'
+            ) {
+                const array = []
+                // Takes fields param and builds an array by splitting with ','
+                const arrayFields = query.fields.split(',')
+                // Adds SQL Like %word% with regex
+                arrayFields.map((item) => {
+                    array.push({
+                        [item]: {
+                            [Op.like]: `%${query.filter}%`
+                        }
+                    })
+                })
+                // Puts array result in data
+                resolve(array)
+            } else {
+                resolve({})
+            }
+        } catch (err) {
+            console.log(err.message)
+            reject(utils.buildErrObject(422, 'ERROR_WITH_FILTER'))
+        }
+    })
+}
+
+/**
+ * Parse all checks
+ * @param {Object} query - model of db
+ */
+exports.checkQuery = async (query) => {
+    const queryRelations = await checkQueryStringRelations(query)
+    const queryFields = await this.checkQueryString(query)
+    let data = {}
+    if (Object.keys(queryRelations).length || Object.keys(queryFields).length) {
+        data = {
+            where: {
+                [Op.or]: [
+                    ...queryRelations,
+                    ...queryFields
+                ]
+            }
+        }
+    }
+    return {
+        ...await listInitOptions(query),
+        ...data
+    }
+
+}
 
 /*
 * Public functions
@@ -15,10 +115,19 @@ const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
  * Gets items from database
  * @param {Object} req - request object
  * @param {Object} model - model of db
+ * @param {Object} query - model of db
  */
-exports.getItems = (req, model) => {
+exports.getItems = (req, model, query) => {
     return new Promise((resolve, reject) => {
-        model.findAll(filter(req))
+        const options = listInitOptions(req.query)
+        console.log({
+            ...query,
+            ...options
+        })
+        model.findAll({
+            ...query,
+            ...options
+        })
             .then(item => {
                 !item
                     ? reject(notFoundErr)
@@ -27,37 +136,6 @@ exports.getItems = (req, model) => {
             .catch(() => reject(notFoundErr))
     })
 }
-
-
-/**
- * create object for search in single table
- * @param {string} params - params of the request example req.query
- */
-
-function filter(params){
-    const filter = ((params.filter).split(","))[0]
-    const fields = []
-    const arrayFields = (params.fields).split(",")
-
-    arrayFields.forEach(element => {
-        fields.push(
-            {
-                [element]:filter
-            }
-        )
-    });
-
-    return {
-        where:{
-            [Op.or]:[
-                fields
-            ]
-        }
-    }
-}
-
-
-
 
 /**
  * Gets item from database by id

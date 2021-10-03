@@ -19,19 +19,23 @@ const requireAuth = passport.authenticate('jwt', {
 
 /**
  * @swagger
- * /userEvent/{id}:
+ * /events/{id}:
  *    get:
  *      tags:
- *        - userEvent
+ *        - events
  *      summary: "search userEvent for id of user"
  *      description: "search userEvent for id of user"
  *      responses:
  *        '200':
- *          description: "return userEvent"
+ *          description: "return event"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error validate"
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -40,9 +44,6 @@ const requireAuth = passport.authenticate('jwt', {
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "return userEvent"
  */
 router.get(
     '/:id',
@@ -55,23 +56,21 @@ router.get(
 
 /**
  * @swagger
- * /userEvent:
+ * /events:
  *    get:
  *      tags:
- *        - userEvent
- *      summary: "get all userEvent"
- *      description: "get all userEvent"
+ *        - events
+ *      summary: "get all events"
+ *      description: "get all events"
  *      responses:
  *        '200':
- *          description: "return all userEvent"
+ *          description: "return events"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
- *          description: "not found"
- *        '422':
- *          description: "error validate"
- *
- *    responses:
- *      '200':
- *        description: "return userEvent"
+ *          description: "not founds"
+ *        '500':
+ *          description: "Internal server error."
  */
 router.get(
     '/',

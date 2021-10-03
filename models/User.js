@@ -5,7 +5,7 @@ const {
 const bcrypt = require("bcrypt");
 
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class User extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Roles, {as: 'roleU', foreignKey: 'roleId'})
     }
   };
-  user.init({
+  User.init({
     roleId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -47,5 +47,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
-  return user;
+  return User;
 };

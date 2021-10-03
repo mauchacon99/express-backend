@@ -14,7 +14,8 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
-        res.status(200).json(await db.getItems(req, Roles))
+        const query = await db.checkQueryString(req.query)
+        res.status(200).json(await db.getItems(req, Roles, query))
     } catch (error) {
         utils.handleError(res, error)
     }
