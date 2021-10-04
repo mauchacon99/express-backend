@@ -16,7 +16,6 @@ const requireAuth = passport.authenticate('jwt', {
  * UsersEvents routes
  */
 
-
 /**
  * @swagger
  * /events/{id}:
