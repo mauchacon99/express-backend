@@ -1,7 +1,12 @@
 const { Op } = require("sequelize");
 const utils = require("./utils");
+const _ = require("lodash");
 
 const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
+
+/*
+* Private functions
+* */
 
 /**
  * Builds initial options for query
@@ -48,6 +53,10 @@ const checkQueryStringRelations = (query) => {
     })
 }
 
+/*
+* Public functions
+* */
+
 /**
  * create object for search in single table
  * @param {Object} query - params of the request example req.query
@@ -89,27 +98,14 @@ exports.checkQueryString= (query) => {
 exports.checkQuery = async (query) => {
     const queryRelations = await checkQueryStringRelations(query)
     const queryFields = await this.checkQueryString(query)
-    let data = {}
-    if (Object.keys(queryRelations).length || Object.keys(queryFields).length) {
-        data = {
-            where: {
-                [Op.or]: [
-                    ...queryRelations,
-                    ...queryFields
-                ]
-            }
-        }
-    }
+    let data = []
+    if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
+    if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
     return {
         ...await listInitOptions(query),
-        ...data
+        where: {[Op.or]: data}
     }
-
 }
-
-/*
-* Public functions
-* */
 
 /**
  * Gets items from database
@@ -120,12 +116,10 @@ exports.checkQuery = async (query) => {
 exports.getItems = (req, model, query) => {
     return new Promise((resolve, reject) => {
         const options = listInitOptions(req.query)
-        console.log({
-            ...query,
-            ...options
-        })
+        let data = []
+        if (!_.isEmpty(query)) _.map(query, e => data.push(e))
         model.findAll({
-            ...query,
+            where: {[Op.or]: data},
             ...options
         })
             .then(item => {
