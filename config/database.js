@@ -8,6 +8,7 @@ module.exports = {
     password: process.env.DB_PASSWORD || null,
     database: process.env.DB_DATABASE || "database_development",
     dialect: "mariadb",
+    logging: (process.env.NODE_ENV === 'development'),
     dialectOptions: {
         host: process.env.DB_HOST || "127.0.0.1",
     },
