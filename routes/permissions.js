@@ -96,7 +96,7 @@ router.get(
  *      tags:
  *        - permissions
  *      summary: "get all permissions"
- *      description: "get all permissions"
+ *      description: "get all permissions. relations alias (roleP, module)"
  *      responses:
  *        '200':
  *          description: "return permissions"

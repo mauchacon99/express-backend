@@ -99,7 +99,7 @@ router.get(
  *      tags:
  *        - users
  *      summary: "get all users"
- *      description: "get all users"
+ *      description: "get all users. relations alias (roleU)"
  *      responses:
  *        '200':
  *          description: "return users"

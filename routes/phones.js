@@ -100,7 +100,7 @@ router.get(
  *      tags:
  *        - phone
  *      summary: "get all phones with any filter "
- *      description: "example /even?fields=userId&filter=1"
+ *      description: "get all phones. relations alias (userP)"
  *      responses:
  *        '200':
  *          description: "return phones"
