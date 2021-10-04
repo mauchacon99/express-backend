@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     await queryInterface.bulkInsert('UserEvents', [
+     await queryInterface.bulkInsert('user_events', [
       {
         userId:1,
         event: 'test event',
@@ -28,5 +28,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('user_events', null, {});
   }
 };

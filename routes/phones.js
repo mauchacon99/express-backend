@@ -6,6 +6,7 @@ const validate = require('../controllers/phone.validate')
 const db = require('../middleware/db')
 const router = express.Router()
 require('../config/passport')
+const permissions = require("../middleware/permissions");
 
 const requireAuth = passport.authenticate('jwt', {
     session: false
@@ -31,11 +32,11 @@ const requireAuth = passport.authenticate('jwt', {
  *        '422':
  *          description: "error validate"
  *      parameters:
- *       
+ *
  *        - body: id
  *        - name: id
  *        - name: id
- * 
+ *
  *          in: query
  *          description: ""
  *          required: true
@@ -50,6 +51,7 @@ const requireAuth = passport.authenticate('jwt', {
 router.post(
     '/',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.createItem,
     controller.createItem
@@ -85,6 +87,7 @@ router.post(
 router.get(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.getItem,
     controller.getItem
@@ -97,7 +100,7 @@ router.get(
  *      tags:
  *        - phone
  *      summary: "get all phones with any filter "
- *      description: "example /even?fields=userId&filter=1"
+ *      description: "get all phones. relations alias (userP)"
  *      responses:
  *        '200':
  *          description: "return phones"
@@ -110,6 +113,7 @@ router.get(
 router.get(
     '/',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     controller.getItems
 )
@@ -142,7 +146,7 @@ router.get(
  *           description: "parameters required to insert phone."
  *           required: true
  *           schema:
- *                
+ *
  *    responses:
  *      '200':
  *        description: "return phone updated."
@@ -150,6 +154,7 @@ router.get(
 router.patch(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.updateItem,
     controller.updateItem
@@ -185,6 +190,7 @@ router.patch(
 router.delete(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.deleteItem,
     controller.deleteItem

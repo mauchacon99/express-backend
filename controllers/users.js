@@ -2,7 +2,6 @@ const { matchedData } = require('express-validator')
 const {User, Roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
-const auth = require("../middleware/auth");
 
 /********************
  * Public functions *
@@ -15,7 +14,9 @@ const auth = require("../middleware/auth");
  */
 exports.getItems = async (req, res) => {
     try {
+        const query = await db.checkQuery(req.query)
         const data = await User.findAll({
+            ...query,
             attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
@@ -26,7 +27,8 @@ exports.getItems = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        console.log(error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -50,7 +52,7 @@ exports.getItem = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -64,7 +66,7 @@ exports.updateItem = async (req, res) => {
         req = matchedData(req)
         const { dataValues } = await db.updateItem(req.id, User, req)
         const { password, ...data } = dataValues
-        res.status(200).json(data)
+        res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -80,7 +82,7 @@ exports.createItem = async (req, res) => {
         req = matchedData(req)
         const { dataValues } = await db.createItem(req, User)
         const { password, ...data } = dataValues
-        res.status(200).json(data)
+        res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }

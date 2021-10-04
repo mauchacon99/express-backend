@@ -14,7 +14,9 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
+        const query = await db.checkQuery(req.query)
         const data = await Permissions.findAll({
+            ...query,
             include: [
                 {
                     model: Roles,
@@ -28,7 +30,7 @@ exports.getItems = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -55,7 +57,7 @@ exports.getItem = async (req, res) => {
         })
         res.status(200).json(data)
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -67,7 +69,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.updateItem(req.id, Permissions, req))
+        res.status(201).json(await db.updateItem(req.id, Permissions, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -81,7 +83,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, Permissions))
+        res.status(201).json(await db.createItem(req, Permissions))
     } catch (error) {
         utils.handleError(res, error)
     }

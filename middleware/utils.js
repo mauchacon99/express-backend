@@ -20,7 +20,7 @@ exports.handleError = (res, err) => {
         console.log(err)
     }
     // Sends error to user
-    res.status(500).json({
+    res.status(err.code).json({
         errors: {
             msg: err.message
         }
@@ -54,20 +54,5 @@ exports.validationResult = (req, res, next) => {
         return next()
     } catch (err) {
         return this.handleError(res, this.buildErrObject(422, err.array()))
-    }
-}
-
-/**
- * Item not found
- * @param {Object} err - error object
- * @param {Object} item - item result object
- * @param {string} message - message
- */
-exports.itemNotFound = (err, item, message) => {
-    if (err) {
-        return this.buildErrObject(422, err.message)
-    }
-    if (!item) {
-        return this.buildErrObject(404, message)
     }
 }

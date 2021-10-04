@@ -17,10 +17,10 @@ const findUserByEmail = async (email) => {
             where: { email }
         })
             .then((item) => {
-                if(!item) reject(utils.itemNotFound({message: 'not found'}, item, 'USER_DOES_NOT_EXIST'))
+                if(!item) reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST'))
                 else resolve(item)
             })
-            .catch((err) => reject(utils.itemNotFound(err, null, 'USER_DOES_NOT_EXIST')))
+            .catch((err) => reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST')))
     })
 }
 
@@ -40,7 +40,7 @@ const registerUser = async (req) => {
 
         User.create(user)
             .then(user => resolve(user))
-            .catch(err => reject(utils.buildErrObject(422, err.message)))
+            .catch(() => reject(utils.buildErrObject(400, 'DONT_REGISTER')))
     })
 }
 
@@ -57,11 +57,13 @@ exports.register = async (req, res) => {
     try {
         req = matchedData(req)
         const user = await registerUser(req)
-        const userInfo = auth.setUserInfo(user)
-        const response = auth.returnRegisterToken(userInfo)
-        res.status(200).json(response)
+        res.status(201).json({
+            token: auth.generateToken(user.id),
+            user: auth.setUserInfo(user),
+            permissions: await auth.getPermissions(user.roleId)
+        })
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
     }
 }
 
@@ -76,12 +78,13 @@ exports.login = async (req, res) => {
         const user = await findUserByEmail(data.email)
         const isPasswordMatch = await auth.checkPassword(data.password, user.password)
         if (!isPasswordMatch) {
-            utils.handleError(res, utils.buildErrObject(409, 'WRONG_PASSWORD'))
+            utils.handleError(res, utils.buildErrObject(403, 'WRONG_PASSWORD'))
         } else {
             // all ok return user and token
-            res.status(200).json({
+            res.status(202).json({
                 token: auth.generateToken(user.id),
-                user: auth.setUserInfo(user)
+                user: auth.setUserInfo(user),
+                permissions: await auth.getPermissions(user.roleId)
             })
         }
     } catch (error) {
@@ -102,12 +105,13 @@ exports.getRefreshToken = async (req, res) => {
         const id = await auth.getUserIdFromToken(tokenEncrypted)
         const user = await auth.findUserById(id)
 
-        res.status(200).json({
+        res.status(202).json({
             token: auth.generateToken(user.id),
-            user: auth.setUserInfo(user)
+            user: auth.setUserInfo(user),
+            permissions: await auth.getPermissions(user.roleId)
         })
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(403, 'BAD_TOKEN'))
     }
 }
 

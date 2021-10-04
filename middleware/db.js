@@ -1,52 +1,150 @@
-const utils = require("./utils");
 const { Op } = require("sequelize");
+const utils = require("./utils");
+const _ = require("lodash");
+
+const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
+
+/*
+* Private functions
+* */
+
+/**
+ * Builds initial options for query
+ * @param {Object} query - query object
+ */
+const listInitOptions = (query) => {
+    return new Promise((resolve) => {
+        const order = [[query.sort || 'createdAt', query.order || 'DESC']]
+        const page = parseInt(query.page, 10) || 1
+        const paginate = parseInt(query.limit, 10) || 10
+        resolve({
+            order,
+            page,
+            paginate
+        })
+    })
+}
+
+/**
+ * create object for search in single table
+ * @param {Object} query - params of the request example req.query
+ */
+const checkQueryStringRelations = (query) => {
+    return new Promise((resolve, reject) => {
+        try {
+            if (typeof query.relations !== 'undefined') {
+                const array = []
+                const arrayRelations = query.relations.split(',')
+                arrayRelations.map((item) => {
+                    array.push({
+                        [`$${item}$`]: {
+                            [Op.like]: `%${query.filter}%`
+                        }
+                    })
+                })
+                resolve(array)
+            } else {
+                resolve({})
+            }
+        } catch (err) {
+            console.log(err.message)
+            reject(utils.buildErrObject(422, 'ERROR_WITH_FILTER_RELATIONS'))
+        }
+    })
+}
+
+/**
+ * Parse all checks without relations
+ * @param {Object} req - request object
+ * @param {Object} query - query
+ */
+const checkQueryWithoutRelations = async (req, query) => {
+    let data = []
+    if (!_.isEmpty(query)) _.map(query, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(req),
+            where: {[Op.or]: data}
+        }
+    }
+    return { ...await listInitOptions(req) }
+}
+
+/*
+* Public functions
+* */
+
+/**
+ * create object for search in single table
+ * @param {Object} query - params of the request example req.query
+ */
+exports.checkQueryString= (query) => {
+    return new Promise((resolve, reject) => {
+        try {
+            if (
+                typeof query.filter !== 'undefined'
+                && typeof query.fields !== 'undefined'
+            ) {
+                const array = []
+                // Takes fields param and builds an array by splitting with ','
+                const arrayFields = query.fields.split(',')
+                // Adds SQL Like %word% with regex
+                arrayFields.map((item) => {
+                    array.push({
+                        [item]: {
+                            [Op.like]: `%${query.filter}%`
+                        }
+                    })
+                })
+                // Puts array result in data
+                resolve(array)
+            } else {
+                resolve({})
+            }
+        } catch (err) {
+            console.log(err.message)
+            reject(utils.buildErrObject(422, 'ERROR_WITH_FILTER'))
+        }
+    })
+}
+
+/**
+ * Parse all checks
+ * @param {Object} query - query
+ */
+exports.checkQuery = async (query) => {
+    const queryRelations = await checkQueryStringRelations(query)
+    const queryFields = await this.checkQueryString(query)
+    let data = []
+    if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
+    if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(query),
+            where: {[Op.or]: data}
+        }
+    }
+    return { ...await listInitOptions(query) }
+}
+
 /**
  * Gets items from database
  * @param {Object} req - request object
  * @param {Object} model - model of db
+ * @param {Object} query - model of db
  */
-exports.getItems = (req, model) => {
+exports.getItems = async (req, model, query) => {
+    const options = await checkQueryWithoutRelations(req, query)
     return new Promise((resolve, reject) => {
-        model.findAll(filter(req))
+        model.findAll(options)
             .then(item => {
                 !item
-                    ? reject(utils.itemNotFound({message: 'error not found'}, item, 'NOT_FOU)ND'))
+                    ? reject(notFoundErr)
                     : resolve(item)
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error not found'}, null, 'NOT_FOUND')))
+            .catch(() => reject(notFoundErr))
     })
 }
-
-
-/**
- * create object for search in single table
- * @param {string} params - params of the request example req.query
- */
-
-function filter(params){
-    const filter = ((params.filter).split(","))[0]
-    const fields = []
-    const arrayFields = (params.fields).split(",")
-
-    arrayFields.forEach(element => {
-        fields.push(
-            {
-                [element]:filter
-            }
-        )
-    });
-
-    return {
-        where:{
-            [Op.or]:[
-                fields
-            ]
-        }
-    }
-}
-
-
-
 
 /**
  * Gets item from database by id
@@ -58,10 +156,10 @@ exports.getItem = (id, model) => {
         model.findByPk(id)
         .then(item => {
             !item
-                ? reject(utils.itemNotFound({message: 'error not found'}, item, 'NOT_FOUND'))
+                ? reject(notFoundErr)
                 : resolve(item)
         })
-        .catch(() => reject(utils.itemNotFound({message: 'error not found'}, null, 'NOT_FOUND')))
+        .catch(() => reject(notFoundErr))
     })
 }
 
@@ -75,10 +173,10 @@ exports.createItem = (req, model) => {
         model.create(req)
             .then(item => {
                 !item
-                    ? reject(utils.itemNotFound({message: 'error create'}, item, 'NOT_CREATED'))
+                    ? reject(utils.buildErrObject(400, 'NOT_CREATED'))
                     : resolve(item)
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error create'}, null, 'NOT_CREATED')))
+            .catch(() => reject(utils.buildErrObject(400, 'NOT_CREATED')))
     })
 }
 
@@ -92,12 +190,12 @@ exports.updateItem = (id, model, req) => {
     return new Promise((resolve, reject) => {
         model.update(req, { where: { id } })
             .then(item => {
-                if(!item) reject(utils.itemNotFound({message: 'error update'}, item, 'NOT_UPDATED'))
+                if(!item) reject(utils.buildErrObject(400, 'NOT_UPDATED'))
                 else {
                     model.findOne({ where: { id } }).then(res => resolve(res))
                 }
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error update'}, null, 'NOT_UPDATED')))
+            .catch(() => reject(utils.buildErrObject(400, 'NOT_UPDATED')))
     })
 }
 
@@ -112,9 +210,6 @@ exports.deleteItem = (id, model) => {
             .then(() => {
                 resolve({message: 'deleted'})
             })
-            .catch(() => reject(utils.itemNotFound({message: 'error  not exist'}, null, 'DOES_NOT_EXIST')))
+            .catch(() => reject(notFoundErr))
     })
 }
-
-
-

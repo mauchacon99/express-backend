@@ -6,7 +6,15 @@ const swaggerOptions = {
     swaggerDefinition: {
         info: {
             title: 'enligthneering (Documentation)',
-            description: 'Api for enligthneering',
+            description: 'Api for enligthneering\n\n Example filters (only method get all) this query params are optionals.' +
+                `
+                
+                // this is in endpoints without relations
+                /users?fields=name,email&filter=user@user.com&sort=createdAt&page=1&limit=10&order=ASC
+                
+                // this is in endpoints with relations (relation must be call with alias)
+                /users?fields=name,email&relations=roleU.name&filter=user@user.com&sort=createdAt&page=1&limit=10&order=DESC
+            `,
             contact: {
                 name: 'Developer'
             },
@@ -109,14 +117,14 @@ const swaggerOptions = {
                 properties: {
                     name: { type: 'string' },
                     status: { type: 'boolean' },
-                    methods: { type: 'string' },
+                    methods: { type: 'array' },
                     route: { type: 'string' },
                     icon: { type: 'string' }
                 },
                 example: {
                     name: 'users',
                     status: true,
-                    methods: '["get","post","delete","patch"]',
+                    methods: ['get','post','delete','patch'],
                     route: '/users',
                     icon: 'icon.svg'
                 }
@@ -133,13 +141,13 @@ const swaggerOptions = {
                     roleId: { type: 'number' },
                     moduleId: { type: 'number' },
                     status: { type: 'boolean' },
-                    methods: { type: 'string' }
+                    methods: { type: 'array' }
                 },
                 example: {
                     roleId: 1,
                     moduleId: 2,
                     status: true,
-                    methods: '["get","post","delete","patch"]',
+                    methods: ['get','post','delete','patch']
                 }
             }
         }

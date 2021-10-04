@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto')
-const {User} = require("../models");
+const { User, Permissions, Roles, Modules} = require("../models");
 const utils = require("../middleware/utils");
 
 const secret = process.env.JWT_SECRET
@@ -63,20 +63,32 @@ exports.setUserInfo = (user) => {
     return {
         // id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        lastname: user.lastname,
+        roleId: user.roleId
     }
 }
 
 /**
- * Creates an object with user info
- * @param {Object} user - request object
+ * Get permissions for role
+ * @param {number} roleId - role id
  */
-exports.returnRegisterToken = (user) => {
-    const {id, ...item} = user
-    return {
-        token: this.generateToken(id),
-        item
-    }
+exports.getPermissions = (roleId) => {
+    return new Promise((resolve, reject) => {
+        Permissions.findAll({
+            where: { roleId },
+            include: [
+                {
+                    model: Modules,
+                    as: 'module'
+                }
+            ]
+        })
+        .then((resp) => {
+            resolve(resp)
+        })
+        .catch(() => reject(utils.buildErrObject(403, 'DONT_HAVE_PERMISSIONS')))
+    })
 }
 
 /**
@@ -89,7 +101,6 @@ exports.checkPassword = async (password, user) => {
     return new Promise((resolve) => {
         bcrypt.compare(password, user, (err, result) => resolve(result))
     })
-
 }
 
 /**
@@ -101,7 +112,7 @@ exports.getUserIdFromToken = (token) => {
         // Decrypts, verifies and decode token
         jwt.verify(this.decryptCrypto(token), process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
-                reject(utils.buildErrObject(409, 'BAD_TOKEN'))
+                reject(utils.buildErrObject(403, 'BAD_TOKEN'))
             }
             resolve(decoded.data.id)
         })
@@ -116,10 +127,10 @@ exports.findUserById = (id) => {
     return new Promise((resolve, reject) => {
         User.findByPk(id)
             .then((item) => {
-                if(!item)  reject(utils.itemNotFound({message: 'not found'}, item, 'USER_DOES_NOT_EXIST'))
+                if(!item)  reject(utils.buildErrObject(404, 'NOT_FOUND'))
                 else resolve(item)
             })
-            .catch((err) => reject(utils.itemNotFound(err, null, 'USER_DOES_NOT_EXIST')))
+            .catch(() => reject(utils.buildErrObject(404, 'NOT_FOUND')))
     })
 }
 

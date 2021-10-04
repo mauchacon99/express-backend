@@ -6,6 +6,7 @@ const validate = require('../controllers/roles.validate')
 
 const router = express.Router()
 require('../config/passport')
+const permissions = require("../middleware/permissions");
 
 const requireAuth = passport.authenticate('jwt', {
     session: false
@@ -24,10 +25,16 @@ const requireAuth = passport.authenticate('jwt', {
  *      summary: "Add new rol"
  *      description: "Add new rol"
  *      responses:
- *        '200':
+ *        '201':
  *          description: "return rol created"
+ *        '400':
+ *          description: "Created failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        -  in: "body"
  *           name: "body"
@@ -35,13 +42,11 @@ const requireAuth = passport.authenticate('jwt', {
  *           required: true
  *           schema:
  *                $ref: "#/definitions/roles"
- *    responses:
- *      '200':
- *        description: "return rol created"
  */
 router.post(
     '/',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.createItem,
     controller.createItem
@@ -58,10 +63,14 @@ router.post(
  *      responses:
  *        '200':
  *          description: "return rol"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error validate"
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -70,13 +79,11 @@ router.post(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "return rol"
  */
 router.get(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.getItem,
     controller.getItem
@@ -93,15 +100,17 @@ router.get(
  *      responses:
  *        '200':
  *          description: "return roles"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not founds"
- *    responses:
- *      '200':
- *        description: "return roles"
+ *        '500':
+ *          description: "Internal server error."
  */
 router.get(
     '/',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     controller.getItems
 )
@@ -115,12 +124,16 @@ router.get(
  *      summary: "update rol for id"
  *      description: "search rol and update"
  *      responses:
- *        '200':
- *          description: "return rol updated."
- *        '404':
- *          description: "Not found"
+ *        '201':
+ *          description: "return rol updated"
+ *        '400':
+ *          description: "Updated failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -135,13 +148,11 @@ router.get(
  *           required: true
  *           schema:
  *                $ref: "#/definitions/roles"
- *    responses:
- *      '200':
- *        description: "return rol updated."
  */
 router.patch(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.updateItem,
     controller.updateItem
@@ -158,10 +169,14 @@ router.patch(
  *      responses:
  *        '200':
  *          description: "message deleted"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error of validate."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -170,13 +185,11 @@ router.patch(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "message deleted"
  */
 router.delete(
     '/:id',
     requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     validate.deleteItem,
     controller.deleteItem

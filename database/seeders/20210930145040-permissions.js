@@ -12,6 +12,7 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('permissions', [
+      //Role 1 = admin
       {
         roleId: 1,
         moduleId: 1,
@@ -29,6 +30,48 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        roleId: 1,
+        moduleId: 3,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 1,
+        moduleId: 4,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 1,
+        moduleId: 5,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 1,
+        moduleId: 6,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 1,
+        moduleId: 7,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+
+      // role 2 = coach
+      {
         roleId: 2,
         moduleId: 1,
         status: true,
@@ -43,7 +86,39 @@ module.exports = {
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
+      },
+      {
+        roleId: 2,
+        moduleId: 3,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 4,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 5,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 7,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ], {});
   },
 
