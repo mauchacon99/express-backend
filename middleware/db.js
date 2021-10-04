@@ -53,6 +53,23 @@ const checkQueryStringRelations = (query) => {
     })
 }
 
+/**
+ * Parse all checks without relations
+ * @param {Object} req - request object
+ * @param {Object} query - query
+ */
+const checkQueryWithoutRelations = async (req, query) => {
+    let data = []
+    if (!_.isEmpty(query)) _.map(query, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(req),
+            where: {[Op.or]: data}
+        }
+    }
+    return { ...await listInitOptions(req) }
+}
+
 /*
 * Public functions
 * */
@@ -93,7 +110,7 @@ exports.checkQueryString= (query) => {
 
 /**
  * Parse all checks
- * @param {Object} query - model of db
+ * @param {Object} query - query
  */
 exports.checkQuery = async (query) => {
     const queryRelations = await checkQueryStringRelations(query)
@@ -101,10 +118,13 @@ exports.checkQuery = async (query) => {
     let data = []
     if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
     if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
-    return {
-        ...await listInitOptions(query),
-        where: {[Op.or]: data}
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(query),
+            where: {[Op.or]: data}
+        }
     }
+    return { ...await listInitOptions(query) }
 }
 
 /**
@@ -113,15 +133,10 @@ exports.checkQuery = async (query) => {
  * @param {Object} model - model of db
  * @param {Object} query - model of db
  */
-exports.getItems = (req, model, query) => {
+exports.getItems = async (req, model, query) => {
+    const options = await checkQueryWithoutRelations(req, query)
     return new Promise((resolve, reject) => {
-        const options = listInitOptions(req.query)
-        let data = []
-        if (!_.isEmpty(query)) _.map(query, e => data.push(e))
-        model.findAll({
-            where: {[Op.or]: data},
-            ...options
-        })
+        model.findAll(options)
             .then(item => {
                 !item
                     ? reject(notFoundErr)
