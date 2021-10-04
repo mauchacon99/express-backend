@@ -8,6 +8,7 @@ const utils = require('../middleware/utils')
  * Get item function called by route
  * @param {Object} req - request object
  */
+
 exports.createItem = async (req) => {
     try {
         await db.createItem(req, UserEvent)
