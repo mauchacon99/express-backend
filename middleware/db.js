@@ -13,14 +13,15 @@ const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
  * @param {Object} query - query object
  */
 const listInitOptions = (query) => {
+    console.log(query)
     return new Promise((resolve) => {
         const order = [[query.sort || 'createdAt', query.order || 'DESC']]
-        const page = parseInt(query.page, 10) || 1
-        const paginate = parseInt(query.limit, 10) || 10
+        const limit = parseInt(query.limit, 10) || 10
+        const offset = (parseInt(query.page, 10) - 1) * limit || 0
         resolve({
             order,
-            page,
-            paginate
+            offset,
+            limit
         })
     })
 }
@@ -32,7 +33,10 @@ const listInitOptions = (query) => {
 const checkQueryStringRelations = (query) => {
     return new Promise((resolve, reject) => {
         try {
-            if (typeof query.relations !== 'undefined') {
+            if (
+                typeof query.filter !== 'undefined' &&
+                typeof query.relations !== 'undefined'
+            ) {
                 const array = []
                 const arrayRelations = query.relations.split(',')
                 arrayRelations.map((item) => {
@@ -63,16 +67,30 @@ const checkQueryWithoutRelations = async (req, query) => {
     if (!_.isEmpty(query)) _.map(query, e => data.push(e))
     if (!_.isEmpty(data)) {
         return {
-            ...await listInitOptions(req),
+            ...await listInitOptions(req.query),
             where: {[Op.or]: data}
         }
     }
-    return { ...await listInitOptions(req) }
+    return { ...await listInitOptions(req.query) }
 }
 
 /*
 * Public functions
 * */
+
+/**
+ * create object for search in single table
+ * @param {Object} item - response items
+ * @param {Object} options - options filter
+ */
+exports.respOptions = (item, options) => {
+    return {
+        docs: item.rows,
+        totalDocs: item.count,
+        page: Math.ceil((options.offset + 1) / options.limit),
+        totalPages: Math.ceil(item.count / options.limit)
+    }
+}
 
 /**
  * create object for search in single table
@@ -136,11 +154,11 @@ exports.checkQuery = async (query) => {
 exports.getItems = async (req, model, query) => {
     const options = await checkQueryWithoutRelations(req, query)
     return new Promise((resolve, reject) => {
-        model.findAll(options)
+        model.findAndCountAll(options)
             .then(item => {
                 !item
                     ? reject(notFoundErr)
-                    : resolve(item)
+                    : resolve(this.respOptions(item, options))
             })
             .catch(() => reject(notFoundErr))
     })
