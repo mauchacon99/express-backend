@@ -4,3 +4,9 @@
 
 # dotenv environment variables file
 .env
+*.env
+
+# test directories
+.nyc_output
+/mochawesome-report
+/coverage
