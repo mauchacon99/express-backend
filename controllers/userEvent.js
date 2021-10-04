@@ -38,11 +38,10 @@ exports.getItem = async (req, res) => {
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await User.findAll({
+        const data = await User.findAndCountAll({
             ...query,
             attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
@@ -52,7 +51,7 @@ exports.getItems = async (req, res) => {
                 }
             ]
         })
-        res.status(200).json(data)
+        res.status(200).json(db.respOptions(data, query))
     } catch (error) {
         utils.handleError(res, error)
     }

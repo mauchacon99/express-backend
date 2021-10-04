@@ -15,7 +15,7 @@ const db = require('../middleware/db')
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await Phone.findAll({
+        const data = await Phone.findAndCountAll({
             ...query,
             include: [
                 {
@@ -24,7 +24,7 @@ exports.getItems = async (req, res) => {
                 }
             ]
         })
-        res.status(200).json(data)
+        res.status(200).json(db.respOptions(data, query))
     } catch (error) {
         utils.handleError(res, error)
     }
