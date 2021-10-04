@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/userEvent')
-const validate = require('../controllers/userEvent.validate')
+const controller = require('../controllers/events')
+const validate = require('../controllers/events.validate')
 
 const router = express.Router()
 require('../config/passport')
@@ -23,8 +23,8 @@ const requireAuth = passport.authenticate('jwt', {
  *    get:
  *      tags:
  *        - events
- *      summary: "search userEvent for id of user"
- *      description: "search userEvent for id of user"
+ *      summary: "search event by id"
+ *      description: "search event by id"
  *      responses:
  *        '200':
  *          description: "return event"
