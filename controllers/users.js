@@ -36,10 +36,10 @@ exports.getItems = async (req, res) => {
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-exports.getItem = async (req, res) => {
+exports.getItem = (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await user.findOne({
+        user.findOne({
             where: { id },
             include: [
                 {
@@ -48,7 +48,12 @@ exports.getItem = async (req, res) => {
                 }
             ]
         })
-        res.status(200).json(data)
+            .then((data) => {
+                !data
+                    ? utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                    : res.status(200).json(data)
+            })
+            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
