@@ -42,7 +42,11 @@ exports.getItem = async (req, res) => {
         Location.findAll({
                 where:{id:id}
         })
-            .then((data) => res.status(200).json(data))
+            .then((data) => {
+                !data
+                    ? utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                    : res.status(200).json(data)
+            })
             .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
         utils.handleError(res, error)
