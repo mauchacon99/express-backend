@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto')
-const { User, Permissions, Roles, Modules} = require("../models");
+const { user, permissions, modules} = require("../models");
 const utils = require("../middleware/utils");
 
 const secret = process.env.JWT_SECRET
@@ -35,9 +35,9 @@ const encryptCrypto = (text) => {
 
 /**
  * Generates a token
- * @param {string} user - user id
+ * @param {number} id - user id
  */
-exports.generateToken = (user) => {
+exports.generateToken = (id) => {
     // Gets expiration time
     const expiration = Math.floor(Date.now() / 1000) + 60 * process.env.JWT_EXPIRATION_IN_MINUTES
 
@@ -45,9 +45,7 @@ exports.generateToken = (user) => {
     return encryptCrypto(
         jwt.sign(
             {
-                data: {
-                    id: user
-                },
+                data: { id },
                 exp: expiration
             },
             process.env.JWT_SECRET
@@ -57,15 +55,15 @@ exports.generateToken = (user) => {
 
 /**
  * Creates an object with user info
- * @param {Object} user - request object
+ * @param {Object} item - request object
  */
-exports.setUserInfo = (user) => {
+exports.setUserInfo = (item) => {
     return {
         // id: user.id,
-        name: user.name,
-        email: user.email,
-        lastname: user.lastname,
-        roleId: user.roleId
+        name: item.name,
+        email: item.email,
+        lastname: item.lastname,
+        roleId: item.roleId
     }
 }
 
@@ -75,11 +73,11 @@ exports.setUserInfo = (user) => {
  */
 exports.getPermissions = (roleId) => {
     return new Promise((resolve, reject) => {
-        Permissions.findAll({
+        permissions.findAll({
             where: { roleId },
             include: [
                 {
-                    model: Modules,
+                    model: modules,
                     as: 'module'
                 }
             ]
@@ -94,12 +92,12 @@ exports.getPermissions = (roleId) => {
 /**
  * Checks is password matches
  * @param {string} password - password
- * @param {string} user - user object
+ * @param {string} userPass - user object
  * @returns {boolean}
  */
-exports.checkPassword = async (password, user) => {
+exports.checkPassword = async (password, userPass) => {
     return new Promise((resolve) => {
-        bcrypt.compare(password, user, (err, result) => resolve(result))
+        bcrypt.compare(password, userPass, (err, result) => resolve(result))
     })
 }
 
@@ -125,7 +123,7 @@ exports.getUserIdFromToken = (token) => {
  */
 exports.findUserById = (id) => {
     return new Promise((resolve, reject) => {
-        User.findByPk(id)
+        user.findByPk(id)
             .then((item) => {
                 if(!item)  reject(utils.buildErrObject(404, 'NOT_FOUND'))
                 else resolve(item)

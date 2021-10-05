@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { user } = require("../models");
 const utils = require("../middleware/utils");
 const auth = require('../middleware/auth')
 const {matchedData} = require("express-validator");
@@ -13,14 +13,14 @@ const {matchedData} = require("express-validator");
  */
 const findUserByEmail = async (email) => {
     return new Promise((resolve, reject) => {
-        User.findOne({
+        user.findOne({
             where: { email }
         })
             .then((item) => {
                 if(!item) reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST'))
                 else resolve(item)
             })
-            .catch((err) => reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST')))
+            .catch(() => reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST')))
     })
 }
 
@@ -30,16 +30,8 @@ const findUserByEmail = async (email) => {
  */
 const registerUser = async (req) => {
     return new Promise((resolve, reject) => {
-        const user = {
-            name: req.name,
-            email: req.email,
-            password: req.password,
-            roleId: req.roleId,
-            lastname: req.lastname
-        }
-
-        User.create(user)
-            .then(user => resolve(user))
+        user.create(req)
+            .then(item => resolve(item))
             .catch(() => reject(utils.buildErrObject(400, 'DONT_REGISTER')))
     })
 }
@@ -56,11 +48,11 @@ const registerUser = async (req) => {
 exports.register = async (req, res) => {
     try {
         req = matchedData(req)
-        const user = await registerUser(req)
+        const item = await registerUser(req)
         res.status(201).json({
-            token: auth.generateToken(user.id),
-            user: auth.setUserInfo(user),
-            permissions: await auth.getPermissions(user.roleId)
+            token: auth.generateToken(item.id),
+            user: auth.setUserInfo(item),
+            permissions: await auth.getPermissions(item.roleId)
         })
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
@@ -75,16 +67,16 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUserByEmail(data.email)
-        const isPasswordMatch = await auth.checkPassword(data.password, user.password)
+        const item = await findUserByEmail(data.email)
+        const isPasswordMatch = await auth.checkPassword(data.password, item.password)
         if (!isPasswordMatch) {
             utils.handleError(res, utils.buildErrObject(403, 'WRONG_PASSWORD'))
         } else {
             // all ok return user and token
             res.status(202).json({
-                token: auth.generateToken(user.id),
-                user: auth.setUserInfo(user),
-                permissions: await auth.getPermissions(user.roleId)
+                token: auth.generateToken(item.id),
+                user: auth.setUserInfo(item),
+                permissions: await auth.getPermissions(item.roleId)
             })
         }
     } catch (error) {
@@ -103,12 +95,12 @@ exports.getRefreshToken = async (req, res) => {
             .replace('Bearer ', '')
             .trim()
         const id = await auth.getUserIdFromToken(tokenEncrypted)
-        const user = await auth.findUserById(id)
+        const item = await auth.findUserById(id)
 
         res.status(202).json({
-            token: auth.generateToken(user.id),
-            user: auth.setUserInfo(user),
-            permissions: await auth.getPermissions(user.roleId)
+            token: auth.generateToken(item.id),
+            user: auth.setUserInfo(item),
+            permissions: await auth.getPermissions(item.roleId)
         })
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(403, 'BAD_TOKEN'))

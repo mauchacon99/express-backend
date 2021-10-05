@@ -121,7 +121,6 @@ describe('*********** AUTH ***********', () => {
                 .post('/register')
                 .send(user)
                 .end((err, res) => {
-                    console.log(res.body)
                     res.should.have.status(400)
                     res.body.should.be.a('object')
                     res.body.should.have.property('errors')

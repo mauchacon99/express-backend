@@ -1,5 +1,5 @@
 const utils = require("./utils");
-const { Permissions, Modules } = require('../models')
+const { permissions, modules } = require('../models')
 const _ = require("lodash");
 
 /**
@@ -14,11 +14,11 @@ const _ = require("lodash");
  */
 const checkPermissions = (req, roleId, next) => {
     return new Promise((resolve, reject) => {
-        Permissions.findAll({
+        permissions.findAll({
             where: { roleId },
             include: [
                 {
-                    model: Modules,
+                    model: modules,
                     as: 'module'
                 }
             ]

@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { Permissions, Modules, Roles} = require('../models')
+const { permissions, modules, roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -15,15 +15,15 @@ const db = require('../middleware/db')
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await Permissions.findAndCountAll({
+        const data = await permissions.findAndCountAll({
             ...query,
             include: [
                 {
-                    model: Roles,
+                    model: roles,
                     as: 'roleP'
                 },
                 {
-                    model: Modules,
+                    model: modules,
                     as: 'module'
                 }
             ]
@@ -42,15 +42,15 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await Permissions.findOne({
+        const data = await permissions.findOne({
             where: { id },
             include: [
                 {
-                    model: Roles,
+                    model: roles,
                     as: 'roleP'
                 },
                 {
-                    model: Modules,
+                    model: modules,
                     as: 'module'
                 }
             ]
@@ -69,7 +69,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(201).json(await db.updateItem(req.id, Permissions, req))
+        res.status(201).json(await db.updateItem(req.id, permissions, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -83,7 +83,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(201).json(await db.createItem(req, Permissions))
+        res.status(201).json(await db.createItem(req, permissions))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -97,7 +97,7 @@ exports.createItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, Permissions))
+        res.status(200).json(await db.deleteItem(id, permissions))
     } catch (error) {
         utils.handleError(res, error)
     }

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.87% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/39</span>
+                <span class='fraction'>36/38</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.73% </span>
+                <span class="strong">94.59% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/38</span>
+                <span class='fraction'>35/37</span>
             </div>
         
             
@@ -166,15 +166,7 @@
 <a name='L107'></a><a href='#L107'>107</a>
 <a name='L108'></a><a href='#L108'>108</a>
 <a name='L109'></a><a href='#L109'>109</a>
-<a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a>
-<a name='L112'></a><a href='#L112'>112</a>
-<a name='L113'></a><a href='#L113'>113</a>
-<a name='L114'></a><a href='#L114'>114</a>
-<a name='L115'></a><a href='#L115'>115</a>
-<a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a>
-<a name='L118'></a><a href='#L118'>118</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L110'></a><a href='#L110'>110</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -206,14 +198,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -291,7 +275,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { User } = require("../models");
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { user } = require("../models");
 const utils = require("../middleware/utils");
 const auth = require('../middleware/auth')
 const {matchedData} = require("express-validator");
@@ -306,14 +290,14 @@ const {matchedData} = require("express-validator");
  */
 const findUserByEmail = async (email) =&gt; {
     return new Promise((resolve, reject) =&gt; {
-        User.findOne({
+        user.findOne({
             where: { email }
         })
             .then((item) =&gt; {
                 if(!item) reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST'))
                 else resolve(item)
             })
-            .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; <span class="cstat-no" title="statement not covered" >reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST')))</span>
+            .catch(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >reject(utils.buildErrObject(404, 'USER_DOES_NOT_EXIST')))</span>
     })
 }
 &nbsp;
@@ -323,16 +307,8 @@ const findUserByEmail = async (email) =&gt; {
  */
 const registerUser = async (req) =&gt; {
     return new Promise((resolve, reject) =&gt; {
-        const user = {
-            name: req.name,
-            email: req.email,
-            password: req.password,
-            roleId: req.roleId,
-            lastname: req.lastname
-        }
-&nbsp;
-        User.create(user)
-            .then(user =&gt; resolve(user))
+        user.create(req)
+            .then(item =&gt; resolve(item))
             .catch(() =&gt; reject(utils.buildErrObject(400, 'DONT_REGISTER')))
     })
 }
@@ -349,11 +325,11 @@ const registerUser = async (req) =&gt; {
 exports.register = async (req, res) =&gt; {
     try {
         req = matchedData(req)
-        const user = await registerUser(req)
+        const item = await registerUser(req)
         res.status(201).json({
-            token: auth.generateToken(user.id),
-            user: auth.setUserInfo(user),
-            permissions: await auth.getPermissions(user.roleId)
+            token: auth.generateToken(item.id),
+            user: auth.setUserInfo(item),
+            permissions: await auth.getPermissions(item.roleId)
         })
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
@@ -368,16 +344,16 @@ exports.register = async (req, res) =&gt; {
 exports.login = async (req, res) =&gt; {
     try {
         const data = matchedData(req)
-        const user = await findUserByEmail(data.email)
-        const isPasswordMatch = await auth.checkPassword(data.password, user.password)
+        const item = await findUserByEmail(data.email)
+        const isPasswordMatch = await auth.checkPassword(data.password, item.password)
         if (!isPasswordMatch) {
             utils.handleError(res, utils.buildErrObject(403, 'WRONG_PASSWORD'))
         } else {
             // all ok return user and token
             res.status(202).json({
-                token: auth.generateToken(user.id),
-                user: auth.setUserInfo(user),
-                permissions: await auth.getPermissions(user.roleId)
+                token: auth.generateToken(item.id),
+                user: auth.setUserInfo(item),
+                permissions: await auth.getPermissions(item.roleId)
             })
         }
     } catch (error) {
@@ -396,12 +372,12 @@ exports.getRefreshToken = async (req, res) =&gt; {
             .replace('Bearer ', '')
             .trim()
         const id = await auth.getUserIdFromToken(tokenEncrypted)
-        const user = await auth.findUserById(id)
+        const item = await auth.findUserById(id)
 &nbsp;
         res.status(202).json({
-            token: auth.generateToken(user.id),
-            user: auth.setUserInfo(user),
-            permissions: await auth.getPermissions(user.roleId)
+            token: auth.generateToken(item.id),
+            user: auth.setUserInfo(item),
+            permissions: await auth.getPermissions(item.roleId)
         })
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        utils.handleError(res, utils.buildErrObject(403, 'BAD_TOKEN'))</span>
@@ -415,7 +391,7 @@ exports.getRefreshToken = async (req, res) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 04 2021 17:59:08 GMT-0400 (hora de Venezuela)
+                at Tue Oct 05 2021 11:40:01 GMT-0400 (hora de Venezuela)
             </div>
         </div>
         <script src="../../prettify.js"></script>

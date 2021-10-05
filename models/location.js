@@ -3,44 +3,44 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Phone extends Model {
+  class location extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-     static associate(models) {
-      this.belongsTo(models.User, {as: 'userP', foreignKey: 'userId'})
+    static associate(models) {
+      this.belongsTo(models.user, {as: 'userL', foreignKey: 'userId'})
     }
-  };
-  Phone.init({
+  }
+  location.init({
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    number: {
+    lat: {
       allowNull: false,
       type: DataTypes.STRING
     },
-    internationalNumber: {
+    lng: {
       allowNull: false,
       type: DataTypes.STRING
     },
-    nationalNumber: {
-      allowNull: false,
+    address: {
+      type: DataTypes.STRING
+    },
+    cityName: {
+      type: DataTypes.STRING
+    },
+    countryName: {
       type: DataTypes.STRING
     },
     countryCode: {
-      allowNull: false,
       type: DataTypes.STRING
     },
-    dialCode: {
-      allowNull: false,
-      type: DataTypes.STRING
-    }
   }, {
     sequelize,
-    modelName: 'Phone',
+    modelName: 'location',
   });
-  return Phone;
+  return location;
 };

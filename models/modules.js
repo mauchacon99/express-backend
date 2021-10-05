@@ -3,26 +3,17 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Permissions extends Model {
+  class modules extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Roles, {as: 'roleP', foreignKey: 'roleId'})
-      this.belongsTo(models.Modules, {as: 'module', foreignKey: 'moduleId'})
+      this.hasMany(models.permissions, {as: 'module', foreignKey: 'roleId'})
     }
-  };
-  Permissions.init({
-    roleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    moduleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+  }
+  modules.init({
     status: {
       allowNull: false,
       type: DataTypes.BOOLEAN
@@ -36,9 +27,22 @@ module.exports = (sequelize, DataTypes) => {
         return this.setDataValue('methods', JSON.stringify(value));
       }
     },
+    icon: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    route: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      unique: true
+    },
   }, {
     sequelize,
-    modelName: 'Permissions',
+    modelName: 'modules',
   });
-  return Permissions;
+  return modules;
 };

@@ -24,23 +24,26 @@ Run in production `npm run prod` init server.
 
 If you want to clean the db and create everything again run `npm run fresh`
 
+### Tests
+Run tests `npm run test`
+
 ## Documentation
 
 ### Users access
 
 Role admin
-```javascript
+```json
 { 
-    email: "admin@admin.com",
-    password: "123456"
+    "email": "admin@admin.com",
+    "password": "123456"
 }
 ```
 
 Role coach
-```javascript
+```json
 { 
-    email: "coach@coach.com",
-    password: "123456"
+    "email": "coach@coach.com",
+    "password": "123456"
 }
 ```
 
