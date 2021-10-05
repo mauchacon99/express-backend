@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { Roles } = require('../models')
+const { roles } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -15,7 +15,7 @@ const db = require('../middleware/db')
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQueryString(req.query)
-        res.status(200).json(await db.getItems(req, Roles, query))
+        res.status(200).json(await db.getItems(req, roles, query))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -29,7 +29,7 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        res.status(200).json(await db.getItem(id, Roles))
+        res.status(200).json(await db.getItem(id, roles))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -43,7 +43,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(201).json(await db.updateItem(req.id, Roles, req))
+        res.status(201).json(await db.updateItem(req.id, roles, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -57,7 +57,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(201).json(await db.createItem(req, Roles))
+        res.status(201).json(await db.createItem(req, roles))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -71,7 +71,7 @@ exports.createItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, Roles))
+        res.status(200).json(await db.deleteItem(id, roles))
     } catch (error) {
         utils.handleError(res, error)
     }

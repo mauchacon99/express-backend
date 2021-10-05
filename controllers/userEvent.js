@@ -1,5 +1,5 @@
 const db = require('../middleware/db')
-const { UserEvent, User } = require('../models')
+const { userEvent, user } = require('../models')
 const { matchedData } = require('express-validator')
 const utils = require('../middleware/utils')
 
@@ -11,7 +11,7 @@ const utils = require('../middleware/utils')
 
 exports.createItem = async (req) => {
     try {
-        await db.createItem(req, UserEvent)
+        await db.createItem(req, userEvent)
     } catch (error) {
         console.log(error)
     }
@@ -25,7 +25,7 @@ exports.createItem = async (req) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await UserEvent.findAll({
+        const data = await userEvent.findAll({
            where:{ userId: id }
         })
         res.status(200).json(data)
@@ -42,12 +42,12 @@ exports.getItem = async (req, res) => {
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await User.findAndCountAll({
+        const data = await userEvent.findAndCountAll({
             ...query,
             attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
-                    model: User,
+                    model: user,
                     as: 'userE'
                 }
             ]

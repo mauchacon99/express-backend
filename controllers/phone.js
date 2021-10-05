@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { Phone, User } = require('../models')
+const { phone, user } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -15,11 +15,11 @@ const db = require('../middleware/db')
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await Phone.findAndCountAll({
+        const data = await phone.findAndCountAll({
             ...query,
             include: [
                 {
-                    model: User,
+                    model: user,
                     as: 'userP'
                 }
             ]
@@ -38,7 +38,7 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await Phone.findAll({
+        const data = await phone.findAll({
             where:{userId:id}
          })
         res.status(200).json(data)
@@ -55,7 +55,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.updateItem(req.userId, Phone, req))
+        res.status(200).json(await db.updateItem(req.userId, phone, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -69,7 +69,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, Phone))
+        res.status(200).json(await db.createItem(req, phone))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -83,7 +83,7 @@ exports.createItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, Phone))
+        res.status(200).json(await db.deleteItem(id, phone))
     } catch (error) {
         utils.handleError(res, error)
     }

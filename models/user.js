@@ -5,20 +5,20 @@ const {
 const bcrypt = require("bcrypt");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class user extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.Location, {as: 'userL', foreignKey: 'userId'})
-      this.hasMany(models.Phone, {as: 'userP', foreignKey: 'userId'})
-      this.hasMany(models.UserEvent, {as: 'userE', foreignKey: 'userId'})
-      this.belongsTo(models.Roles, {as: 'roleU', foreignKey: 'roleId'})
+      this.hasMany(models.location, {as: 'userL', foreignKey: 'userId'})
+      this.hasMany(models.phone, {as: 'userP', foreignKey: 'userId'})
+      this.hasMany(models.userEvent, {as: 'userE', foreignKey: 'userId'})
+      this.belongsTo(models.roles, {as: 'roleU', foreignKey: 'roleId'})
     }
-  };
-  User.init({
+  }
+  user.init({
     roleId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'user',
   });
-  return User;
+  return user;
 };

@@ -13,7 +13,7 @@ const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
  * @param {Object} query - query object
  */
 const listInitOptions = (query) => {
-    console.log(query)
+    // console.log(query)
     return new Promise((resolve) => {
         const order = [[query.sort || 'createdAt', query.order || 'DESC']]
         const limit = parseInt(query.limit, 10) || 10

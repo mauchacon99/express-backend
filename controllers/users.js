@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const {User, Roles} = require('../models')
+const {user, roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -15,12 +15,12 @@ const db = require('../middleware/db')
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await User.findAndCountAll({
+        const data = await user.findAndCountAll({
             ...query,
             attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
-                    model: Roles,
+                    model: roles,
                     as: 'roleU'
                 }
             ]
@@ -40,12 +40,12 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await User.findOne({
+        const data = await user.findOne({
             attributes: ['name', 'email', 'createdAt'],
             where: { id },
             include: [
                 {
-                    model: Roles,
+                    model: roles,
                     as: 'roleU'
                 }
             ]
@@ -64,7 +64,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        const { dataValues } = await db.updateItem(req.id, User, req)
+        const { dataValues } = await db.updateItem(req.id, user, req)
         const { password, ...data } = dataValues
         res.status(201).json(data)
     } catch (error) {
@@ -80,7 +80,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        const { dataValues } = await db.createItem(req, User)
+        const { dataValues } = await db.createItem(req, user)
         const { password, ...data } = dataValues
         res.status(201).json(data)
     } catch (error) {
@@ -96,7 +96,7 @@ exports.createItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, User))
+        res.status(200).json(await db.deleteItem(id, user))
     } catch (error) {
         utils.handleError(res, error)
     }
