@@ -38,8 +38,10 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        phone.findAll({
-            where:{userId:id}
+
+        const data = await phone.findOne({
+            where:{id:id}
+
          })
             .then((data) => {
                 !data
@@ -74,7 +76,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, phone))
+        res.status(201).json(await db.createItem(req, phone))
     } catch (error) {
         utils.handleError(res, error)
     }
