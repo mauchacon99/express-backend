@@ -42,7 +42,7 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await permissions.findOne({
+        permissions.findOne({
             where: { id },
             include: [
                 {
@@ -55,7 +55,8 @@ exports.getItem = async (req, res) => {
                 }
             ]
         })
-        res.status(200).json(data)
+            .then((data) => res.status(200).json(data))
+            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }

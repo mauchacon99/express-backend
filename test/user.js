@@ -1,7 +1,7 @@
 const faker = require('faker')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const user = require('../models')
+const { user } = require('../models')
 const server = require('../server')
 const should = chai.should()
 const loginDetails = {
@@ -105,6 +105,16 @@ describe('*********** USERS ***********', () => {
     })
 
     describe('/POST user', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .post('/users')
+                .send(userSend)
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
         it('it should NOT POST user if data its empty', (done) => {
             chai
                 .request(server)
@@ -158,8 +168,31 @@ describe('*********** USERS ***********', () => {
     })
 
     describe('/GET/:id user', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            const id = createdID[0]
+            chai
+                .request(server)
+                .get(`/users/${id}`)
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should NOT GET a user if id is not exist', (done) => {
+            chai
+                .request(server)
+                .get('/users/10')
+                .set('Authorization', `Bearer ${token}`)
+                .end((err, res) => {
+                    res.should.have.status(404)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('errors')
+                    res.body.errors.msg.should.be.a('string')
+                    done()
+                })
+        })
         it('it should GET a user by the given id', (done) => {
-            const id = createdID.slice(-1).pop()
+            const id = createdID[0]
             chai
                 .request(server)
                 .get(`/users/${id}`)
@@ -183,8 +216,33 @@ describe('*********** USERS ***********', () => {
     })
 
     describe('/PATCH/:id user', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .patch('/users/1')
+                .send(userSend)
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should NOT PATCH user if data its empty', (done) => {
+            const id = createdID[0]
+            chai
+                .request(server)
+                .patch(`/users/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send({})
+                .end((err, res) => {
+                    res.should.have.status(422)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('errors')
+                    res.body.errors.msg.should.be.a('array')
+                    done()
+                })
+        })
         it('it should UPDATE a user given the id', (done) => {
-            const id = createdID.slice(-1).pop()
+            const id = createdID[0]
             userSend.name = 'user admin'
             const { password, email, ...data } = userSend
             chai
@@ -205,12 +263,11 @@ describe('*********** USERS ***********', () => {
                     res.body.email.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
-                    createdID.push(res.body.id)
                     done()
                 })
         })
         it('it should NOT UPDATE a user with email that already exists', (done) => {
-            const id = createdID.slice(-1).pop()
+            const id = createdID[0]
             userSend.email = 'admin@admin.com'
             chai
                 .request(server)
@@ -228,6 +285,15 @@ describe('*********** USERS ***********', () => {
     })
 
     describe('/DELETE/:id user', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .delete('/users/1')
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
         it('it should DELETE a user given the id', (done) => {
             userSend.email = 'user@user.com'
             chai
@@ -250,8 +316,8 @@ describe('*********** USERS ***********', () => {
     })
 
     after(() => {
-        createdID.forEach(async (id) => {
-            await user.destroy({ where: { id } })
+        createdID.forEach((id) => {
+            user.destroy({ where: { id } }).then()
         })
     })
 })

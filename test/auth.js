@@ -110,7 +110,7 @@ describe('*********** AUTH ***********', () => {
                     res.should.have.status(201)
                     res.body.should.be.an('object')
                     res.body.should.include.keys('token', 'user', 'permissions')
-                    createdID.push(res.body.user.id)
+                    createdID.push(res.body.user.email)
                     done()
                 })
         })
@@ -171,8 +171,8 @@ describe('*********** AUTH ***********', () => {
     })
 
     after(() => {
-        createdID.forEach(async (id) => {
-            await user.destroy({ where: { id } })
+        createdID.forEach((email) => {
+            user.destroy({ where: { email } }).then()
         })
     })
 })
