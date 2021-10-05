@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/events')
-const validate = require('../controllers/events.validate')
+const controller = require('../controllers/userEvent')
+const validate = require('../controllers/userEvent.validate')
 
 const router = express.Router()
 require('../config/passport')
