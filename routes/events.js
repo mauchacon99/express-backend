@@ -22,8 +22,8 @@ const requireAuth = passport.authenticate('jwt', {
  *    get:
  *      tags:
  *        - events
- *      summary: "search userEvent for id of user"
- *      description: "search userEvent for id of user"
+ *      summary: "search event by id"
+ *      description: "search event by id"
  *      responses:
  *        '200':
  *          description: "return event"

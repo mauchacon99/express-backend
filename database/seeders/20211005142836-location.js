@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('locations', [
+     await queryInterface.bulkInsert('locations', [
       {
         userId: 1,
         lat: '4.6545875',
@@ -38,12 +38,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     await queryInterface.bulkDelete('locations', null, {});
+     
   }
 };
