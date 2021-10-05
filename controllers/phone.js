@@ -38,10 +38,15 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await phone.findAll({
+        phone.findAll({
             where:{userId:id}
          })
-        res.status(200).json(data)
+            .then((data) => {
+                !data
+                    ? utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                    : res.status(200).json(data)
+            })
+            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
         utils.handleError(res, error)
     }

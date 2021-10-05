@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/21</span>
+                <span class='fraction'>18/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.31% </span>
+                <span class="strong">84.21% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/19</span>
+                <span class='fraction'>16/19</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -130,8 +130,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -141,34 +141,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,9 +187,9 @@ const _ = require("lodash");
  * @param {Number} roleId - id of role
  * @param {Object || Function} next - next
  */
-const checkPermissions = <span class="fstat-no" title="function not covered" >(r</span>eq, roleId, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        permissions.findAll({</span>
+const checkPermissions = (req, roleId, next) =&gt; {
+    return new Promise((resolve, reject) =&gt; {
+        permissions.findAll({
             where: { roleId },
             include: [
                 {
@@ -198,18 +198,18 @@ const checkPermissions = <span class="fstat-no" title="function not covered" >(r
                 }
             ]
         })
-        .then(<span class="fstat-no" title="function not covered" >re</span>sp =&gt; {
-            const route = <span class="cstat-no" title="statement not covered" >req.baseUrl</span>
-            const method = <span class="cstat-no" title="statement not covered" >req.method.toLowerCase()</span>
-            const authorization = <span class="cstat-no" title="statement not covered" >_.find(resp, <span class="fstat-no" title="function not covered" >({</span>dataValues}) =&gt; {</span>
-                const a = <span class="cstat-no" title="statement not covered" >dataValues</span>
-<span class="cstat-no" title="statement not covered" >                return (</span>
+        .then(resp =&gt; {
+            const route = req.baseUrl
+            const method = req.method.toLowerCase()
+            const authorization = _.find(resp, ({dataValues}) =&gt; {
+                const a = dataValues
+                return (
                     a.module.dataValues.route === route &amp;&amp;
                     a.methods.includes(method) &amp;&amp;
                     a.module.dataValues.methods.includes(method)
                 )
             })
-<span class="cstat-no" title="statement not covered" >            if(authorization) <span class="cstat-no" title="statement not covered" >next()</span></span>
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(authorization) next()
             else <span class="cstat-no" title="statement not covered" >reject(utils.buildErrObject(401, 'UNAUTHORIZED'))</span>
         })
         .catch(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >reject(utils.buildErrObject(401, 'UNAUTHORIZED')))</span>
@@ -223,10 +223,10 @@ const checkPermissions = <span class="fstat-no" title="function not covered" >(r
 /**
  * check authorization for role
  */
-exports.roleAuthorization = () =&gt; <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const { roleId } = <span class="cstat-no" title="statement not covered" >req.user</span>
-<span class="cstat-no" title="statement not covered" >        await checkPermissions(req, roleId, next)</span>
+exports.roleAuthorization = () =&gt; async (req, res, next) =&gt; {
+    try {
+        const { roleId } = req.user
+        await checkPermissions(req, roleId, next)
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        utils.handleError(res, error)</span>
     }
@@ -238,7 +238,7 @@ exports.roleAuthorization = () =&gt; <span class="fstat-no" title="function not 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Oct 05 2021 11:40:01 GMT-0400 (hora de Venezuela)
+                at Tue Oct 05 2021 16:48:07 GMT-0400 (hora de Venezuela)
             </div>
         </div>
         <script src="../../prettify.js"></script>

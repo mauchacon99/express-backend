@@ -1,7 +1,7 @@
 const faker = require('faker')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const { User } = require('../models')
+const { user } = require('../models')
 const server = require('../server')
 const loginDetails = {
     email: 'admin@admin.com',
@@ -15,7 +15,7 @@ const wrongPassword = {
     email: 'admin@admin.com',
     password: '784365'
 }
-const user = {
+const userSend = {
     name: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
@@ -105,21 +105,21 @@ describe('*********** AUTH ***********', () => {
             chai
                 .request(server)
                 .post('/register')
-                .send(user)
+                .send(userSend)
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.an('object')
                     res.body.should.include.keys('token', 'user', 'permissions')
-                    createdID.push(res.body.user.id)
+                    createdID.push(res.body.user.email)
                     done()
                 })
         })
         it('it should NOT POST a register if email already exists', (done) => {
-            user.email = 'admin@admin.com'
+            userSend.email = 'admin@admin.com'
             chai
                 .request(server)
                 .post('/register')
-                .send(user)
+                .send(userSend)
                 .end((err, res) => {
                     res.should.have.status(400)
                     res.body.should.be.a('object')
@@ -171,8 +171,8 @@ describe('*********** AUTH ***********', () => {
     })
 
     after(() => {
-        createdID.forEach(async (id) => {
-            await User.destroy({ where: { id } })
+        createdID.forEach((email) => {
+            user.destroy({ where: { email } }).then()
         })
     })
 })

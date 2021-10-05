@@ -17,7 +17,6 @@ exports.getItems = async (req, res) => {
         const query = await db.checkQuery(req.query)
         const data = await user.findAndCountAll({
             ...query,
-            attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
                     model: roles,
@@ -37,11 +36,10 @@ exports.getItems = async (req, res) => {
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-exports.getItem = async (req, res) => {
+exports.getItem = (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await user.findOne({
-            attributes: ['name', 'email', 'createdAt'],
+        user.findOne({
             where: { id },
             include: [
                 {
@@ -50,7 +48,12 @@ exports.getItem = async (req, res) => {
                 }
             ]
         })
-        res.status(200).json(data)
+            .then((data) => {
+                !data
+                    ? utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                    : res.status(200).json(data)
+            })
+            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
@@ -64,9 +67,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        const { dataValues } = await db.updateItem(req.id, user, req)
-        const { password, ...data } = dataValues
-        res.status(201).json(data)
+        res.status(201).json(await db.updateItem(req.id, user, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -80,9 +81,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        const { dataValues } = await db.createItem(req, user)
-        const { password, ...data } = dataValues
-        res.status(201).json(data)
+        res.status(201).json(await db.createItem(req, user))
     } catch (error) {
         utils.handleError(res, error)
     }
