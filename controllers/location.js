@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { Location, User} = require('../models')
+const { location, user} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -15,16 +15,16 @@ const db = require('../middleware/db')
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await Location.findAll({
+        const data = await location.findAndCountAll({
             ...query,
             include: [
                 {
-                    model: User,
+                    model: user,
                     as: 'userL'
                 }
             ]
         })
-        res.status(200).json(data)
+        res.status(200).json(db.respOptions(data, query))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -39,7 +39,7 @@ exports.getItem = async (req, res) => {
 
     try {
         const { id } = matchedData(req)
-        const data = await Location.findAll(
+        const data = await location.findOne(
             {
                 where:{id:id}
              });
@@ -57,7 +57,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.updateItem(req.userId, Location, req))
+        res.status(200).json(await db.updateItem(req.userId, location, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -71,7 +71,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, Location))
+        res.status(201).json(await db.createItem(req, location))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -85,7 +85,7 @@ exports.createItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, Location))
+        res.status(200).json(await db.deleteItem(id, location))
     } catch (error) {
         utils.handleError(res, error)
     }

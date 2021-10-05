@@ -38,7 +38,7 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await phone.findAll({
+        const data = await phone.findOne({
             where:{id:id}
          })
         res.status(200).json(data)
