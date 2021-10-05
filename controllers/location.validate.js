@@ -40,38 +40,32 @@ exports.createItem = [
  * Validates update item request
  */
 exports.updateItem = [
-    check('name')
+    check('userId')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('status')
+    check('lat')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('methods')
+    check('lng')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('route')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('icon')
+    check('address')
         .optional(),
-    check('id')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+    check('cityName')
+        .optional(),
+    check('countryName')
+        .optional(),
+    check('countryCode')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }
