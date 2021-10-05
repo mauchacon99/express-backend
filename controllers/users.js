@@ -17,7 +17,6 @@ exports.getItems = async (req, res) => {
         const query = await db.checkQuery(req.query)
         const data = await user.findAndCountAll({
             ...query,
-            attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
                     model: roles,
@@ -41,7 +40,6 @@ exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
         const data = await user.findOne({
-            attributes: ['name', 'email', 'createdAt'],
             where: { id },
             include: [
                 {
@@ -64,9 +62,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        const { dataValues } = await db.updateItem(req.id, user, req)
-        const { password, ...data } = dataValues
-        res.status(201).json(data)
+        res.status(201).json(await db.updateItem(req.id, user, req))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -80,9 +76,7 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         req = matchedData(req)
-        const { dataValues } = await db.createItem(req, user)
-        const { password, ...data } = dataValues
-        res.status(201).json(data)
+        res.status(201).json(await db.createItem(req, user))
     } catch (error) {
         utils.handleError(res, error)
     }
