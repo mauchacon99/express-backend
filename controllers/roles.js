@@ -14,8 +14,12 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `get_all_roles`
+        }
         const query = await db.checkQueryString(req.query)
-        res.status(200).json(await db.getItems(req, roles, query))
+        res.status(200).json(await db.getItems(req, roles, query, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -28,8 +32,12 @@ exports.getItems = async (req, res) => {
  */
 exports.getItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `get_rol_${req.id}`
+        }
         const { id } = matchedData(req)
-        res.status(200).json(await db.getItem(id, roles))
+        res.status(200).json(await db.getItem(id, roles, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -42,8 +50,12 @@ exports.getItem = async (req, res) => {
  */
 exports.updateItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `update_rol_${req.id}`
+        }
         req = matchedData(req)
-        res.status(201).json(await db.updateItem(req.id, roles, req))
+        res.status(201).json(await db.updateItem(req.id, roles, req, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -56,8 +68,12 @@ exports.updateItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `new_rol`
+        }
         req = matchedData(req)
-        res.status(201).json(await db.createItem(req, roles))
+        res.status(201).json(await db.createItem(req, roles, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -70,8 +86,12 @@ exports.createItem = async (req, res) => {
  */
 exports.deleteItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `delete_rol`
+        }
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, roles))
+        res.status(200).json(await db.deleteItem(id, roles, event))
     } catch (error) {
         utils.handleError(res, error)
     }

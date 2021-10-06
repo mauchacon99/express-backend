@@ -54,7 +54,7 @@ router.post(
 
 /**
  * @swagger
- * /permission/{id}:
+ * /permissions/{id}:
  *    get:
  *      tags:
  *        - permissions

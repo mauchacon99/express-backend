@@ -1,6 +1,7 @@
-const { Op } = require("sequelize");
-const utils = require("./utils");
-const _ = require("lodash");
+const { Op } = require("sequelize")
+const utils = require("./utils")
+const _ = require("lodash")
+const { userevents } = require('../models')
 
 const notFoundErr = utils.buildErrObject(404, 'NOT_FOUND')
 
@@ -150,15 +151,18 @@ exports.checkQuery = async (query) => {
  * @param {Object} req - request object
  * @param {Object} model - model of db
  * @param {Object} query - model of db
+ * @param {Object} event - object { userId, event}
  */
-exports.getItems = async (req, model, query) => {
+exports.getItems = async (req, model, query, event) => {
     const options = await checkQueryWithoutRelations(req, query)
     return new Promise((resolve, reject) => {
         model.findAndCountAll(options)
             .then(item => {
-                !item
-                    ? reject(notFoundErr)
-                    : resolve(this.respOptions(item, options))
+                if(!item) reject(notFoundErr)
+                else {
+                this.saveEvent(event)
+                    resolve(this.respOptions(item, options))
+                }
             })
             .catch(() => reject(notFoundErr))
     })
@@ -168,14 +172,17 @@ exports.getItems = async (req, model, query) => {
  * Gets item from database by id
  * @param {string} id - item id
  * @param {Object} model - model of db
+ * @param {Object} event - object { userId, event}
  */
-exports.getItem = (id, model) => {
+exports.getItem = (id, model, event) => {
     return new Promise((resolve, reject) => {
         model.findByPk(id)
         .then(item => {
-            !item
-                ? reject(notFoundErr)
-                : resolve(item)
+            if(!item) reject(notFoundErr)
+            else {
+                this.saveEvent(event)
+                resolve(item)
+            }
         })
         .catch(() => reject(notFoundErr))
     })
@@ -185,14 +192,17 @@ exports.getItem = (id, model) => {
  * Creates a new item in database
  * @param {Object} req - request object
  * @param {Object} model - model of db
+ * @param {Object} event - object { userId, event}
  */
-exports.createItem = (req, model) => {
+exports.createItem = (req, model, event) => {
     return new Promise((resolve, reject) => {
         model.create(req)
             .then(item => {
-                !item
-                    ? reject(utils.buildErrObject(400, 'NOT_CREATED'))
-                    : resolve(item)
+                if(!item) reject(utils.buildErrObject(400, 'NOT_CREATED'))
+                else {
+                this.saveEvent(event)
+                    resolve(item)
+                }
             })
             .catch(() => reject(utils.buildErrObject(400, 'NOT_CREATED')))
     })
@@ -203,13 +213,15 @@ exports.createItem = (req, model) => {
  * @param {string} id - item id
  * @param {Object} model - model of db
  * @param {Object} req - request object
+ * @param {Object} event - object { userId, event}
  */
-exports.updateItem = (id, model, req) => {
+exports.updateItem = (id, model, req, event) => {
     return new Promise((resolve, reject) => {
         model.update(req, { where: { id } })
             .then(item => {
                 if(!item) reject(utils.buildErrObject(400, 'NOT_UPDATED'))
                 else {
+                    this.saveEvent(event)
                     model.findOne({ where: { id } }).then(res => resolve(res))
                 }
             })
@@ -221,13 +233,21 @@ exports.updateItem = (id, model, req) => {
  * Deletes an item from database by id
  * @param {string} id - id of item
  * @param {Object} model - model of db
+ * @param {Object} event - object { userId, event}
  */
-exports.deleteItem = (id, model) => {
+exports.deleteItem = (id, model, event) => {
     return new Promise((resolve, reject) => {
         model.destroy({ where: { id } })
             .then(() => {
+                this.saveEvent(event)
                 resolve({message: 'deleted'})
             })
             .catch(() => reject(notFoundErr))
     })
 }
+
+/**
+ * Save event
+ * @param {Object} event - object { userId, event}
+ */
+exports.saveEvent = (event) => userevents.create(event).then(() => null)

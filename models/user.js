@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.location, {as: 'userL', foreignKey: 'userId'})
       this.hasMany(models.phone, {as: 'userP', foreignKey: 'userId'})
-      this.hasMany(models.userEvent, {as: 'userE', foreignKey: 'userId'})
+      this.hasMany(models.userevents, {as: 'userE', foreignKey: 'userId'})
       this.belongsTo(models.roles, {as: 'roleU', foreignKey: 'roleId'})
     }
   }

@@ -1,21 +1,7 @@
 const db = require('../middleware/db')
-const { userEvent, user } = require('../models')
+const { userevents, user } = require('../models')
 const { matchedData } = require('express-validator')
 const utils = require('../middleware/utils')
-
-
-/**
- * Get item function called by route
- * @param {Object} req - request object
- */
-
-exports.createItem = async (req) => {
-    try {
-        await db.createItem(req, userEvent)
-    } catch (error) {
-        console.log(error)
-    }
-}
 
 /**
  * Get item function called by route
@@ -25,9 +11,20 @@ exports.createItem = async (req) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await userEvent.findAll({
-           where:{ userId: id }
+        const data = await userevents.findAll({
+            where:{ userId: id },
+            include: [
+                {
+                    model: user,
+                    as: 'userE'
+                }
+            ]
         })
+            .then((data) => {
+                if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                else res.status(200).json(data)
+            })
+            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
         res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
@@ -42,9 +39,8 @@ exports.getItem = async (req, res) => {
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await userEvent.findAndCountAll({
+        const data = await userevents.findAndCountAll({
             ...query,
-            attributes: ['name', 'lastname', 'email', 'createdAt'],
             include: [
                 {
                     model: user,

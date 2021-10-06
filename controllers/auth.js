@@ -1,7 +1,8 @@
+const {matchedData} = require("express-validator");
 const { user } = require("../models");
 const utils = require("../middleware/utils");
 const auth = require('../middleware/auth')
-const {matchedData} = require("express-validator");
+const db = require("../middleware/db");
 
 /*
 *  Private functions
@@ -31,7 +32,10 @@ const findUserByEmail = async (email) => {
 const registerUser = async (req) => {
     return new Promise((resolve, reject) => {
         user.create(req)
-            .then(item => resolve(item))
+            .then(item => {
+                db.saveEvent({userId: item.id, event: 'new_user'})
+                resolve(item)
+            })
             .catch(() => reject(utils.buildErrObject(400, 'DONT_REGISTER')))
     })
 }

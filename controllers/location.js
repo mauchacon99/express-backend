@@ -24,6 +24,7 @@ exports.getItems = async (req, res) => {
                 }
             ]
         })
+        db.saveEvent({userId: req.user.id, event: 'get_all_locations'})
         res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
@@ -36,16 +37,18 @@ exports.getItems = async (req, res) => {
  * @param {Object} res - response object
  */
 exports.getItem = async (req, res) => {
-
     try {
+        const { user } = req
         const { id } = matchedData(req)
         Location.findAll({
                 where:{id:id}
         })
             .then((data) => {
-                !data
-                    ? utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
-                    : res.status(200).json(data)
+                if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                else {
+                    db.saveEvent({userId: user.id, event: `get_location_${id}`})
+                    res.status(200).json(data)
+                }
             })
             .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
@@ -60,8 +63,13 @@ exports.getItem = async (req, res) => {
  */
 exports.updateItem = async (req, res) => {
     try {
+        const { id } = req
+        const event = {
+            userId: req.user.id,
+            event: `update_location_${id}`
+        }
         req = matchedData(req)
-        res.status(200).json(await db.updateItem(req.userId, Location, req))
+        res.status(200).json(await db.updateItem(req.id, Location, req, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -74,8 +82,12 @@ exports.updateItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `new_location`
+        }
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, Location))
+        res.status(200).json(await db.createItem(req, Location, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -88,8 +100,12 @@ exports.createItem = async (req, res) => {
  */
 exports.deleteItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `delete_location`
+        }
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, Location))
+        res.status(200).json(await db.deleteItem(id, Location, event))
     } catch (error) {
         utils.handleError(res, error)
     }
