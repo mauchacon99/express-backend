@@ -17,6 +17,7 @@ exports.getItems = async (req, res) => {
         const query = await db.checkQuery(req.query)
         const data = await user.findAndCountAll({
             ...query,
+            attributes: { exclude: ['password'] },
             include: [
                 {
                     model: roles,
@@ -24,6 +25,7 @@ exports.getItems = async (req, res) => {
                 }
             ]
         })
+        db.saveEvent({userId: req.user.id, event: 'get_all_users'})
         res.status(200).json(db.respOptions(data, query))
     } catch (error) {
         console.log(error)
@@ -38,8 +40,10 @@ exports.getItems = async (req, res) => {
  */
 exports.getItem = (req, res) => {
     try {
+        const users = req.user
         const { id } = matchedData(req)
         user.findOne({
+            attributes: { exclude: ['password'] },
             where: { id },
             include: [
                 {
@@ -49,9 +53,11 @@ exports.getItem = (req, res) => {
             ]
         })
             .then((data) => {
-                !data
-                    ? utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
-                    : res.status(200).json(data)
+                if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                else {
+                    db.saveEvent({userId: users.id, event: `get_user_${id}`})
+                    res.status(200).json(data)
+                }
             })
             .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
@@ -66,8 +72,14 @@ exports.getItem = (req, res) => {
  */
 exports.updateItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `update_user_${req.id}`
+        }
         req = matchedData(req)
-        res.status(201).json(await db.updateItem(req.id, user, req))
+        const { dataValues } = await db.updateItem(req.id, user, req, event)
+        const { password, ...data} = dataValues
+        res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -80,8 +92,14 @@ exports.updateItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `new_user`
+        }
         req = matchedData(req)
-        res.status(201).json(await db.createItem(req, user))
+        const { dataValues } = await db.createItem(req, user, event)
+        const { password, ...data} = dataValues
+        res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -94,8 +112,12 @@ exports.createItem = async (req, res) => {
  */
 exports.deleteItem = async (req, res) => {
     try {
+        const event = {
+            userId: req.user.id,
+            event: `delete_user`
+        }
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, user))
+        res.status(200).json(await db.deleteItem(id, user, event))
     } catch (error) {
         utils.handleError(res, error)
     }
