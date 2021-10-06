@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { Location, User} = require('../models')
+const { location, user} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -15,17 +15,17 @@ const db = require('../middleware/db')
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQuery(req.query)
-        const data = await Location.findAll({
+        const data = await location.findAndCountAll({
             ...query,
             include: [
                 {
-                    model: User,
+                    model: user,
                     as: 'userL'
                 }
             ]
         })
         db.saveEvent({userId: req.user.id, event: 'get_all_locations'})
-        res.status(200).json(data)
+        res.status(200).json(db.respOptions(data, query))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -40,7 +40,9 @@ exports.getItem = async (req, res) => {
     try {
         const { user } = req
         const { id } = matchedData(req)
-        Location.findAll({
+
+        const data = await location.findOne(
+            {
                 where:{id:id}
         })
             .then((data) => {
@@ -69,7 +71,7 @@ exports.updateItem = async (req, res) => {
             event: `update_location_${id}`
         }
         req = matchedData(req)
-        res.status(200).json(await db.updateItem(req.id, Location, req, event))
+        res.status(201).json(await db.updateItem(req.id, location, req, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -87,7 +89,7 @@ exports.createItem = async (req, res) => {
             event: `new_location`
         }
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, Location, event))
+        res.status(201).json(await db.createItem(req, location, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -105,7 +107,7 @@ exports.deleteItem = async (req, res) => {
             event: `delete_location`
         }
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, Location, event))
+        res.status(200).json(await db.deleteItem(id, location, event))
     } catch (error) {
         utils.handleError(res, error)
     }

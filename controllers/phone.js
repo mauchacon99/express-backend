@@ -40,8 +40,10 @@ exports.getItem = async (req, res) => {
     try {
         const { user } = req
         const { id } = matchedData(req)
-        phone.findAll({
-            where:{userId:id}
+
+        const data = await phone.findOne({
+            where:{id:id}
+
          })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
@@ -68,7 +70,7 @@ exports.updateItem = async (req, res) => {
             event: `update_phone_${req.id}`
         }
         req = matchedData(req)
-        res.status(200).json(await db.updateItem(req.userId, phone, req, event))
+        res.status(201).json(await db.updateItem(req.userId, phone, req, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -86,7 +88,7 @@ exports.createItem = async (req, res) => {
             event: `new_phone`
         }
         req = matchedData(req)
-        res.status(200).json(await db.createItem(req, phone, event))
+        res.status(201).json(await db.createItem(req, phone, event))
     } catch (error) {
         utils.handleError(res, error)
     }
