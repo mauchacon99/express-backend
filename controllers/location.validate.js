@@ -24,7 +24,11 @@ exports.createItem = [
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('address')
-        .optional(),
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('cityName')
         .optional(),
     check('countryName')

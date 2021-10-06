@@ -149,6 +149,62 @@ const swaggerOptions = {
                     status: true,
                     methods: ['get','post','delete','patch']
                 }
+            },
+            locations: {
+                type: 'object',
+                required: [
+                    'userId',
+                    'lat',
+                    'lng',
+                    'address'
+                ],
+                properties: {
+                    userId: { type: 'number' },
+                    lat: { type: 'string' },
+                    lng: { type: 'string' },
+                    address: { type: 'string' },
+                    cityName: { type: 'string' },
+                    countryName: { type: 'string' },
+                    countryCode: { type: 'string' }
+                },
+                example: {
+                    userId: 1,
+                    lat: '4.6545875',
+                    lng: '-74.1009379',
+                    address: 'Br. La Esmeralda, Teusaquillo, Bogotá, Colombia',
+                    cityName: 'Bogotá',
+                    countryName: 'Colombia',
+                    countryCode: 'co'
+                }
+            },
+            phones: {
+                type: 'object',
+                required: [
+                    'userId',
+                    'number',
+                    'internationalNumber',
+                    'nationalNumber',
+                    'countryCode',
+                    'dialCode'
+                ],
+                properties: {
+                    userId: { type: 'number' },
+                    number: { type: 'string' },
+                    internationalNumber: { type: 'string' },
+                    nationalNumber: { type: 'string' },
+                    countryCode: { type: 'string' },
+                    dialCode: { type: 'string' },
+                },
+                example: {
+                    userId: 1,
+                    number: '3112123658',
+                    internationalNumber: '+57 311 2123658',
+                    nationalNumber: '311 2123658',
+                    countryCode: 'CO',
+                    dialCode: '+57',
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                }
             }
         }
     },
