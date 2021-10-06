@@ -43,7 +43,7 @@ exports.getItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(201).json(await db.updateItem(req.id, modules, req))
+        res.status(200).json(await db.updateItem(req.id, modules, req))
     } catch (error) {
         utils.handleError(res, error)
     }

@@ -15,10 +15,10 @@ const queryParams = 'fields=route&filter=phones'
 
 const payload = {
     status: true,
-    methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-    icon: null,
-    name: 'Phones',
-    route: '/phones',
+    methods: ["get", "post", "delete", "patch"],
+    icon: "image.png",
+    name: 'Test',
+    route: '/test',
 }
 
 
@@ -109,7 +109,7 @@ describe('*********** MODELS ***********', () => {
         })
      })
 
-   /*  describe('/POST modules', () => {
+     describe('/POST modules', () => {
         it('it should NOT POST modules if data its empty', (done) => {
             chai
                 .request(server)
@@ -145,7 +145,7 @@ describe('*********** MODELS ***********', () => {
                     createdID.push(res.body.id)
                     done()
                 })
-        })*/
+        })
        /* it('it should NOT POST a user with email that already exists', (done) => {
             payload.email = 'admin@admin.com'
             chai
@@ -161,7 +161,102 @@ describe('*********** MODELS ***********', () => {
                     done()
                 })
         })*/
+
+    })
+
+    describe('/GET/:id modules', () => {
+        it('it should GET a modules by the given id', (done) => {
+            const id = createdID.slice(-1).pop()
+            chai
+                .request(server)
+                .get(`/modules/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .end((error, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('id','status','methods','icon','name','route','createdAt','updatedAt')
+                    res.body.id.should.be.a('number')
+                    res.body.status.should.be.a('boolean')  
+                    res.body.methods.should.be.a('array')
+                    res.body.icon.should.be.a('string')
+                    res.body.name.should.be.a('string')
+                    res.body.route.should.be.a('string')
+                    res.body.createdAt.should.be.a('string')
+                    res.body.updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+    })
+
+
+
+    describe('/PATCH/:id modules', () => {
+        it('it should UPDATE a modules given the id', (done) => {
+            const id = createdID.slice(-1).pop()
+            payload.name = 'TEST'
+           
+            chai
+                .request(server)
+                .patch(`/modules/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(payload)
+                .end((error, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('id','status','methods','icon','name','route','createdAt','updatedAt')
+                    res.body.id.should.be.a('number')
+                    res.body.status.should.be.a('boolean')  
+                    res.body.methods.should.be.a('array')
+                    res.body.icon.should.be.a('string')
+                    res.body.name.should.be.a('string')
+                    res.body.route.should.be.a('string')
+                    res.body.createdAt.should.be.a('string')
+                    res.body.updatedAt.should.be.a('string')
+                    createdID.push(res.body.id)
+                    done()
+                })
+        })
+       /* it('it should NOT UPDATE a phones with email that already exists', (done) => {
+            const id = createdID.slice(-1).pop()
+            userSend.email = 'admin@admin.com'
+            chai
+                .request(server)
+                .patch(`/users/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(userSend)
+                .end((err, res) => {
+                    res.should.have.status(400)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('errors')
+                    res.body.errors.msg.should.be.a('string')
+                    done()
+                })
+        })*/
+    })
     
+
+    describe('/DELETE/:id modules', () => {
+        it('it should DELETE a modules given the id', (done) => {
+            payload.name ="TEST2" 
+            payload.route = '/test2'
+            chai
+                .request(server)
+                .post('/modules')
+                .set('Authorization', `Bearer ${token}`)
+                .send(payload)
+                .end((err, res) => {
+                    res.should.have.status(201)
+                    chai
+                        .request(server)
+                        .delete(`/modules/${res.body.id}`)
+                        .set('Authorization', `Bearer ${token}`)
+                        .end((error, result) => {
+                            result.should.have.status(200)
+                            done()
+                        })
+                })
+        })
+    })
 
 
     after(() => {
