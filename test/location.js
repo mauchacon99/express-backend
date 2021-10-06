@@ -1,7 +1,7 @@
 const faker = require('faker')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const phone = require('../models')
+const location = require('../models')
 const server = require('../server')
 const should = chai.should()
 const loginDetails = {
@@ -268,7 +268,7 @@ describe('*********** PHONES ***********', () => {
 
     after(() => {
         createdID.forEach(async (id) => {
-            await phone.destroy({ where: { id } })
+            await location.destroy({ where: { id } })
         })
     })
 })
