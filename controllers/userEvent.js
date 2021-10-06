@@ -25,7 +25,6 @@ exports.getItem = async (req, res) => {
                 else res.status(200).json(data)
             })
             .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
-        res.status(200).json(data)
     } catch (error) {
         utils.handleError(res, error)
     }
