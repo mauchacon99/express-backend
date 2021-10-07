@@ -59,11 +59,7 @@ exports.updateItem = [
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('route')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('icon')
         .optional(),
     check('id')

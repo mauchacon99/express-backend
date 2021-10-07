@@ -1,7 +1,6 @@
-const faker = require('faker')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const location = require('../models')
+const { location } = require('../models')
 const server = require('../server')
 const should = chai.should()
 const loginDetails = {
@@ -24,7 +23,7 @@ const payload = {
 
 chai.use(chaiHttp)
 
-describe('*********** PHONES ***********', () => {
+describe('*********** LOCATIONS ***********', () => {
     describe('/POST login', () => {
         it('it should GET token', (done) => {
             chai
@@ -54,7 +53,7 @@ describe('*********** PHONES ***********', () => {
                     done()
                 })
         })
-        it('it should GET all the locations', (done) => {
+        it('it should GET all locations', (done) => {
             chai
                 .request(server)
                 .get('/locations')
@@ -81,7 +80,7 @@ describe('*********** PHONES ***********', () => {
                 })
         })
 
-        it('it should GET the users with filters', (done) => {
+        it('it should GET the locations with filters', (done) => {
             chai
                 .request(server)
                 .get(`/locations?${queryParams}`)
@@ -110,6 +109,16 @@ describe('*********** PHONES ***********', () => {
     })
 
     describe('/POST locations', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .post('/locations')
+                .send(payload)
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
         it('it should NOT POST locations if data its empty', (done) => {
             chai
                 .request(server)
@@ -133,7 +142,18 @@ describe('*********** PHONES ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('id','userId','lat', 'lng', 'address', 'cityName', 'countryName', 'countryCode','createdAt','updatedAt')
+                    res.body.should.include.keys(
+                        'id',
+                        'userId',
+                        'lat',
+                        'lng',
+                        'address',
+                        'cityName',
+                        'countryName',
+                        'countryCode',
+                        'createdAt',
+                        'updatedAt'
+                    )
                     res.body.id.should.be.a('number')
                     res.body.userId.should.be.a('number')
                     res.body.lat.should.be.a('string')
@@ -148,32 +168,34 @@ describe('*********** PHONES ***********', () => {
                     done()
                 })
         })
+    })
 
-
-
-        /*it('it should NOT POST a  with  that already exists', (done) => {
-            payload.lat = '9.6545875',
+    describe('/GET/:id locations', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            const id = createdID[0]
             chai
                 .request(server)
-                .post('/locations')
-                .set('Authorization', `Bearer ${token}`)
-                .send(payload)
+                .get(`/locations/${id}`)
                 .end((err, res) => {
-                    res.should.have.status(400)
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should NOT GET a location if id is not exist', (done) => {
+            chai
+                .request(server)
+                .get('/locations/100')
+                .set('Authorization', `Bearer ${token}`)
+                .end((err, res) => {
+                    res.should.have.status(404)
                     res.body.should.be.a('object')
                     res.body.should.have.property('errors')
                     res.body.errors.msg.should.be.a('string')
                     done()
                 })
-        })*/
-    })
-
-
-
-    
-    describe('/GET/:id locations', () => {
-        it('it should GET a locations by the given id', (done) => {
-            const id = createdID.slice(-1).pop()
+        })
+        it('it should GET a location by the given id', (done) => {
+            const id = createdID[0]
             chai
                 .request(server)
                 .get(`/locations/${id}`)
@@ -197,11 +219,35 @@ describe('*********** PHONES ***********', () => {
         })
     })
 
-    
     describe('/PATCH/:id locations', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            const id = createdID[0]
+            chai
+                .request(server)
+                .patch(`/locations/${id}`)
+                .send(payload)
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should NOT PATCH location if data its empty', (done) => {
+            const id = createdID[0]
+            chai
+                .request(server)
+                .patch(`/locations/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send({})
+                .end((err, res) => {
+                    res.should.have.status(422)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('errors')
+                    res.body.errors.msg.should.be.a('array')
+                    done()
+                })
+        })
         it('it should UPDATE a locations given the id', (done) => {
-            const id = createdID.slice(-1).pop()
-            console.log(id)
+            const id = createdID[0]
             payload.lat = '9.6545875'
             chai
                 .request(server)
@@ -209,9 +255,20 @@ describe('*********** PHONES ***********', () => {
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((error, res) => {
-                    res.should.have.status(200)
+                    res.should.have.status(201)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('id','userId','lat', 'lng', 'address', 'cityName', 'countryName', 'countryCode','createdAt','updatedAt')
+                    res.body.should.include.keys(
+                        'id',
+                        'userId',
+                        'lat',
+                        'lng',
+                        'address',
+                        'cityName',
+                        'countryName',
+                        'countryCode',
+                        'createdAt',
+                        'updatedAt'
+                    )
                     res.body.id.should.be.a('number')
                     res.body.userId.should.be.a('number')
                     res.body.lat.should.be.a('string')
@@ -222,31 +279,23 @@ describe('*********** PHONES ***********', () => {
                     res.body.countryCode.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
-                  
                     done()
                 })
         })
-      /*  it('it should NOT UPDATE a phones with email that already exists', (done) => {
-            const id = createdID.slice(-1).pop()
-            userSend.lat = '9.6545875'
-            chai
-                .request(server)
-                .patch(`/users/${id}`)
-                .set('Authorization', `Bearer ${token}`)
-                .send(userSend)
-                .end((err, res) => {
-                    res.should.have.status(400)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('string')
-                    done()
-                })
-        })*/
     })
 
     describe('/DELETE/:id locations', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .delete('/locations/1')
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
         it('it should DELETE a locations given the id', (done) => {
-            payload.cityName ="Barranquilla" 
+            payload.cityName ="Barranquilla"
             chai
                 .request(server)
                 .post('/locations')
@@ -267,8 +316,8 @@ describe('*********** PHONES ***********', () => {
     })
 
     after(() => {
-        createdID.forEach(async (id) => {
-            await location.destroy({ where: { id } })
+        createdID.forEach((id) => {
+            location.destroy({ where: { id } }).then()
         })
     })
 })
