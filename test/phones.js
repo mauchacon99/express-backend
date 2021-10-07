@@ -164,9 +164,6 @@ describe('*********** PHONES ***********', () => {
         })
     })
 
-
-
-
     describe('/GET/:id phones', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             const id = createdID[0]
