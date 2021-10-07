@@ -102,4 +102,102 @@ router.post(
     controller.login
 )
 
+
+/**
+ * @swagger
+ * /verify:
+ *    post:
+ *      tags:
+ *        - auth
+ *      summary: "Verificar email"
+ *      description: verificar codigo atravez de email
+ *      responses:
+ *        '200':
+ *          description: Retorna el email y la verificacion verdadera.
+ *        '422':
+ *          description: Campos no cumplen validacion.
+ *        '404':
+ *          description: Mensaje de errors de no verificado o no encontrado.
+ *        '500':
+ *          description: "Internal server error"
+ *    parameters:
+ *      -  in: "body"
+ *         name: "body"
+ *         description: "parametros requeridos para verificar email"
+ *         required: true
+ *         schema:
+ *            $ref: "#/definitions/authVerify"
+ */
+router.post(
+    '/verify',
+    trimRequest.all,
+    validate.verify,
+    controller.verify
+)
+
+/**
+ * @swagger
+ * /forgot:
+ *    post:
+ *      tags:
+ *        - auth
+ *      summary: "restablecer password"
+ *      description: restablecer password solicitando solo email
+ *      responses:
+ *        '200':
+ *          description: Retorna un nuevo codigo de verificacion.
+ *        '422':
+ *          description:  Campos no cumplen validacion.
+ *        '404':
+ *          description: Mensaje de errors de no encontrado.
+ *        '400':
+ *          description: "Not verified".
+ *        '500':
+ *          description: "Internal server error"
+ *    parameters:
+ *      -  in: "body"
+ *         name: "body"
+ *         description: "parametros requeridos para restablecer password"
+ *         required: true
+ *         schema:
+ *            $ref: "#/definitions/authForgot"
+ */
+router.post(
+    '/forgot',
+    trimRequest.all,
+    validate.forgotPassword,
+    controller.forgotPassword
+)
+
+/**
+ * @swagger
+ * /reset:
+ *    post:
+ *      tags:
+ *        - auth
+ *      summary: "reassign password"
+ *      description: restablecer password solicitando verificacion y password
+ *      responses:
+ *        '200':
+ *          description: Retorna un nuevo codigo de verificacion.
+ *        '422':
+ *          description:  Campos no cumplen validacion.
+ *        '404':
+ *          description:  No se a encontrado o ya existe usuario
+ *        '500':
+ *          description: "Internal server error"
+ *    parameters:
+ *      -  in: "body"
+ *         name: "body"
+ *         description: "parametros requeridos para reasignar password a usuario"
+ *         required: true
+ *         schema:
+ *            $ref: "#/definitions/authReset"
+ */
+router.post(
+    '/reset',
+    trimRequest.all,
+    validate.resetPassword,
+    controller.resetPassword
+)
 module.exports = router

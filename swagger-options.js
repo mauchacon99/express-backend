@@ -69,6 +69,24 @@ const swaggerOptions = {
                     password: '123456'
                 }
             },
+            authVerify: {
+                type: 'object',
+                required: ['id'],
+                properties: { id: { type: 'string' } }
+            },
+            authForgot: {
+                type: 'object',
+                required: ['email'],
+                properties: { email: { type: 'string' } }
+            },
+            authReset: {
+                type: 'object',
+                required: ['id', 'password'],
+                properties: {
+                    id: { type: 'number' },
+                    password: { type: 'string' }
+                }
+            },
             users: {
                 type: 'object',
                 required: [

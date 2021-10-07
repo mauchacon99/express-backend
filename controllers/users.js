@@ -97,6 +97,7 @@ exports.createItem = async (req, res) => {
             event: `new_user`
         }
         req = matchedData(req)
+        req.verification = req.password + req.email
         const { dataValues } = await db.createItem(req, user, event)
         const { password, ...data} = dataValues
         res.status(201).json(data)
