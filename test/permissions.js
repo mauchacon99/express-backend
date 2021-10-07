@@ -1,29 +1,26 @@
-const faker = require("faker")
-const chai = require("chai")
-const chaiHttp = require("chai-http")
-const should = chai.should()
+const chai = require('chai')
+const chaiHttp = require('chai-http')
+const { permissions } = require('../models')
 const server = require('../server')
-const { modules } = require('../models')
+const should = chai.should()
 const loginDetails = {
     email: 'admin@admin.com',
     password: '123456'
 }
 let token = ''
 const createdID = []
-const queryParams = 'fields=route&filter=phones'
+const queryParams = 'fields=roleId&filter=1'
 
 const payload = {
     status: true,
     methods: ["get", "post", "delete", "patch"],
-    icon: "image.png",
-    name: 'Test',
-    route: '/test',
+    roleId: 1,
+    moduleId: 1
 }
-
 
 chai.use(chaiHttp)
 
-describe('*********** MODULES ***********', () => {
+describe('*********** PERMISSIONS ***********', () => {
     describe('/POST login', () => {
         it('it should GET token', (done) => {
             chai
@@ -43,20 +40,20 @@ describe('*********** MODULES ***********', () => {
         })
     })
 
-    describe('/GET modules', () => {
+    describe('/GET permissions', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .get('/modules')
+                .get('/permissions')
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should GET all the models', (done) => {
+        it('it should GET all permissions', (done) => {
             chai
                 .request(server)
-                .get('/modules')
+                .get('/permissions')
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(200)
@@ -67,20 +64,22 @@ describe('*********** MODULES ***********', () => {
                     res.body.page.should.be.a('number')
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].id.should.be.a('number')
-                    res.body.docs[0].methods.should.be.a('array')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].moduleId.should.be.a('number')
                     res.body.docs[0].status.should.be.a('boolean')
-                    res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].route.should.be.a('string')
+                    res.body.docs[0].methods.should.be.a('array')
+                    res.body.docs[0].module.should.be.a('object')
+                    res.body.docs[0].roleP.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
                     done()
                 })
         })
 
-        it('it should GET the modules with filters', (done) => {
+        it('it should GET the permissions with filters', (done) => {
             chai
                 .request(server)
-                .get(`/modules?${queryParams}`)
+                .get(`/permissions?${queryParams}`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(200)
@@ -91,32 +90,34 @@ describe('*********** MODULES ***********', () => {
                     res.body.page.should.be.a('number')
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].id.should.be.a('number')
-                    res.body.docs[0].methods.should.be.a('array')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].moduleId.should.be.a('number')
                     res.body.docs[0].status.should.be.a('boolean')
-                    res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].route.should.be.a('string')
+                    res.body.docs[0].methods.should.be.a('array')
+                    res.body.docs[0].module.should.be.a('object')
+                    res.body.docs[0].roleP.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
+|                   done()
+                })
+        })
+    })
+
+    describe('/POST permissions', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .post('/permissions')
+                .send(payload)
+                .end((err, res) => {
+                    res.should.have.status(401)
                     done()
                 })
         })
-     })
-
-     describe('/POST modules', () => {
-         it('it should NOT be able to consume the route since no token was sent', (done) => {
-             chai
-                 .request(server)
-                 .post('/modules')
-                 .send(payload)
-                 .end((err, res) => {
-                     res.should.have.status(401)
-                     done()
-                 })
-         })
-        it('it should NOT POST modules if data its empty', (done) => {
+        it('it should NOT POST permission if data its empty', (done) => {
             chai
                 .request(server)
-                .post('/modules')
+                .post('/permissions')
                 .set('Authorization', `Bearer ${token}`)
                 .send({})
                 .end((err, res) => {
@@ -127,59 +128,43 @@ describe('*********** MODULES ***********', () => {
                     done()
                 })
         })
-        it('it should POST a modules', (done) => {
+        it('it should POST a permission', (done) => {
             chai
                 .request(server)
-                .post('/modules')
+                .post('/permissions')
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(201)
-                    res.body.should.be.an('object')
-                    res.body.should.include.keys('id','status','methods','icon','name','route','createdAt','updatedAt')
+                    res.body.should.be.a('object')
                     res.body.id.should.be.a('number')
+                    res.body.roleId.should.be.a('number')
+                    res.body.moduleId.should.be.a('number')
                     res.body.status.should.be.a('boolean')
                     res.body.methods.should.be.a('array')
-                    res.body.icon.should.be.a('string')
-                    res.body.name.should.be.a('string')
-                    res.body.route.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     createdID.push(res.body.id)
                     done()
                 })
         })
-        it('it should NOT POST a module with route that already exists', (done) => {
-            chai
-                .request(server)
-                .post('/modules')
-                .set('Authorization', `Bearer ${token}`)
-                .send(payload)
-                .end((err, res) => {
-                    res.should.have.status(400)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('string')
-                    done()
-                })
-        })
     })
 
-    describe('/GET/:id modules', () => {
+    describe('/GET/:id permission', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .get(`/modules/${id}`)
+                .get(`/permissions/${id}`)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should NOT GET a module if id is not exist', (done) => {
+        it('it should NOT GET a permission if id is not exist', (done) => {
             chai
                 .request(server)
-                .get('/modules/100')
+                .get('/permissions/100')
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(404)
@@ -189,22 +174,22 @@ describe('*********** MODULES ***********', () => {
                     done()
                 })
         })
-        it('it should GET a modules by the given id', (done) => {
+        it('it should GET a permission by the given id', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .get(`/modules/${id}`)
+                .get(`/permissions/${id}`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((error, res) => {
                     res.should.have.status(200)
-                    res.body.should.be.an('object')
-                    res.body.should.include.keys('id','status','methods','icon','name','route','createdAt','updatedAt')
+                    res.body.should.be.a('object')
                     res.body.id.should.be.a('number')
+                    res.body.roleId.should.be.a('number')
+                    res.body.moduleId.should.be.a('number')
                     res.body.status.should.be.a('boolean')
                     res.body.methods.should.be.a('array')
-                    res.body.icon.should.be.a('string')
-                    res.body.name.should.be.a('string')
-                    res.body.route.should.be.a('string')
+                    res.body.module.should.be.a('object')
+                    res.body.roleP.should.be.a('object')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     done()
@@ -212,85 +197,77 @@ describe('*********** MODULES ***********', () => {
         })
     })
 
-    describe('/PATCH/:id modules', () => {
+    describe('/PATCH/:id permissions', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .patch(`/modules/${id}`)
+                .patch(`/permissions/${id}`)
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should UPDATE a modules given the id', (done) => {
+        it('it should NOT PATCH permissions if data its empty', (done) => {
             const id = createdID[0]
-            payload.name = 'TEST'
-            const { route, ...data } = payload
             chai
                 .request(server)
-                .patch(`/modules/${id}`)
+                .patch(`/permissions/${id}`)
                 .set('Authorization', `Bearer ${token}`)
-                .send(data)
-                .end((error, res) => {
-                    res.should.have.status(201)
-                    res.body.should.be.an('object')
-                    res.body.should.include.keys('id','status','methods','icon','name','route','createdAt','updatedAt')
-                    res.body.id.should.be.a('number')
-                    res.body.status.should.be.a('boolean')
-                    res.body.methods.should.be.a('array')
-                    res.body.icon.should.be.a('string')
-                    res.body.name.should.be.a('string')
-                    res.body.route.should.be.a('string')
-                    res.body.createdAt.should.be.a('string')
-                    res.body.updatedAt.should.be.a('string')
-                    createdID.push(res.body.id)
-                    done()
-                })
-        })
-        it('it should NOT UPDATE a module with route that already exists', (done) => {
-            const id = createdID[0]
-            payload.route = '/users'
-            chai
-                .request(server)
-                .patch(`/modules/${id}`)
-                .set('Authorization', `Bearer ${token}`)
-                .send(payload)
+                .send({})
                 .end((err, res) => {
-                    res.should.have.status(400)
+                    res.should.have.status(422)
                     res.body.should.be.a('object')
                     res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('string')
+                    res.body.errors.msg.should.be.a('array')
+                    done()
+                })
+        })
+        it('it should UPDATE a permissions given the id', (done) => {
+            const id = createdID[0]
+            payload.status = false
+            chai
+                .request(server)
+                .patch(`/permissions/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(payload)
+                .end((error, res) => {
+                    res.should.have.status(201)
+                    res.body.should.be.a('object')
+                    res.body.id.should.be.a('number')
+                    res.body.roleId.should.be.a('number')
+                    res.body.moduleId.should.be.a('number')
+                    res.body.status.should.be.a('boolean')
+                    res.body.methods.should.be.a('array')
+                    res.body.createdAt.should.be.a('string')
+                    res.body.updatedAt.should.be.a('string')
                     done()
                 })
         })
     })
 
-
-    describe('/DELETE/:id modules', () => {
+    describe('/DELETE/:id permissions', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .delete('/modules/1')
+                .delete('/permissions/1')
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should DELETE a modules given the id', (done) => {
-            payload.name ="TEST2"
-            payload.route = '/test2'
+        it('it should DELETE a permissions given the id', (done) => {
             chai
                 .request(server)
-                .post('/modules')
+                .post('/permissions')
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(201)
                     chai
                         .request(server)
-                        .delete(`/modules/${res.body.id}`)
+                        .delete(`/permissions/${res.body.id}`)
                         .set('Authorization', `Bearer ${token}`)
                         .end((error, result) => {
                             result.should.have.status(200)
@@ -300,10 +277,9 @@ describe('*********** MODULES ***********', () => {
         })
     })
 
-
     after(() => {
         createdID.forEach((id) => {
-            modules.destroy({ where: { id } }).then()
+            permissions.destroy({ where: { id } }).then()
         })
     })
 })

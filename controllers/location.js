@@ -27,7 +27,7 @@ exports.getItems = async (req, res) => {
         db.saveEvent({userId: req.user.id, event: 'get_all_locations'})
         res.status(200).json(db.respOptions(data, query))
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -41,7 +41,7 @@ exports.getItem = async (req, res) => {
         const { user } = req
         const { id } = matchedData(req)
 
-        const data = await location.findOne(
+        location.findOne(
             {
                 where:{id:id}
         })

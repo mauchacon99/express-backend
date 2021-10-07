@@ -1,7 +1,6 @@
-const faker = require('faker')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const location = require('../models')
+const { roles } = require('../models')
 const server = require('../server')
 const should = chai.should()
 const loginDetails = {
@@ -10,21 +9,16 @@ const loginDetails = {
 }
 let token = ''
 const createdID = []
-const queryParams = 'fields=countryName&filter=Colombia'
+const queryParams = 'fields=name&filter=admin'
 
 const payload = {
-    userId: 1,
-    lat: '5.6545875',
-    lng: '-74.1009379',
-    address: 'Florida blanca calle 3 #',
-    cityName: 'Bucaramanga',
-    countryName: 'Colombia',
-    countryCode: 'co',
+    name: 'test',
+    description: 'This role its a test'
 }
 
 chai.use(chaiHttp)
 
-describe('*********** PHONES ***********', () => {
+describe('*********** ROLES ***********', () => {
     describe('/POST login', () => {
         it('it should GET token', (done) => {
             chai
@@ -44,20 +38,20 @@ describe('*********** PHONES ***********', () => {
         })
     })
 
-    describe('/GET locations', () => {
+    describe('/GET roles', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .get('/locations')
+                .get('/roles')
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should GET all the locations', (done) => {
+        it('it should GET all roles', (done) => {
             chai
                 .request(server)
-                .get('/locations')
+                .get('/roles')
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(200)
@@ -68,23 +62,18 @@ describe('*********** PHONES ***********', () => {
                     res.body.page.should.be.a('number')
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].id.should.be.a('number')
-                    res.body.docs[0].userId.should.be.a('number')
-                    res.body.docs[0].lat.should.be.a('string')
-                    res.body.docs[0].lng.should.be.a('string')
-                    res.body.docs[0].address.should.be.a('string')
-                    res.body.docs[0].cityName.should.be.a('string')
-                    res.body.docs[0].countryName.should.be.a('string')
-                    res.body.docs[0].countryCode.should.be.a('string')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].description.should.be.a('string')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
                     done()
                 })
         })
 
-        it('it should GET the users with filters', (done) => {
+        it('it should GET the roles with filters', (done) => {
             chai
                 .request(server)
-                .get(`/locations?${queryParams}`)
+                .get(`/roles?${queryParams}`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(200)
@@ -95,13 +84,8 @@ describe('*********** PHONES ***********', () => {
                     res.body.page.should.be.a('number')
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].id.should.be.a('number')
-                    res.body.docs[0].userId.should.be.a('number')
-                    res.body.docs[0].lat.should.be.a('string')
-                    res.body.docs[0].lng.should.be.a('string')
-                    res.body.docs[0].address.should.be.a('string')
-                    res.body.docs[0].cityName.should.be.a('string')
-                    res.body.docs[0].countryName.should.be.a('string')
-                    res.body.docs[0].countryCode.should.be.a('string')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].description.should.be.a('string')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
 |                   done()
@@ -109,11 +93,21 @@ describe('*********** PHONES ***********', () => {
         })
     })
 
-    describe('/POST locations', () => {
-        it('it should NOT POST locations if data its empty', (done) => {
+    describe('/POST roles', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .post('/locations')
+                .post('/roles')
+                .send(payload)
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should NOT POST roles if data its empty', (done) => {
+            chai
+                .request(server)
+                .post('/roles')
                 .set('Authorization', `Bearer ${token}`)
                 .send({})
                 .end((err, res) => {
@@ -124,72 +118,62 @@ describe('*********** PHONES ***********', () => {
                     done()
                 })
         })
-        it('it should POST a locations', (done) => {
+        it('it should POST a roles', (done) => {
             chai
                 .request(server)
-                .post('/locations')
+                .post('/roles')
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('id','userId','lat', 'lng', 'address', 'cityName', 'countryName', 'countryCode','createdAt','updatedAt')
                     res.body.id.should.be.a('number')
-                    res.body.userId.should.be.a('number')
-                    res.body.lat.should.be.a('string')
-                    res.body.lng.should.be.a('string')
-                    res.body.address.should.be.a('string')
-                    res.body.cityName.should.be.a('string')
-                    res.body.countryName.should.be.a('string')
-                    res.body.countryCode.should.be.a('string')
+                    res.body.name.should.be.a('string')
+                    res.body.description.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     createdID.push(res.body.id)
                     done()
                 })
         })
+    })
 
-
-
-        /*it('it should NOT POST a  with  that already exists', (done) => {
-            payload.lat = '9.6545875',
+    describe('/GET/:id roles', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            const id = createdID[0]
             chai
                 .request(server)
-                .post('/locations')
-                .set('Authorization', `Bearer ${token}`)
-                .send(payload)
+                .get(`/roles/${id}`)
                 .end((err, res) => {
-                    res.should.have.status(400)
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should NOT GET a roles if id is not exist', (done) => {
+            chai
+                .request(server)
+                .get('/roles/100')
+                .set('Authorization', `Bearer ${token}`)
+                .end((err, res) => {
+                    res.should.have.status(404)
                     res.body.should.be.a('object')
                     res.body.should.have.property('errors')
                     res.body.errors.msg.should.be.a('string')
                     done()
                 })
-        })*/
-    })
-
-
-
-    
-    describe('/GET/:id locations', () => {
-        it('it should GET a locations by the given id', (done) => {
-            const id = createdID.slice(-1).pop()
+        })
+        it('it should GET a roles by the given id', (done) => {
+            const id = createdID[0]
             chai
                 .request(server)
-                .get(`/locations/${id}`)
+                .get(`/roles/${id}`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('id','userId','lat', 'lng', 'address', 'cityName', 'countryName', 'countryCode','createdAt','updatedAt')
                     res.body.id.should.be.a('number')
-                    res.body.userId.should.be.a('number')
-                    res.body.lat.should.be.a('string')
-                    res.body.lng.should.be.a('string')
-                    res.body.address.should.be.a('string')
-                    res.body.cityName.should.be.a('string')
-                    res.body.countryName.should.be.a('string')
-                    res.body.countryCode.should.be.a('string')
+                    res.body.name.should.be.a('string')
+                    res.body.description.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     done()
@@ -197,66 +181,76 @@ describe('*********** PHONES ***********', () => {
         })
     })
 
-    
-    describe('/PATCH/:id locations', () => {
-        it('it should UPDATE a locations given the id', (done) => {
-            const id = createdID.slice(-1).pop()
-            console.log(id)
-            payload.lat = '9.6545875'
+    describe('/PATCH/:id roles', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            const id = createdID[0]
             chai
                 .request(server)
-                .patch(`/locations/${id}`)
-                .set('Authorization', `Bearer ${token}`)
+                .patch(`/roles/${id}`)
                 .send(payload)
-                .end((error, res) => {
-                    res.should.have.status(200)
-                    res.body.should.be.a('object')
-                    res.body.should.include.keys('id','userId','lat', 'lng', 'address', 'cityName', 'countryName', 'countryCode','createdAt','updatedAt')
-                    res.body.id.should.be.a('number')
-                    res.body.userId.should.be.a('number')
-                    res.body.lat.should.be.a('string')
-                    res.body.lng.should.be.a('string')
-                    res.body.address.should.be.a('string')
-                    res.body.cityName.should.be.a('string')
-                    res.body.countryName.should.be.a('string')
-                    res.body.countryCode.should.be.a('string')
-                    res.body.createdAt.should.be.a('string')
-                    res.body.updatedAt.should.be.a('string')
-                  
+                .end((err, res) => {
+                    res.should.have.status(401)
                     done()
                 })
         })
-      /*  it('it should NOT UPDATE a phones with email that already exists', (done) => {
-            const id = createdID.slice(-1).pop()
-            userSend.lat = '9.6545875'
+        it('it should NOT PATCH roles if data its empty', (done) => {
+            const id = createdID[0]
             chai
                 .request(server)
-                .patch(`/users/${id}`)
+                .patch(`/roles/${id}`)
                 .set('Authorization', `Bearer ${token}`)
-                .send(userSend)
+                .send({})
                 .end((err, res) => {
-                    res.should.have.status(400)
+                    res.should.have.status(422)
                     res.body.should.be.a('object')
                     res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('string')
+                    res.body.errors.msg.should.be.a('array')
                     done()
                 })
-        })*/
-    })
-
-    describe('/DELETE/:id locations', () => {
-        it('it should DELETE a locations given the id', (done) => {
-            payload.cityName ="Barranquilla" 
+        })
+        it('it should UPDATE a roles given the id', (done) => {
+            const id = createdID[0]
+            payload.name = 'test1'
             chai
                 .request(server)
-                .post('/locations')
+                .patch(`/roles/${id}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(payload)
+                .end((error, res) => {
+                    res.should.have.status(201)
+                    res.body.should.be.a('object')
+                    res.body.id.should.be.a('number')
+                    res.body.name.should.be.a('string')
+                    res.body.description.should.be.a('string')
+                    res.body.createdAt.should.be.a('string')
+                    res.body.updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+    })
+
+    describe('/DELETE/:id roles', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .delete('/roles/1')
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should DELETE a roles given the id', (done) => {
+            payload.name = 'tets'
+            chai
+                .request(server)
+                .post('/roles')
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(201)
                     chai
                         .request(server)
-                        .delete(`/locations/${res.body.id}`)
+                        .delete(`/roles/${res.body.id}`)
                         .set('Authorization', `Bearer ${token}`)
                         .end((error, result) => {
                             result.should.have.status(200)
@@ -267,8 +261,8 @@ describe('*********** PHONES ***********', () => {
     })
 
     after(() => {
-        createdID.forEach(async (id) => {
-            await location.destroy({ where: { id } })
+        createdID.forEach((id) => {
+            roles.destroy({ where: { id } }).then()
         })
     })
 })

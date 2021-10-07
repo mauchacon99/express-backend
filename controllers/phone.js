@@ -27,7 +27,7 @@ exports.getItems = async (req, res) => {
         db.saveEvent({userId: req.user.id, event: 'get_all_phones'})
         res.status(200).json(db.respOptions(data, query))
     } catch (error) {
-        utils.handleError(res, error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
 
@@ -41,10 +41,10 @@ exports.getItem = async (req, res) => {
         const { user } = req
         const { id } = matchedData(req)
 
-        const data = await phone.findOne({
+        phone.findOne({
             where:{id:id}
 
-         })
+        })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {

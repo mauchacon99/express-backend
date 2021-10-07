@@ -24,27 +24,23 @@ const requireAuth = passport.authenticate('jwt', {
  *      summary: "create new location for user"
  *      description: "create new location for user"
  *      responses:
- *        '200':
+ *        '201':
  *          description: "return location created"
- *        '404':
- *          description: "not found"
+ *        '400':
+ *          description: "Created failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "error validate"
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
- *
- *        - body: id
- *        - name: id
- *        - name: id
- *
- *          in: query
- *          description: ""
- *          required: true
- *          schema:
- *            type: number
- *            format: number
- *    responses:
- *      '200':
- *        description: "return location"
+ *        -  in: "body"
+ *           name: "body"
+ *           description: "parameters required to insert location"
+ *           required: true
+ *           schema:
+ *                $ref: "#/definitions/locations"
  */
 
 router.post(
@@ -67,10 +63,14 @@ router.post(
  *      responses:
  *        '200':
  *          description: "return location"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error validate"
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -79,9 +79,6 @@ router.post(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "return location"
  */
 router.get(
     '/:id',
@@ -102,12 +99,13 @@ router.get(
  *      description: "get all location. relations alias (userL)"
  *      responses:
  *        '200':
- *          description: "return location"
+ *          description: "return locations"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not founds"
- *    responses:
- *      '200':
- *        description: "return location"
+ *        '500':
+ *          description: "Internal server error."
  */
 router.get(
     '/',
@@ -126,12 +124,16 @@ router.get(
  *      summary: "update location for id"
  *      description: "search location and update"
  *      responses:
- *        '200':
- *          description: "return location updated."
- *        '404':
- *          description: "Not found"
+ *        '201':
+ *          description: "return location updated"
+ *        '400':
+ *          description: "Updated failed."
+ *        '401':
+ *          description: "Unauthorized."
  *        '422':
- *          description: "Validation error in any of the fields entered."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -142,13 +144,10 @@ router.get(
  *            format: number
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert location."
+ *           description: "parameters required to insert module."
  *           required: true
  *           schema:
- *
- *    responses:
- *      '200':
- *        description: "return location updated."
+ *                $ref: "#/definitions/locations"
  */
 router.patch(
     '/:id',
@@ -170,10 +169,14 @@ router.patch(
  *      responses:
  *        '200':
  *          description: "message deleted"
+ *        '401':
+ *          description: "Unauthorized."
  *        '404':
  *          description: "not found"
  *        '422':
- *          description: "error of validate."
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
  *      parameters:
  *        - name: id
  *          in: query
@@ -182,9 +185,6 @@ router.patch(
  *          schema:
  *            type: number
  *            format: number
- *    responses:
- *      '200':
- *        description: "message deleted"
  */
 router.delete(
     '/:id',

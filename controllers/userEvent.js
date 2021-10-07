@@ -11,8 +11,8 @@ const utils = require('../middleware/utils')
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const data = await userevents.findAll({
-            where:{ userId: id },
+        await userevents.findOne({
+            where:{ id },
             include: [
                 {
                     model: user,
