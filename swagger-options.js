@@ -83,7 +83,7 @@ const swaggerOptions = {
                 type: 'object',
                 required: ['id', 'password'],
                 properties: {
-                    id: { type: 'number' },
+                    id: { type: 'string' },
                     password: { type: 'string' }
                 }
             },

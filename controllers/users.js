@@ -2,6 +2,7 @@ const { matchedData } = require('express-validator')
 const {user, roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
+const emailer = require("../middleware/emailer");
 
 /********************
  * Public functions *
@@ -92,6 +93,7 @@ exports.updateItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
+        const locale = req.getLocale()
         const event = {
             userId: req.user.id,
             event: `new_user`
@@ -100,6 +102,7 @@ exports.createItem = async (req, res) => {
         req.verification = req.password + req.email
         const { dataValues } = await db.createItem(req, user, event)
         const { password, ...data} = dataValues
+        emailer.sendRegistrationEmailMessage(locale, dataValues)
         res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)

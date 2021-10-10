@@ -1,6 +1,7 @@
 const {matchedData} = require("express-validator");
 const { user } = require("../models");
 const utils = require("../middleware/utils");
+const emailer = require("../middleware/emailer")
 const auth = require('../middleware/auth')
 const db = require("../middleware/db");
 
@@ -40,7 +41,7 @@ const findForgotPassword = async (id) => {
     return new Promise((resolve, reject) => {
         user.findOne({
             where: {
-                id,
+                verification: id,
                 forgotPassword: true
             }
         })
@@ -103,7 +104,10 @@ const registerUser = async (req) => {
                 db.saveEvent({userId: item.id, event: 'new_user'})
                 resolve(item)
             })
-            .catch(() => reject(utils.buildErrObject(400, 'DONT_REGISTER')))
+            .catch((e) => {
+                console.log(e)
+                reject(utils.buildErrObject(400, 'DONT_REGISTER'))
+            })
     })
 }
 
@@ -118,14 +122,17 @@ const registerUser = async (req) => {
  */
 exports.register = async (req, res) => {
     try {
+        const locale = req.getLocale()
         req = matchedData(req)
         const item = await registerUser(req)
+        emailer.sendRegistrationEmailMessage(locale, item)
         res.status(201).json({
             token: auth.generateToken(item.id),
             user: auth.setUserInfo(item),
             permissions: await auth.getPermissions(item.roleId)
         })
-    } catch (error) {
+    } catch (e) {
+        console.log(e)
         utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
     }
 }
@@ -204,6 +211,7 @@ exports.verify = async (req, res) => {
  */
 exports.forgotPassword = async (req, res) => {
     try {
+        const locale = req.getLocale()
         const { email } = matchedData(req)
         const item = await findUserByEmail(email)
         if(!item.verified) utils.handleError(res,utils.buildErrObject(400, 'NOT_VERIFIED'))
@@ -214,6 +222,7 @@ exports.forgotPassword = async (req, res) => {
                 userId: item.id,
                 event: 'user_forgot_password'
             })
+            await emailer.sendResetPasswordEmailMessage(locale, item)
             res.status(200).json(auth.setUserInfo(result))
         }
     } catch (error) {
