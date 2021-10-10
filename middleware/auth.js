@@ -62,6 +62,8 @@ exports.setUserInfo = (item) => {
         // id: user.id,
         name: item.name,
         email: item.email,
+        verified: item.verified,
+        verification: item.verification,
         lastname: item.lastname,
         roleId: item.roleId
     }

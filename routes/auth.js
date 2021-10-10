@@ -102,4 +102,101 @@ router.post(
     controller.login
 )
 
+/**
+ * @swagger
+ * /verify:
+ *    post:
+ *      tags:
+ *        - auth
+ *      summary: "Verify email address"
+ *      description: "verify code via email"
+ *      responses:
+ *        '200':
+ *          description: "Return user"
+ *        '422':
+ *          description: "Fields do not meet validation."
+ *        '404':
+ *          description: "Error message of not verified or not found."
+ *        '500':
+ *          description: "Internal server error"
+ *    parameters:
+ *      -  in: "body"
+ *         name: "body"
+ *         description: "required parameters to verify email"
+ *         required: true
+ *         schema:
+ *            $ref: "#/definitions/authVerify"
+ */
+router.post(
+    '/verify',
+    trimRequest.all,
+    validate.verify,
+    controller.verify
+)
+
+/**
+ * @swagger
+ * /forgot:
+ *    post:
+ *      tags:
+ *        - auth
+ *      summary: "reset password requesting email only"
+ *      description: "reset password requesting email only"
+ *      responses:
+ *        '200':
+ *          description: "Return user"
+ *        '422':
+ *          description:  "Fields do not validate."
+ *        '404':
+ *          description: "Error message of not found."
+ *        '400':
+ *          description: "Not verified"
+ *        '500':
+ *          description: "Internal server error"
+ *    parameters:
+ *      -  in: "body"
+ *         name: "body"
+ *         description: "required parameters to reset password"
+ *         required: true
+ *         schema:
+ *            $ref: "#/definitions/authForgot"
+ */
+router.post(
+    '/forgot',
+    trimRequest.all,
+    validate.forgotPassword,
+    controller.forgotPassword
+)
+
+/**
+ * @swagger
+ * /reset:
+ *    post:
+ *      tags:
+ *        - auth
+ *      summary: "reassign password"
+ *      description: "reset password prompting for verification and password"
+ *      responses:
+ *        '200':
+ *          description: "Returns user."
+ *        '422':
+ *          description: "Fields do not meet validation."
+ *        '404':
+ *          description: "Not found user"
+ *        '500':
+ *          description: "Internal server error"
+ *    parameters:
+ *      -  in: "body"
+ *         name: "body"
+ *         description: "parameters required to reassign password to user"
+ *         required: true
+ *         schema:
+ *            $ref: "#/definitions/authReset"
+ */
+router.post(
+    '/reset',
+    trimRequest.all,
+    validate.resetPassword,
+    controller.resetPassword
+)
 module.exports = router

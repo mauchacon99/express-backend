@@ -210,7 +210,7 @@ exports.createItem = (req, model, event) => {
 
 /**
  * Updates an item in database by id
- * @param {string} id - item id
+ * @param {number} id - item id
  * @param {Object} model - model of db
  * @param {Object} req - request object
  * @param {Object} event - object { userId, event}

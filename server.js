@@ -7,6 +7,7 @@ const logger = require('morgan')
 const cors = require('cors')
 const passport = require('passport')
 const helmet = require('helmet')
+const i18n = require('i18n')
 
 const port = process.env.PORT || 3000
 
@@ -16,7 +17,14 @@ if (process.env.NODE_ENV === 'development') {
     app.use(logger('dev'))
 }
 
-require('./swagger-options')(app)
+require('./swagger-options')(app)// i18n
+i18n.configure({
+    locales: ['en', 'es'],
+    directory: `${__dirname}/locales`,
+    defaultLocale: 'en',
+    objectNotation: true
+})
+app.use(i18n.init)
 app.use(cors())
 app.use(compression())
 app.use(helmet())

@@ -30,6 +30,18 @@ module.exports = {
         unique: true,
         allowNull: false
       },
+      verification: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      forgotPassword: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
