@@ -269,7 +269,7 @@ describe('*********** AUTH ***********', () => {
                 .request(server)
                 .post('/reset')
                 .send({
-                    id: 3,
+                    id: verification,
                     password: '12345'
                 })
                 .end((err, res) => {
@@ -283,7 +283,7 @@ describe('*********** AUTH ***********', () => {
                 .request(server)
                 .post('/reset')
                 .send({
-                    id: 55,
+                    id: verification+'dfdfdf',
                     password: '12345'
                 })
                 .end((err, res) => {
