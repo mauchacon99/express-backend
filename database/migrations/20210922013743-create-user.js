@@ -13,6 +13,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      vendorId: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false
@@ -38,9 +42,18 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       forgotPassword: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+      },
+      avatar: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: process.cwd() + '/public/images/avatar.png',
       },
       createdAt: {
         allowNull: false,
