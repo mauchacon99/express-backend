@@ -5,6 +5,19 @@ const db = require('../middleware/db')
 const emailer = require("../middleware/emailer");
 
 /********************
+ * Private functions *
+ ********************/
+
+/**
+ * check if role is vendor
+ * @param {Object} item - response object
+ */
+const checkRoleVendor = async (item) => {
+    const data = await roles.findByPk(item.roleId)
+    return ( data.name === 'vendor' )
+}
+
+/********************
  * Public functions *
  ********************/
 
@@ -26,10 +39,9 @@ exports.getItems = async (req, res) => {
                 }
             ]
         })
-        db.saveEvent({userId: req.user.id, event: 'get_all_users'})
+        db.saveEvent({userId: req.user.id, event: 'get_all_users'}).then()
         res.status(200).json(db.respOptions(data, query))
     } catch (error) {
-        console.log(error)
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
@@ -94,11 +106,13 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         const locale = req.getLocale()
+        const userReq = req.user
         const event = {
-            userId: req.user.id,
+            userId: userReq.id,
             event: `new_user`
         }
         req = matchedData(req)
+        if (await checkRoleVendor(userReq)) req.vendor = userReq.id
         req.verification = req.password + req.email
         const { dataValues } = await db.createItem(req, user, event)
         const { password, ...data} = dataValues

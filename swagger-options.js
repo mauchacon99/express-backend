@@ -87,6 +87,16 @@ const swaggerOptions = {
                     password: { type: 'string' }
                 }
             },
+            places: {
+                type: 'object',
+                required: ['input'],
+                properties: {
+                    input: { type: 'string' }
+                },
+                example: {
+                    input: 'paris'
+                }
+            },
             users: {
                 type: 'object',
                 required: [

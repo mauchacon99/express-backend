@@ -45,6 +45,18 @@ module.exports = (sequelize, DataTypes) => {
         this.setDataValue('verification', bcrypt.hashSync(value, 10));
       }
     },
+    vendor: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     verified: DataTypes.BOOLEAN,
     forgotPassword: DataTypes.BOOLEAN,
     email: {

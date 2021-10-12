@@ -42,6 +42,18 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      vendor: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      avatar: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
