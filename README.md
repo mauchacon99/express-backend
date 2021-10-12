@@ -39,7 +39,7 @@ Role admin
 }
 ```
 
-Role coach
+Role coach individual
 ```json
 { 
     "email": "coach@coach.com",
@@ -47,6 +47,7 @@ Role coach
 }
 ```
 
+Role coach with vendor
 ```json
 { 
     "email": "coach1@coach.com",
