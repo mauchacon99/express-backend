@@ -47,5 +47,50 @@ Role coach
 }
 ```
 
+```json
+{ 
+    "email": "coach1@coach.com",
+    "password": "123456"
+}
+```
+
+```json
+{ 
+    "email": "coach2@coach.com",
+    "password": "123456"
+}
+```
+
+```json
+{ 
+    "email": "coach3@coach.com",
+    "password": "123456"
+}
+```
+
+Role vendor
+```json
+{ 
+    "email": "vendor@vendor.com",
+    "password": "123456"
+}
+```
+
+Role company
+```json
+{ 
+    "email": "company@company.com",
+    "password": "123456"
+}
+```
+
+Role personal
+```json
+{ 
+    "email": "personal@personal.com",
+    "password": "123456"
+}
+```
+
 Endpoints Documentation with swagger
 `http://localhost:3000/api-docs`

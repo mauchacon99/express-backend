@@ -25,6 +25,27 @@ module.exports = {
         description: 'role coach',
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        id: 3,
+        name: 'vendor',
+        description: 'role vendor',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 4,
+        name: 'company',
+        description: 'role company',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 5,
+        name: 'personal',
+        description: 'role personal',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ], {});
   },

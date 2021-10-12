@@ -7,8 +7,6 @@
 *.env
 
 #media files
-public/*
-!public/.gitkeep
 public/media/*
 !public/media/.gitkeep
 

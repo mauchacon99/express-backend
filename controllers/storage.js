@@ -8,7 +8,6 @@ const multer = require('multer')
 const db = require('../middleware/db')
 const { storage } = require('../models')
 const utils = require('../middleware/utils')
-const mime = require("mime");
 
 const router = 'public/media/'
 
@@ -64,11 +63,11 @@ const loadInS3Images = (file) => new Promise(async (resolve) => {
 
 const otherType = (file = {}) => new Promise(async (resolve) => {
     const ext = path.extname(file.filename)
-    const fileName = `${cryptoRandomString({ length: 3 })}-${slugify(file.filename)}`
+    // const fileName = `${cryptoRandomString({ length: 3 })}-${slugify(file.filename)}`
     resolve({
-        fileName,
+        fileName: file.filename,
         fileType: ext,
-        originPath: await storageUploadMedia(fileName)
+        origin: await storageUploadMedia(file.filename)
     })
 })
 
@@ -157,7 +156,6 @@ exports.createItem = async (req, res) => {
                 } else {
                     objectFile = await otherType(file)
                 }
-                console.log(file)
                 return await db.createItem(objectFile, storage, event)
             })
         )
