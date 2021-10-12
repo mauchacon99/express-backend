@@ -40,7 +40,7 @@ const swaggerOptions = {
                     'name',
                     'email',
                     'password',
-                    'roleId'
+                    'roleId',
                 ],
                 properties: {
                     name: { type: 'string' },
@@ -48,13 +48,17 @@ const swaggerOptions = {
                     password: { type: 'string' },
                     roleId: { type: 'number' },
                     lastname: { type: 'string' },
+                    avatar: { type: 'string' },
+                    description: { type: 'string' },
                 },
                 example: {
                     name: 'user',
                     email: 'user1@user.com',
                     password: '123456',
                     roleId: 2,
-                    lastname: "test"
+                    lastname: "test",
+                    avatar: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/OOjs_UI_icon_userAvatar-constructive.svg/1024px-OOjs_UI_icon_userAvatar-constructive.svg.png",
+                    description: "Tempor est non dolore occaecat cupidatat."
                 }
             },
             authLogin: {
