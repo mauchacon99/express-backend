@@ -56,6 +56,10 @@ exports.updateItem = [
         .withMessage('IS_EMPTY'),
     check('lastname')
         .optional(),
+    check('description')
+        .optional(),
+    check('storageId')
+        .optional(),
     check('roleId')
         .exists()
         .withMessage('MISSING')

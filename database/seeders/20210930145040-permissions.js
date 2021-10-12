@@ -69,6 +69,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 1,
+        moduleId: 8,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 2 = coach
       {
@@ -116,6 +124,14 @@ module.exports = {
         moduleId: 7,
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 8,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete']),
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -8,6 +8,7 @@ const multer = require('multer')
 const db = require('../middleware/db')
 const { storage } = require('../models')
 const utils = require('../middleware/utils')
+const mime = require("mime");
 
 const router = 'public/media/'
 
@@ -156,7 +157,7 @@ exports.createItem = async (req, res) => {
                 } else {
                     objectFile = await otherType(file)
                 }
-                console.log(objectFile)
+                console.log(file)
                 return await db.createItem(objectFile, storage, event)
             })
         )

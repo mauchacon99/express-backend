@@ -46,8 +46,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true
       },
-      avatar: {
-        type: Sequelize.STRING,
+      storageId: {
+        type: Sequelize.INTEGER,
         allowNull: true
       },
       description: {

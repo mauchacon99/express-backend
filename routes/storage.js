@@ -68,13 +68,12 @@ router.get(
  */
 router.post(
     '/',
-    // requireAuth,
+    requireAuth,
+    permissions.roleAuthorization(),
     trimRequest.all,
     controller.upload.array('files[]'),
-    // validate.createItem,
     controller.createItem
 )
-
 
 /**
  * @swagger

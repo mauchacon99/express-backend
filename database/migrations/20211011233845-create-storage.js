@@ -8,9 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
-      },
       fileName: {
         type: Sequelize.STRING
       },
@@ -27,9 +24,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       large: {
-        type: Sequelize.STRING
-      },
-      mimetype: {
         type: Sequelize.STRING
       },
       createdAt: {

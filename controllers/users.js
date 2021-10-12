@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const {user, roles} = require('../models')
+const { user, roles, storage } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 const emailer = require("../middleware/emailer");
@@ -36,6 +36,10 @@ exports.getItems = async (req, res) => {
                 {
                     model: roles,
                     as: 'roleU'
+                },
+                {
+                    model: storage,
+                    as: 'avatar'
                 }
             ]
         })
@@ -62,6 +66,10 @@ exports.getItem = (req, res) => {
                 {
                     model: roles,
                     as: 'roleU'
+                },
+                {
+                    model: storage,
+                    as: 'avatar'
                 }
             ]
         })

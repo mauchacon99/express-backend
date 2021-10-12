@@ -11,17 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.user, {as: 'avatar', foreignKey: 'storageId'})
     }
   };
   storage.init({
-    name: DataTypes.STRING,
     fileName: DataTypes.STRING,
     fileType: DataTypes.STRING,
     origin: DataTypes.STRING,
     small: DataTypes.STRING,
     medium: DataTypes.STRING,
-    large: DataTypes.STRING,
-    mimetype: DataTypes.STRING
+    large: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'storage',

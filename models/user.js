@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.phone, {as: 'userP', foreignKey: 'userId'})
       this.hasMany(models.userevents, {as: 'userE', foreignKey: 'userId'})
       this.belongsTo(models.roles, {as: 'roleU', foreignKey: 'roleId'})
+      this.belongsTo(models.storage, {as: 'avatar', foreignKey: 'storageId'})
     }
   }
   user.init({
@@ -49,8 +50,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    avatar: {
-      type: DataTypes.STRING,
+    storageId: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     description: {

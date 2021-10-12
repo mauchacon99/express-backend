@@ -29,6 +29,7 @@ app.use(cors())
 app.use(compression())
 app.use(helmet())
 app.use(passport.initialize())
+app.use(express.static('public'))
 app.use(express.json())
 
 app.set('port', port)
