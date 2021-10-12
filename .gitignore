@@ -10,6 +10,7 @@
 public/media/*
 !public/media/.gitkeep
 
+yarn.lock
 
 # test directories
 .nyc_output
