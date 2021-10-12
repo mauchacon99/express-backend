@@ -26,10 +26,10 @@ fs.readdirSync(routesPath).filter((file) => {
 })
 
 /*
- * Setup routes for index
+ * Setup routes for documentation
  */
 router.get('/', (req, res) => {
-    res.render('index')
+    res.redirect('/api-docs');
 })
 
 /*
