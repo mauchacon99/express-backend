@@ -81,6 +81,16 @@ module.exports = {
         route: '/locations',
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        id: 8,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete']),
+        icon: null,
+        name: 'Storage',
+        route: '/storage',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ], {});
   },

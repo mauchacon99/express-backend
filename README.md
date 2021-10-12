@@ -39,10 +39,56 @@ Role admin
 }
 ```
 
-Role coach
+Role coach individual
 ```json
 { 
     "email": "coach@coach.com",
+    "password": "123456"
+}
+```
+
+Role coach with vendor
+```json
+{ 
+    "email": "coach1@coach.com",
+    "password": "123456"
+}
+```
+
+```json
+{ 
+    "email": "coach2@coach.com",
+    "password": "123456"
+}
+```
+
+```json
+{ 
+    "email": "coach3@coach.com",
+    "password": "123456"
+}
+```
+
+Role vendor
+```json
+{ 
+    "email": "vendor@vendor.com",
+    "password": "123456"
+}
+```
+
+Role company
+```json
+{ 
+    "email": "company@company.com",
+    "password": "123456"
+}
+```
+
+Role personal
+```json
+{ 
+    "email": "personal@personal.com",
     "password": "123456"
 }
 ```

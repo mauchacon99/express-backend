@@ -6,6 +6,12 @@
 .env
 *.env
 
+#media files
+public/media/*
+!public/media/.gitkeep
+
+yarn.lock
+
 # test directories
 .nyc_output
 /mochawesome-report

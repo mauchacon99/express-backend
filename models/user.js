@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.phone, {as: 'userP', foreignKey: 'userId'})
       this.hasMany(models.userevents, {as: 'userE', foreignKey: 'userId'})
       this.belongsTo(models.roles, {as: 'roleU', foreignKey: 'roleId'})
+      this.belongsTo(models.storage, {as: 'avatar', foreignKey: 'storageId'})
     }
   }
   user.init({
@@ -45,13 +46,25 @@ module.exports = (sequelize, DataTypes) => {
         this.setDataValue('verification', bcrypt.hashSync(value, 10));
       }
     },
+    vendor: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    storageId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     verified: DataTypes.BOOLEAN,
     forgotPassword: DataTypes.BOOLEAN,
     email: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false
-    }
+    },
   }, {
     sequelize,
     modelName: 'user',

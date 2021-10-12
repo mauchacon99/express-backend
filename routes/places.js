@@ -13,19 +13,17 @@ const requireAuth = passport.authenticate('jwt', {
 
 /**
  * @swagger
- * /login:
+ * /places:
  *    post:
  *      tags:
- *        - auth
- *      summary: "login"
- *      description: "access to application"
+ *        - Google places
+ *      summary: "Google places"
+ *      description: "get address from input"
  *      responses:
  *        '202':
- *          description: "Return user, token and permissions."
- *        '403':
- *          description: "Wrong password."
+ *          description: "Return get address from input"
  *        '404':
- *          description: "User does not exist."
+ *          description: "Not found place"
  *        '422':
  *          description: "fields do not meet validation."
  *        '500':
@@ -33,10 +31,10 @@ const requireAuth = passport.authenticate('jwt', {
  *    parameters:
  *      -  in: "body"
  *         name: "body"
- *         description: "parameters required to login"
+ *         description: "parameters required to search places"
  *         required: true
  *         schema:
- *            $ref: "#/definitions/authLogin"
+ *            $ref: "#/definitions/places"
  */
 router.post(
     '/',

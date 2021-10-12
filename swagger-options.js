@@ -40,7 +40,7 @@ const swaggerOptions = {
                     'name',
                     'email',
                     'password',
-                    'roleId'
+                    'roleId',
                 ],
                 properties: {
                     name: { type: 'string' },
@@ -48,13 +48,15 @@ const swaggerOptions = {
                     password: { type: 'string' },
                     roleId: { type: 'number' },
                     lastname: { type: 'string' },
+                    description: { type: 'string' },
                 },
                 example: {
                     name: 'user',
                     email: 'user1@user.com',
                     password: '123456',
                     roleId: 2,
-                    lastname: "test"
+                    lastname: "test",
+                    description: "Tempor est non dolore occaecat cupidatat."
                 }
             },
             authLogin: {
@@ -85,6 +87,16 @@ const swaggerOptions = {
                 properties: {
                     id: { type: 'string' },
                     password: { type: 'string' }
+                }
+            },
+            places: {
+                type: 'object',
+                required: ['input'],
+                properties: {
+                    input: { type: 'string' }
+                },
+                example: {
+                    input: 'paris'
                 }
             },
             users: {
