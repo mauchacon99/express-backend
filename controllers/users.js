@@ -42,13 +42,11 @@ exports.getItems = async (req, res) => {
             include: [
                 {
                     model: roles,
-                    as: 'roleU',
-                    required: false
+                    as: 'roleU'
                 },
                 {
                     model: storage,
-                    as: 'avatar',
-                    required: false
+                    as: 'avatar'
                 }
             ]
         })
