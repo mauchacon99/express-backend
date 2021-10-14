@@ -3,6 +3,7 @@ const { user, roles, storage, phone, location } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 const emailer = require("../middleware/emailer");
+const {Sequelize} = require("sequelize");
 
 /********************
  * Private functions *
@@ -31,29 +32,30 @@ exports.getItems = async (req, res) => {
         const query = await db.checkQuery(req.query)
         const data = await user.findAndCountAll({
             ...query,
-            attributes: { exclude: ['password'] },
+            attributes:  {
+                exclude: ['password'],
+                include: [
+                    [Sequelize.literal("(SELECT phones.internationalNumber FROM phones WHERE (phones.userId = user.id) LIMIT 1 )"), "phone"],
+                    [Sequelize.literal("(SELECT locations.address FROM locations WHERE (locations.userId = user.id) LIMIT 1 )"), "address"]
+                ]
+            },
             include: [
                 {
                     model: roles,
-                    as: 'roleU'
+                    as: 'roleU',
+                    required: false
                 },
                 {
                     model: storage,
-                    as: 'avatar'
-                },
-                {
-                    model: phone,
-                    as: 'userP'
-                },
-                {
-                    model: location,
-                    as: 'userL'
-                },
+                    as: 'avatar',
+                    required: false
+                }
             ]
         })
         db.saveEvent({userId: req.user.id, event: 'get_all_users'}).then()
         res.status(200).json(db.respOptions(data, query))
     } catch (error) {
+        console.log(error)
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }

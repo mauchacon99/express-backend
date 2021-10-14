@@ -105,7 +105,6 @@ const registerUser = async (req) => {
                 resolve(item)
             })
             .catch((e) => {
-                console.log(e)
                 reject(utils.buildErrObject(400, 'DONT_REGISTER'))
             })
     })
