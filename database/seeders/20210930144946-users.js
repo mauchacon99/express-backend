@@ -1,7 +1,7 @@
 'use strict';
 
 const faker = require('faker');
-const hashUtils = require('../../utils/hash_utils');
+const { sanitizeHash } = require('../../middleware/utils');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -24,7 +24,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'admin@admin.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Sunt aliqua sit ea velit aliqua nostrud anim labore.',
         forgotPassword: false,
@@ -40,7 +40,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'coach@coach.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Adipisicing sit ut est et proident officia reprehenderit aliqua.',
         forgotPassword: false,
@@ -56,7 +56,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'vendor@vendor.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Consectetur veniam occaecat anim culpa ipsum minim sint ex culpa.',
         forgotPassword: false,
@@ -72,7 +72,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'company@company.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Cupidatat dolor consequat occaecat Lorem cillum dolore excepteur irure exercitation est non reprehenderit mollit.',
         forgotPassword: false,
@@ -88,7 +88,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'personal@personal.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Veniam ex eiusmod officia commodo occaecat exercitation.',
         forgotPassword: false,
@@ -104,7 +104,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'coach1@coach.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Ut fugiat ex eiusmod irure adipisicing aute nisi commodo ut labore officia amet.',
         forgotPassword: false,
@@ -120,7 +120,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'coach2@coach.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Nulla aliquip consectetur nostrud officia aliqua ea Lorem aute occaecat quis eiusmod sunt.',
         forgotPassword: false,
@@ -136,7 +136,7 @@ module.exports = {
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'coach3@coach.com',
-        verification: hashUtils.sanitizeHash(faker.datatype.uuid()),
+        verification: sanitizeHash(faker.datatype.uuid()),
         verified: true,
         description: 'Minim dolor id incididunt sunt tempor est.',
         forgotPassword: false,
