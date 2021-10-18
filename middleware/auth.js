@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto')
-const { user, permissions, modules} = require("../models");
+const { user, permissions, modules, phone, location } = require("../models");
 const utils = require("../middleware/utils");
 
 const secret = process.env.JWT_SECRET
@@ -65,7 +65,9 @@ exports.setUserInfo = (item) => {
         verified: item.verified,
         verification: item.verification,
         lastname: item.lastname,
-        roleId: item.roleId
+        roleId: item.roleId,
+        userL: item.userL,
+        userP: item.userP,
     }
 }
 
@@ -125,7 +127,18 @@ exports.getUserIdFromToken = (token) => {
  */
 exports.findUserById = (id) => {
     return new Promise((resolve, reject) => {
-        user.findByPk(id)
+        user.findByPk(id, {
+            include: [
+                {
+                    model: phone,
+                    as: 'userP'
+                },
+                {
+                    model: location,
+                    as: 'userL'
+                },
+            ]
+        })
             .then((item) => {
                 if(!item)  reject(utils.buildErrObject(404, 'NOT_FOUND'))
                 else resolve(item)

@@ -3,6 +3,7 @@ const {
   Model
 } = require('sequelize');
 const bcrypt = require("bcrypt");
+const { sanitizeHash } = require('../middleware/utils');
 
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
@@ -43,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       set(value) {
-        this.setDataValue('verification', bcrypt.hashSync(value, 10));
+        this.setDataValue('verification', sanitizeHash(bcrypt.hashSync(value, 10)));
       }
     },
     vendor: {
