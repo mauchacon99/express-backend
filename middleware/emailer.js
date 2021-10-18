@@ -28,13 +28,6 @@ exports.sendResetPasswordEmailMessage = (locale = 'es', user = {}) => {
 exports.sendRegistrationEmailMessage = async (locale = '', user = {}) => {
     i18n.setLocale(locale)
     const subject = i18n.__('registration.SUBJECT')
-    /* const htmlMessage = i18n.__(
-        'registration.MESSAGE',
-        `${user.name} ${user.lastname}`,
-        process.env.FRONTEND_URL,
-        user.verification
-    ) */
-
     const htmlMessage = await parseHtml('emailVerification.html', user);
 
     prepareToSendEmail(user, subject, htmlMessage)
@@ -130,7 +123,7 @@ const parseHtml = (template, user) => {
             }
             
             if (user.verification) {
-                data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/verify/${user.verification}`)
+                data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.id}`)
             }
 
             resolve(data)
