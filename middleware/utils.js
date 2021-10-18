@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator')
+const slugify = require('slugify')
 
 /**
  * Removes extension from file
@@ -54,4 +55,18 @@ exports.validationResult = (req, res, next) => {
     } catch (err) {
         return this.handleError(res, this.buildErrObject(422, err.array()))
     }
+}
+
+/**
+ * Replaces special chars with (-)
+ * @function
+ * @param {String} hash
+ * @returns {String} sanitized hash
+ */
+exports.sanitizeHash = (hash) => {
+    const _regex = /[*+~.()'"!:@_]/g;
+
+    let _sanitizedHash = slugify(hash, {remove: _regex});
+
+    return _sanitizedHash;
 }

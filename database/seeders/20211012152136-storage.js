@@ -16,7 +16,7 @@ module.exports = {
     await queryInterface.bulkInsert('storages', [
       {
         id: 1,
-        fileName: `${faker.random.uuid()}.png`,
+        fileName: `${faker.datatype.uuid()}.png`,
         fileType: '.png',
         origin: `${process.env.API_URL}/media/origin_${faker.datatype.uuid()}.png`,
         small: `${process.env.API_URL}/media/small_${faker.datatype.uuid()}.png`,
