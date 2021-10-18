@@ -1,3 +1,4 @@
+const fs = require('fs')
 const nodemailer = require('nodemailer')
 const sgTransport = require('nodemailer-sendgrid-transport')
 const i18n = require('i18n')
@@ -24,15 +25,18 @@ exports.sendResetPasswordEmailMessage = (locale = 'es', user = {}) => {
  * @param {string} locale - locale
  * @param {Object} user - user object
  */
-exports.sendRegistrationEmailMessage = (locale = '', user = {}) => {
+exports.sendRegistrationEmailMessage = async (locale = '', user = {}) => {
     i18n.setLocale(locale)
     const subject = i18n.__('registration.SUBJECT')
-    const htmlMessage = i18n.__(
+    /* const htmlMessage = i18n.__(
         'registration.MESSAGE',
         `${user.name} ${user.lastname}`,
         process.env.FRONTEND_URL,
         user.verification
-    )
+    ) */
+
+    const htmlMessage = await parseHtml('emailVerification.html', user);
+
     prepareToSendEmail(user, subject, htmlMessage)
 }
 
@@ -105,4 +109,32 @@ const prepareToSendEmail = (user = {}, subject = '', htmlMessage = '') => {
             ? console.log(`(DEV) Email SENT to: ${user.email}`)
             : console.log(`(DEV) Email FAILED to: ${user.email}`)).then()
     }
+}
+
+const parseHtml = (template, user) => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(
+        `${__dirname}/../template/${template}`,
+        'utf8',
+        (err, data) => {
+            if (err) {
+                reject(err)
+                return
+            }
+            // VERIFIED
+            
+            data = data.replace(/USERNAME/g, `${user.name} ${user.lastname}`)
+            
+            if (user.front) {
+                data = data.replace(/FRONTEND_URL/g, user.front)
+            }
+            
+            if (user.verification) {
+                data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/verify/${user.verification}`)
+            }
+
+            resolve(data)
+        }
+      )
+    })
 }

@@ -140,7 +140,7 @@ exports.createItem = async (req, res) => {
         req.verification = req.password + req.email
         const { dataValues } = await db.createItem(req, user, event)
         const { password, ...data} = dataValues
-        emailer.sendRegistrationEmailMessage(locale, dataValues)
+        await emailer.sendRegistrationEmailMessage(locale, dataValues)
         res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)

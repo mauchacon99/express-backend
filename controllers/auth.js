@@ -124,7 +124,7 @@ exports.register = async (req, res) => {
         const locale = req.getLocale()
         req = matchedData(req)
         const item = await registerUser(req)
-        emailer.sendRegistrationEmailMessage(locale, item)
+        await emailer.sendRegistrationEmailMessage(locale, item)
         res.status(201).json({
             token: auth.generateToken(item.id),
             user: auth.setUserInfo(item),
