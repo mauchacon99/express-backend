@@ -64,9 +64,7 @@ exports.validationResult = (req, res, next) => {
  * @returns {String} sanitized hash
  */
 exports.sanitizeHash = (hash) => {
-    const _regex = /[*+~.()'"!:@_]/g;
+    const _regex = /[*+~.()'"!:@/_]/g;
 
-    let _sanitizedHash = slugify(hash, {remove: _regex});
-
-    return _sanitizedHash;
+    return slugify(hash, {remove: _regex});
 }

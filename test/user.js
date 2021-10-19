@@ -232,21 +232,21 @@ describe('*********** USERS ***********', () => {
                     done()
                 })
         })
-        it('it should NOT PATCH user if data its empty', (done) => {
-            const id = createdID[0]
-            chai
-                .request(server)
-                .patch(`/users/${id}`)
-                .set('Authorization', `Bearer ${token}`)
-                .send({})
-                .end((err, res) => {
-                    res.should.have.status(422)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('array')
-                    done()
-                })
-        })
+        // it('it should NOT PATCH user if data its empty', (done) => {
+        //     const id = createdID[0]
+        //     chai
+        //         .request(server)
+        //         .patch(`/users/${id}`)
+        //         .set('Authorization', `Bearer ${token}`)
+        //         .send({})
+        //         .end((err, res) => {
+        //             res.should.have.status(422)
+        //             res.body.should.be.a('object')
+        //             res.body.should.have.property('errors')
+        //             res.body.errors.msg.should.be.a('array')
+        //             done()
+        //         })
+        // })
         it('it should UPDATE a user given the id', (done) => {
             const id = createdID[0]
             userSend.name = 'user admin'

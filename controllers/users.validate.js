@@ -49,11 +49,7 @@ exports.createItem = [
  */
 exports.updateItem = [
     check('name')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('lastname')
         .optional(),
     check('description')
@@ -61,11 +57,7 @@ exports.updateItem = [
     check('storageId')
         .optional(),
     check('roleId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('email')
         .optional(),
     check('id')

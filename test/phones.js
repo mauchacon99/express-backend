@@ -317,9 +317,9 @@ describe('*********** PHONES ***********', () => {
         })
     })
 
-    after(() => {
-        createdID.forEach((id) => {
-            phone.destroy({ where: { id } }).then()
-        })
-    })
+    // after(() => {
+    //     createdID.forEach((id) => {
+    //         phone.destroy({ where: { id } }).then()
+    //     })
+    // })
 })
