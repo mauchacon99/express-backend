@@ -55,9 +55,7 @@ describe('*********** GOOGLE PLACES ***********', () => {
                     .send(payload)
                     .end((err, res) => {
                         res.should.have.status(200)
-                        res.body.should.be.a('object')
-                        res.body.predictions.should.be.a('array')
-                        res.body.status.should.be.a('string')
+                        res.body.should.be.a('array')
                         done()
                     })
             } else {

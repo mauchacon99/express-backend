@@ -21,7 +21,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.22.0",
     "bcrypt": "^5.0.1",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
@@ -33,6 +32,7 @@
     "dotenv-safe": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.12.1",
+    "google-places": "0.0.2",
     "helmet": "^4.6.0",
     "i18n": "^0.13.3",
     "jsonwebtoken": "^8.5.1",
