@@ -8,15 +8,11 @@ const i18n = require('i18n')
  * @param {string} locale - locale
  * @param {Object} user - user object
  */
-exports.sendResetPasswordEmailMessage = (locale = 'es', user = {}) => {
+exports.sendResetPasswordEmailMessage = async (locale = 'es', user = {}) => {
     i18n.setLocale(locale)
     const subject = i18n.__('forgotPassword.SUBJECT')
-    const htmlMessage = i18n.__(
-        'forgotPassword.MESSAGE',
-        user.email,
-        process.env.FRONTEND_URL,
-        user.verification
-    )
+
+    const htmlMessage = await parseHtml('forgotPassword.html', user);
     prepareToSendEmail(user, subject, htmlMessage)
 }
 
@@ -118,12 +114,13 @@ const parseHtml = (template, user) => {
             
             data = data.replace(/USERNAME/g, `${user.name} ${user.lastname}`)
             
-            if (user.front) {
-                data = data.replace(/FRONTEND_URL/g, user.front)
-            }
-            
             if (user.verification) {
                 data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
+                data = data.replace(/RESET_PASSWORD/g, `${process.env.FRONTEND_URL}/auth/reset/${user.verification}`)
+            }
+
+            if (user.email) {
+                data = data.replace(/USER_EMAIL/g, user.email)
             }
 
             resolve(data)
