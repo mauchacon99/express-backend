@@ -123,7 +123,7 @@ const parseHtml = (template, user) => {
             }
             
             if (user.verification) {
-                data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.id}`)
+                data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
             }
 
             resolve(data)
