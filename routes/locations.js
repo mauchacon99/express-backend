@@ -96,7 +96,7 @@ router.get(
  *      tags:
  *        - locations
  *      summary: "get all location"
- *      description: "get all location. relations alias (userL)"
+ *      description: "get all location. relations alias `userL`"
  *      responses:
  *        '200':
  *          description: "return locations"
