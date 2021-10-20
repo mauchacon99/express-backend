@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto')
-const { user, permissions, modules, phone, location } = require("../models");
+const { user, permissions, modules, phone, location, storage, roles } = require("../models");
 const utils = require("../middleware/utils");
 
 const secret = process.env.JWT_SECRET
@@ -69,6 +69,8 @@ exports.setUserInfo = (item) => {
         roleId: item.roleId,
         userL: item.userL,
         userP: item.userP,
+        roleU: item.roleU,
+        avatar: item.avatar
     }
 }
 
@@ -138,6 +140,14 @@ exports.findUserById = (id) => {
                     model: location,
                     as: 'userL'
                 },
+                {
+                    model: storage,
+                    as: 'avatar'
+                },
+                {
+                    model: roles,
+                    as: 'roleU'
+                }
             ]
         })
             .then((item) => {
