@@ -149,14 +149,16 @@ const swaggerOptions = {
                     status: { type: 'boolean' },
                     methods: { type: 'array' },
                     route: { type: 'string' },
-                    icon: { type: 'string' }
+                    icon: { type: 'string' },
+                    visible: { type: 'boolean' }
                 },
                 example: {
                     name: 'users',
                     status: true,
                     methods: ['get','post','delete','patch'],
                     route: '/users',
-                    icon: 'icon.svg'
+                    icon: 'icon.svg',
+                    visible: true,
                 }
             },
             permissions: {

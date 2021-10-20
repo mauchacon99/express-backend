@@ -18,6 +18,7 @@ const payload = {
     icon: "image.png",
     name: 'Test',
     route: '/test',
+    visible: true, 
 }
 
 
@@ -73,6 +74,7 @@ describe('*********** MODULES ***********', () => {
                     res.body.docs[0].route.should.be.a('string')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
+                    res.body.docs[0].visible.should.be.a('boolean')
                     done()
                 })
         })
@@ -97,6 +99,7 @@ describe('*********** MODULES ***********', () => {
                     res.body.docs[0].route.should.be.a('string')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
+                    res.body.docs[0].visible.should.be.a('boolean')
                     done()
                 })
         })
@@ -145,6 +148,7 @@ describe('*********** MODULES ***********', () => {
                     res.body.route.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
+                    res.body.visible.should.be.a('boolean')
                     createdID.push(res.body.id)
                     done()
                 })
@@ -207,6 +211,7 @@ describe('*********** MODULES ***********', () => {
                     res.body.route.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
+                    res.body.visible.should.be.a('boolean')
                     done()
                 })
         })
@@ -245,6 +250,7 @@ describe('*********** MODULES ***********', () => {
                     res.body.route.should.be.a('string')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
+                    res.body.visible.should.be.a('boolean')
                     createdID.push(res.body.id)
                     done()
                 })

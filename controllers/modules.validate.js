@@ -31,6 +31,8 @@ exports.createItem = [
         .withMessage('IS_EMPTY'),
     check('icon')
         .optional(),
+    check('visible')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }

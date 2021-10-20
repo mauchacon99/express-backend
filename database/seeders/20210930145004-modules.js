@@ -21,6 +21,7 @@ module.exports = {
         route: '/modules',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       },
       {
         id: 2,
@@ -31,6 +32,7 @@ module.exports = {
         route: '/users',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       },
       {
         id: 3,
@@ -41,6 +43,7 @@ module.exports = {
         route: '/permissions',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       },
       {
         id: 4,
@@ -51,6 +54,7 @@ module.exports = {
         route: '/phones',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       },
       {
         id: 5,
@@ -61,6 +65,7 @@ module.exports = {
         route: '/roles',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       },
       {
         id: 6,
@@ -71,6 +76,7 @@ module.exports = {
         route: '/events',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       },
       {
         id: 7,
@@ -81,6 +87,7 @@ module.exports = {
         route: '/locations',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       },
       {
         id: 8,
@@ -91,6 +98,7 @@ module.exports = {
         route: '/storage',
         createdAt: new Date(),
         updatedAt: new Date(),
+        visible: true,
       }
     ], {});
   },
