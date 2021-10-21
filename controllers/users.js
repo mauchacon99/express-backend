@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const { matchedData } = require('express-validator')
 const { user, roles, storage, phone, location } = require('../models')
 const utils = require('../middleware/utils')
@@ -137,10 +138,12 @@ exports.createItem = async (req, res) => {
         }
         req = matchedData(req)
         if (await checkRoleVendor(userReq)) req.vendor = userReq.id
-        req.verification = req.password + req.email
-        const { dataValues } = await db.createItem(req, user, event)
-        const { password, ...data} = dataValues
+        const password = crypto.randomBytes(4).toString('hex')
+        req.verification = password + req.email
+        const { dataValues } = await db.createItem({ ...req, password }, user, event)
+        const { ...data } = dataValues
         emailer.sendRegistrationEmailMessage(locale, dataValues)
+        emailer.sendPasswordEmailMessage(locale, { ...dataValues, password })
         res.status(201).json(data)
     } catch (error) {
         utils.handleError(res, error)
