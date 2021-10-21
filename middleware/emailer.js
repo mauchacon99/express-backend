@@ -30,6 +30,19 @@ exports.sendRegistrationEmailMessage = async (locale = '', user = {}) => {
 }
 
 /**
+ * Sends user password email
+ * @param {string} locale - locale
+ * @param {Object} user - user object
+ */
+exports.sendPasswordEmailMessage = async (locale = '', user = {}) => {
+    i18n.setLocale(locale)
+    const subject = i18n.__('password.SUBJECT')
+    const htmlMessage = await parseHtml('password.html', user);
+
+    prepareToSendEmail(user, subject, htmlMessage)
+}
+
+/**
  * Sends email
  * @param {Object} data - data
  * @param {function} callback - callback
@@ -111,17 +124,22 @@ const parseHtml = (template, user) => {
                 return
             }
             // VERIFIED
-            
-            data = data.replace(/USERNAME/g, `${user.name} ${user.lastname}`)
-            
+            data = data.replace(/USERNAME/, `${user.name} ${user.lastname}`)
+
             if (user.verification) {
-                data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
-                data = data.replace(/RESET_PASSWORD/g, `${process.env.FRONTEND_URL}/auth/reset/${user.verification}`)
+                data = data.replace(/VERIFICATION/, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
+                data = data.replace(/RESET_PASSWORD/, `${process.env.FRONTEND_URL}/auth/reset/${user.verification}`)
             }
 
             if (user.email) {
-                data = data.replace(/USER_EMAIL/g, user.email)
+                data = data.replace(/USER_EMAIL/, user.email)
             }
+
+            if (user.password) {
+                data = data.replace(/USER_PASSWORD/, user.password)
+            }
+
+            data = data.replace(/LOGIN/, `${process.env.FRONTEND_URL}/auth/login`)
 
             resolve(data)
         }

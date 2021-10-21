@@ -104,20 +104,17 @@ const swaggerOptions = {
                 required: [
                     'name',
                     'email',
-                    'password',
                     'roleId'
                 ],
                 properties: {
                     name: { type: 'string' },
                     email: { type: 'string' },
-                    password: { type: 'string' },
                     roleId: { type: 'number' },
                     lastname: { type: 'string' },
                 },
                 example: {
                     name: 'user',
                     email: 'user1@user.com',
-                    password: '123456',
                     roleId: 2,
                     lastname: "test"
                 }
