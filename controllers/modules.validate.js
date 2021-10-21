@@ -62,6 +62,8 @@ exports.updateItem = [
         .withMessage('IS_EMPTY'),
     check('route')
         .optional(),
+    check('visible')
+        .optional(),
     check('icon')
         .optional(),
     check('id')

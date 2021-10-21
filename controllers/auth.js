@@ -131,7 +131,6 @@ exports.register = async (req, res) => {
             permissions: await auth.getPermissions(item.roleId)
         })
     } catch (e) {
-        console.log(e)
         utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
     }
 }

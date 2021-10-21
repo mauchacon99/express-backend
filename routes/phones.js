@@ -97,7 +97,7 @@ router.get(
  *      tags:
  *        - phones
  *      summary: "get all phones with any filter "
- *      description: "get all phones. relations alias (userP)"
+ *      description: "get all phones. relations alias `userP`"
  *      responses:
  *        '200':
  *          description: "return phones"

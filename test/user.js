@@ -15,7 +15,6 @@ const userSend = {
     name: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
-    password: faker.random.words(8),
     roleId: 2
 }
 

@@ -99,7 +99,11 @@ router.get(
  *      tags:
  *        - users
  *      summary: "get all users"
- *      description: "get all users. relations alias (roleU)"
+ *      description: "
+ *          get all users. \n
+ *          relations alias `roleU` \n
+ *          to get users by vendor and with query params filter add `?vendor=true` this return coaches assigns to vendor
+ *          "
  *      responses:
  *        '200':
  *          description: "return users"

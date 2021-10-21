@@ -30,7 +30,7 @@ const checkRoleVendor = async (item) => {
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQuery(req.query)
+        const query = await db.checkQueryUser(req.query, req.user)
         const data = await user.findAndCountAll({
             ...query,
             attributes:  {

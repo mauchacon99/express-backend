@@ -14,7 +14,7 @@
     "clean-all": "npm run clean-seed && npm run clean-migrations",
     "fulldb": "npm run migrate && npm run seed",
     "fresh": "npm run clean-all && npm run fulldb",
-    "mocha": "cross-env NODE_ENV=test nyc --reporter=html mocha --timeout=15000 --exit --reporter mochawesome",
+    "mocha": "cross-env NODE_ENV=test nyc --reporter=html mocha --timeout=20000 --exit --reporter mochawesome",
     "test": "npm run fresh && npm run mocha"
   },
   "keywords": [],
