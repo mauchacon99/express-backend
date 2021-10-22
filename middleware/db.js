@@ -127,6 +127,36 @@ exports.checkQueryString= (query) => {
     })
 }
 
+exports.checkQueryUser = async (query, user) => {
+    let queryAnd = [
+        { roleId: { [Op.ne]: 1 } }
+    ]
+    if(query.vendor && user.roleId === 3) {
+        const {vendor, ...queryParams} = query
+        queryAnd = [
+            ...queryAnd,
+            {vendor: user.id}
+        ]
+        query = queryParams
+    } else if(user.roleId === 1) queryAnd =[]
+    const queryRelations = await checkQueryStringRelations(query)
+    const queryFields = await this.checkQueryString(query)
+    let data = []
+    if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
+    if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(query),
+            where: {
+                [Op.or]: data,
+                [Op.and]: queryAnd,
+            }
+        }
+    }
+    return { ...await listInitOptions(query) }
+
+}
+
 /**
  * Parse all checks
  * @param {Object} query - query
