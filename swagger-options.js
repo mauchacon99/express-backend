@@ -170,13 +170,15 @@ const swaggerOptions = {
                     roleId: { type: 'number' },
                     moduleId: { type: 'number' },
                     status: { type: 'boolean' },
-                    methods: { type: 'array' }
+                    methods: { type: 'array' },
+                    visible: { type: 'boolean' }
                 },
                 example: {
                     roleId: 1,
                     moduleId: 2,
                     status: true,
-                    methods: ['get','post','delete','patch']
+                    methods: ['get','post','delete','patch'],
+                    visible: true,
                 }
             },
             locations: {

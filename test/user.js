@@ -260,7 +260,7 @@ describe('*********** USERS ***********', () => {
         it('it should UPDATE a user given the id', (done) => {
             const id = createdID[0]
             userSend.name = 'user admin'
-            const { password, email, ...data } = userSend
+            const { email, ...data } = userSend
             chai
                 .request(server)
                 .patch(`/users/${id}`)
