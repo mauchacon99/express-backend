@@ -15,7 +15,8 @@ const payload = {
     status: true,
     methods: ["get", "post", "delete", "patch"],
     roleId: 1,
-    moduleId: 1
+    moduleId: 1,
+    visible: true,
 }
 
 chai.use(chaiHttp)
@@ -72,6 +73,7 @@ describe('*********** PERMISSIONS ***********', () => {
                     res.body.docs[0].roleP.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
+                    res.body.docs[0].visible.should.be.a('boolean')
                     done()
                 })
         })
@@ -98,6 +100,7 @@ describe('*********** PERMISSIONS ***********', () => {
                     res.body.docs[0].roleP.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
+                    res.body.docs[0].visible.should.be.a('boolean')
 |                   done()
                 })
         })
@@ -144,6 +147,7 @@ describe('*********** PERMISSIONS ***********', () => {
                     res.body.methods.should.be.a('array')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
+                    res.body.visible.should.be.a('boolean')
                     createdID.push(res.body.id)
                     done()
                 })
@@ -192,6 +196,7 @@ describe('*********** PERMISSIONS ***********', () => {
                     res.body.roleP.should.be.a('object')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
+                    res.body.visible.should.be.a('boolean')
                     done()
                 })
         })
@@ -242,6 +247,7 @@ describe('*********** PERMISSIONS ***********', () => {
                     res.body.methods.should.be.a('array')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
+                    res.body.visible.should.be.a('boolean')
                     done()
                 })
         })

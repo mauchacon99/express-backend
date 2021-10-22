@@ -36,6 +36,11 @@ module.exports = (sequelize, DataTypes) => {
         return this.setDataValue('methods', JSON.stringify(value));
       }
     },
+    visible: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   }, {
     sequelize,
     modelName: 'permissions',
