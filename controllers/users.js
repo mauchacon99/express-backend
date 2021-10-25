@@ -144,7 +144,11 @@ exports.createItem = async (req, res) => {
         const { ...data } = dataValues
         emailer.sendRegistrationEmailMessage(locale, dataValues)
         emailer.sendPasswordEmailMessage(locale, { ...dataValues, password })
-        res.status(201).json(data)
+        res.status(201).json({
+            ...data,
+            skills: JSON.parse(data.skills || '[]'),
+            preferences: JSON.parse(data.preferences || '[]'),
+        })
     } catch (error) {
         utils.handleError(res, error)
     }

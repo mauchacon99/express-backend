@@ -111,12 +111,16 @@ const swaggerOptions = {
                     email: { type: 'string' },
                     roleId: { type: 'number' },
                     lastname: { type: 'string' },
+                    skills: { type: 'array' },
+                    preferences: { type: 'array' },
                 },
                 example: {
                     name: 'user',
                     email: 'user1@user.com',
                     roleId: 2,
-                    lastname: "test"
+                    lastname: "test",
+                    skills: ['skill1', 'skill2'],
+                    preferences: ['pref1', 'pref2'],
                 }
             },
             roles: {
