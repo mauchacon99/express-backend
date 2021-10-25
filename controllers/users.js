@@ -19,6 +19,21 @@ const checkRoleVendor = async (item) => {
     return ( data.name === 'vendor' )
 }
 
+
+/**
+ * check if role is vendor
+ * @param {number} id - response object
+ * @param {number} userId - response object
+ */
+const deleteVendor = async (id, userId) => {
+    const event = {
+        userId,
+        event: `unsubscribe_coach_${id}`
+    }
+    const item = {vendor: null}
+    await db.updateItem(id, user, item, event)
+}
+
 /********************
  * Public functions *
  ********************/
@@ -161,8 +176,15 @@ exports.deleteItem = async (req, res) => {
             userId: req.user.id,
             event: `delete_user`
         }
+        const userLog = req.user
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, user, event))
+        const resp = {message: 'deleted'}
+        if(userLog.roleId === 3) {
+            await deleteVendor(id, userLog.id)
+        } else {
+            await db.deleteItem(id, user, event)
+        }
+        res.status(200).json(resp)
     } catch (error) {
         utils.handleError(res, error)
     }
