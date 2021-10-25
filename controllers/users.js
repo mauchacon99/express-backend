@@ -12,16 +12,6 @@ const {Sequelize} = require("sequelize");
 
 /**
  * check if role is vendor
- * @param {Object} item - response object
- */
-const checkRoleVendor = async (item) => {
-    const data = await roles.findByPk(item.roleId)
-    return ( data.name === 'vendor' )
-}
-
-
-/**
- * check if role is vendor
  * @param {number} id - response object
  * @param {number} userId - response object
  */
@@ -152,7 +142,7 @@ exports.createItem = async (req, res) => {
             event: `new_user`
         }
         req = matchedData(req)
-        if (await checkRoleVendor(userReq)) req.vendor = userReq.id
+        if (userReq.roleId === 3) req.vendor = userReq.id
         const password = crypto.randomBytes(4).toString('hex')
         req.verification = password + req.email
         const { dataValues } = await db.createItem({ ...req, password }, user, event)
