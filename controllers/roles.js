@@ -1,7 +1,30 @@
 const { matchedData } = require('express-validator')
-const { roles, permissions } = require('../models')
+const { roles, permissions, modules } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
+
+/********************
+ * Public functions *
+ ********************/
+
+/**
+ * Create permissions of role
+ * @param {number} roleId - roleId
+ */
+const createPermissions = async (roleId) => {
+    const itemsModules = await modules.findAll()
+    const data = []
+    itemsModules.map((a) => {
+        data.push({
+           roleId,
+           moduleId: a.id,
+           status: false,
+           visible: false,
+           methods: []
+        })
+    })
+    await permissions.bulkCreate(data)
+}
 
 /********************
  * Public functions *
@@ -89,7 +112,12 @@ exports.createItem = async (req, res) => {
             event: `new_rol`
         }
         req = matchedData(req)
-        res.status(201).json(await db.createItem(req, roles, event))
+        db.createItem(req, roles, event)
+            .then((resp) => {
+                createPermissions(resp.id).then()
+                res.status(201).json(resp)
+            })
+            .catch((error) => utils.handleError(res, error))
     } catch (error) {
         utils.handleError(res, error)
     }
