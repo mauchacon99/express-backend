@@ -15,7 +15,9 @@ const userSend = {
     name: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
-    roleId: 2
+    roleId: 2,
+    skills: ['skill1', 'skill2'],
+    preferences: ['pref1', 'pref2'],
 }
 
 chai.use(chaiHttp)
@@ -75,7 +77,7 @@ describe('*********** USERS ***********', () => {
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].roleU.should.include.keys('name', 'description', 'createdAt', 'updatedAt')
                     res.body.docs[0].verification.should.be.a('string')
-                    res.body.docs[0].should.include.keys('vendor', 'description', 'phone', 'address')
+                    res.body.docs[0].should.include.keys('vendor', 'description', 'phone', 'address', 'skills', 'preferences')
                     res.body.docs[0].verified.should.be.a('boolean')
                     res.body.docs[0].forgotPassword.should.be.a('boolean')
                     done()
@@ -145,7 +147,7 @@ describe('*********** USERS ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'updatedAt', 'createdAt')
+                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'updatedAt', 'createdAt')
                     res.body.id.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.name.should.be.a('string')
@@ -209,7 +211,7 @@ describe('*********** USERS ***********', () => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
                     res.body.should.have.property('id').eql(id)
-                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'roleU', 'email', 'updatedAt', 'createdAt')
+                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'roleU', 'email', 'skills', 'preferences', 'updatedAt', 'createdAt')
                     res.body.roleU.should.include.keys('name', 'description', 'createdAt', 'updatedAt')
                     res.body.id.should.be.a('number')
                     res.body.roleId.should.be.a('number')
@@ -271,7 +273,7 @@ describe('*********** USERS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.have.property('id').eql(id)
                     res.body.should.have.property('name').eql('user admin')
-                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'updatedAt', 'createdAt')
+                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'updatedAt', 'createdAt')
                     res.body.id.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.name.should.be.a('string')

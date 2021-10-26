@@ -66,6 +66,24 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       allowNull: false
     },
+    skills: {
+      type: DataTypes.STRING,
+      get: function() {
+        return JSON.parse(this.getDataValue('skills') || '[]');
+      },
+      set: function(value) {
+        return this.setDataValue('skills', JSON.stringify(value));
+      }
+    },
+    preferences: {
+      type: DataTypes.STRING,
+      get: function() {
+        return JSON.parse(this.getDataValue('preferences') || '[]');
+      },
+      set: function(value) {
+        return this.setDataValue('preferences', JSON.stringify(value));
+      }
+    },
   }, {
     sequelize,
     modelName: 'user',
