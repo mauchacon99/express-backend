@@ -54,6 +54,14 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
+      skills: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      preferences: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

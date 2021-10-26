@@ -29,6 +29,10 @@ exports.createItem = [
         .withMessage('IS_EMPTY')
         .isEmail()
         .withMessage('EMAIL_IS_NOT_VALID'),
+    check('skills')
+        .optional(),
+    check('preferences')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -56,6 +60,10 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+     check('skills')
+        .optional(),
+    check('preferences')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }
