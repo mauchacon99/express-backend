@@ -15,7 +15,9 @@ const userSend = {
     name: faker.name.firstName(),
     lastname: faker.name.lastName(),
     email: faker.internet.email(),
-    roleId: 2
+    roleId: 2,
+    skills: ['skill1', 'skill2'],
+    preferences: ['pref1', 'pref2'],
 }
 
 chai.use(chaiHttp)
