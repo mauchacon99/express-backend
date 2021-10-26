@@ -65,7 +65,13 @@ exports.getItem = async (req, res) => {
             include: [
                 {
                     model: permissions,
-                    as: 'roleP'
+                    as: 'roleP',
+                    include: [
+                        {
+                            model: modules,
+                            as: 'module'
+                        }
+                    ]
                 }
             ]
         })

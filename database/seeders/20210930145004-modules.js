@@ -43,7 +43,7 @@ module.exports = {
         route: '/permissions',
         createdAt: new Date(),
         updatedAt: new Date(),
-        visible: true,
+        visible: false,
       },
       {
         id: 4,
@@ -60,7 +60,7 @@ module.exports = {
         id: 5,
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        icon: 'supervisor_account',
+        icon: 'verified_user',
         name: 'Roles',
         route: '/roles',
         createdAt: new Date(),
