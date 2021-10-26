@@ -36,7 +36,7 @@ module.exports = {
         moduleId: 3, // /permissions
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

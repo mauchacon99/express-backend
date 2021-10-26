@@ -56,12 +56,15 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('methods')
+    check('visible')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('methods')
+        .exists()
+        .withMessage('MISSING'),
     check('id')
         .exists()
         .withMessage('MISSING')
