@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Subprogram extends Model {
+  class subprogram extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.program, {as: 'programSP', foreignKey: 'programId'})
     }
   };
-  Subprogram.init({
+  subprogram.init({
     programId: {
       allowNull: false,
       type: DataTypes.INTEGER
@@ -32,15 +32,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     }
   }, {
     sequelize,
-    modelName: 'Subprogram',
+    modelName: 'subprogram',
   });
-  return Subprogram;
+  return subprogram;
 };
