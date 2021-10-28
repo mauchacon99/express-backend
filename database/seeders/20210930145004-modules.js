@@ -121,7 +121,18 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         visible: true,
-      }
+      },
+      {
+        id: 11,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        icon: '',
+        name: 'Plans',
+        route: '/plans',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: true,
+      },
     ], {});
   },
 

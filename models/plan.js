@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: true,
     },
     programId: {
       type: DataTypes.INTEGER,

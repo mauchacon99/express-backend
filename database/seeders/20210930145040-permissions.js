@@ -103,6 +103,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 1,
+        moduleId: 11, // /permissions
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 2 = coach
       {

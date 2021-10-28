@@ -283,6 +283,35 @@ const swaggerOptions = {
                     description: 'Dolore non est labore in voluptate..',
                 }
             },
+            plans: {
+                type: 'object',
+                required: [
+                    'programId',
+                    'userId',
+                    'storageId',
+                    'roleId',
+                    'price',
+                    'users',
+                ],
+                properties: {
+                    programId: { type: 'number' },
+                    userId: { type: 'number' },
+                    storageId: { type: 'number' },
+                    roleId: { type: 'number' },
+                    price: { type: 'number' },
+                    users: { type: 'number' },
+                    status: { type: 'boolean' },
+                },
+                example: {
+                    users: 10,
+                    roleId: 2,
+                    userId: 2,
+                    status: true,
+                    programId: 1,
+                    storageId: 1,
+                    price: 99.99,
+                }
+            },
         }
     },
     // routers
