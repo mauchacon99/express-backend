@@ -110,6 +110,17 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         visible: true,
+      },
+      {
+        id: 10,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        icon: '',
+        name: 'Subprograms',
+        route: '/subprograms',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: true,
       }
     ], {});
   },

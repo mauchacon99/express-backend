@@ -263,6 +263,26 @@ const swaggerOptions = {
                     skills: ['skill1', 'skill2'],
                 }
             },
+            subprograms: {
+                type: 'object',
+                required: [
+                    'programId',
+                    'name',
+                    'position',
+                ],
+                properties: {
+                    programId: { type: 'number' },
+                    name: { type: 'string' },
+                    position: { type: 'number' },
+                    description: { type: 'string' },
+                },
+                example: {
+                    programId: 1,
+                    name: 'The subprogram',
+                    position: 1,
+                    description: 'Dolore non est labore in voluptate..',
+                }
+            },
         }
     },
     // routers
