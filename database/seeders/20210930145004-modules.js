@@ -133,6 +133,17 @@ module.exports = {
         updatedAt: new Date(),
         visible: true,
       },
+      {
+        id: 12,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        icon: '',
+        name: 'Subscribers',
+        route: '/subscribers',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: true,
+      },
     ], {});
   },
 

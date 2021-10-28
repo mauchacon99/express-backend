@@ -312,6 +312,21 @@ const swaggerOptions = {
                     price: 99.99,
                 }
             },
+            subscribers: {
+                type: 'object',
+                required: [
+                    'planId',
+                    'userId',
+                ],
+                properties: {
+                    planId: { type: 'number' },
+                    userId: { type: 'number' },
+                },
+                example: {
+                    userId: 1,
+                    planId: 1,
+                }
+            },
         }
     },
     // routers
