@@ -99,6 +99,17 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         visible: false,
+      },
+      {
+        id: 9,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        icon: '',
+        name: 'Programs',
+        route: '/programs',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: true,
       }
     ], {});
   },

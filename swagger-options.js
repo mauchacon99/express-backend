@@ -240,7 +240,29 @@ const swaggerOptions = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 }
-            }
+            },
+            programs: {
+                type: 'object',
+                required: [
+                    'userId',
+                    'name',
+                    'storageId',
+                ],
+                properties: {
+                    userId: { type: 'number' },
+                    name: { type: 'string' },
+                    storageId: { type: 'number' },
+                    description: { type: 'string' },
+                    skills: { type: 'array' },
+                },
+                example: {
+                    userId: 2,
+                    name: 'The program',
+                    storageId: 1,
+                    description: 'Dolore non est labore in voluptate..',
+                    skills: ['skill1', 'skill2'],
+                }
+            },
         }
     },
     // routers

@@ -31,7 +31,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     skills: {
       allowNull: true,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      get: function() {
+        return JSON.parse(this.getDataValue('skills') || '[]');
+      },
+      set: function(value) {
+        return this.setDataValue('skills', JSON.stringify(value));
+      }
     },
     storageId: {
       allowNull: false,
