@@ -265,7 +265,6 @@ describe('*********** PROGRAMS ***********', () => {
         })
         it('it should UPDATE a programs given the id', (done) => {
             const id = createdID[0]
-            payload.lat = '9.6545875'
             chai
                 .request(server)
                 .patch(`/programs/${id}`)
@@ -306,7 +305,6 @@ describe('*********** PROGRAMS ***********', () => {
                 })
         })
         it('it should DELETE a programs given the id', (done) => {
-            payload.cityName ="Barranquilla"
             chai
                 .request(server)
                 .post('/programs')

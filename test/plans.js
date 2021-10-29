@@ -296,7 +296,6 @@ describe('*********** PLANS ***********', () => {
         })
         it('it should UPDATE a plans given the id', (done) => {
             const id = createdID[0]
-            payload.lat = '9.6545875'
             chai
                 .request(server)
                 .patch(`/plans/${id}`)
@@ -343,7 +342,6 @@ describe('*********** PLANS ***********', () => {
                 })
         })
         it('it should DELETE a plans given the id', (done) => {
-            payload.cityName ="Barranquilla"
             chai
                 .request(server)
                 .post('/plans')

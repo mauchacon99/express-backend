@@ -1,6 +1,6 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const { subprogram } = require('../models')
+const { subscriber } = require('../models')
 const server = require('../server')
 const should = chai.should()
 const loginDetails = {
@@ -12,15 +12,13 @@ const createdID = []
 const queryParams = ''
 
 const payload = {
-    programId: 1,
-    description: 'Sunt amet laborum pariatur eiusmod duis ipsum esse.',
-    position: 1,
-    name: 'Some interesting subprogram name',
+    userId: 2,
+    planId: 1,
 }
 
 chai.use(chaiHttp)
 
-describe('*********** SUBPROGRAMS ***********', () => {
+describe('*********** SUBSCRIBERS ***********', () => {
     describe('/POST login', () => {
         it('it should GET token', (done) => {
             chai
@@ -40,20 +38,20 @@ describe('*********** SUBPROGRAMS ***********', () => {
         })
     })
 
-    describe('/GET subprograms', () => {
+    describe('/GET subscribers', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .get('/subprograms')
+                .get('/subscribers')
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should GET all subprograms', (done) => {
+        it('it should GET all subscribers', (done) => {
             chai
                 .request(server)
-                .get('/subprograms')
+                .get('/subscribers')
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(200)
@@ -65,27 +63,24 @@ describe('*********** SUBPROGRAMS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
-                        'programId',
-                        'name',
-                        'description',
-                        'programSP',
+                        'userId',
+                        'planId',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
-                    res.body.docs[0].programId.should.be.a('number')
-                    res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].programSP.should.be.a('object')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].planId.should.be.a('number')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
                     done()
                 })
         })
 
-        it('it should GET the subprograms with filters', (done) => {
+        it('it should GET the subscribers with filters', (done) => {
             chai
                 .request(server)
-                .get(`/subprograms?${queryParams}`)
+                .get(`/subscribers?${queryParams}`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(200)
@@ -97,17 +92,14 @@ describe('*********** SUBPROGRAMS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
-                        'programId',
-                        'name',
-                        'description',
-                        'programSP',
+                        'userId',
+                        'planId',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
-                    res.body.docs[0].programId.should.be.a('number')
-                    res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].programSP.should.be.a('object')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].planId.should.be.a('number')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
                    done()
@@ -115,21 +107,21 @@ describe('*********** SUBPROGRAMS ***********', () => {
         })
     })
 
-    describe('/POST subprograms', () => {
+    describe('/POST subscribers', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .post('/subprograms')
+                .post('/subscribers')
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should NOT POST subprograms if data its empty', (done) => {
+        it('it should NOT POST subscribers if data its empty', (done) => {
             chai
                 .request(server)
-                .post('/subprograms')
+                .post('/subscribers')
                 .set('Authorization', `Bearer ${token}`)
                 .send({})
                 .end((err, res) => {
@@ -140,10 +132,10 @@ describe('*********** SUBPROGRAMS ***********', () => {
                     done()
                 })
         })
-        it('it should POST a subprograms', (done) => {
+        it('it should POST a subscribers', (done) => {
             chai
                 .request(server)
-                .post('/subprograms')
+                .post('/subscribers')
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((err, res) => {
@@ -151,15 +143,14 @@ describe('*********** SUBPROGRAMS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
-                        'programId',
-                        'name',
-                        'description',
+                        'userId',
+                        'planId',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
-                    res.body.programId.should.be.a('number')
-                    res.body.name.should.be.a('string')
+                    res.body.userId.should.be.a('number')
+                    res.body.planId.should.be.a('number')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     createdID.push(res.body.id)
@@ -168,21 +159,21 @@ describe('*********** SUBPROGRAMS ***********', () => {
         })
     })
 
-    describe('/GET/:id subprograms', () => {
+    describe('/GET/:id subscribers', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .get(`/subprograms/${id}`)
+                .get(`/subscribers/${id}`)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should NOT GET a subprogram if id is not exist', (done) => {
+        it('it should NOT GET a subscriber if id is not exist', (done) => {
             chai
                 .request(server)
-                .get('/subprograms/100')
+                .get('/subscribers/100')
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(404)
@@ -192,26 +183,25 @@ describe('*********** SUBPROGRAMS ***********', () => {
                     done()
                 })
         })
-        it('it should GET a subprogram by the given id', (done) => {
+        it('it should GET a subscriber by the given id', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .get(`/subprograms/${id}`)
+                .get(`/subscribers/${id}`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
-                        'programId',
-                        'name',
-                        'description',
+                        'userId',
+                        'planId',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
-                    res.body.programId.should.be.a('number')
-                    res.body.name.should.be.a('string')
+                    res.body.userId.should.be.a('number')
+                    res.body.planId.should.be.a('number')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     done()
@@ -219,23 +209,23 @@ describe('*********** SUBPROGRAMS ***********', () => {
         })
     })
 
-    describe('/PATCH/:id subprograms', () => {
+    describe('/PATCH/:id subscribers', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .patch(`/subprograms/${id}`)
+                .patch(`/subscribers/${id}`)
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should NOT PATCH subprogram if data its empty', (done) => {
+        it('it should NOT PATCH subscriber if data its empty', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .patch(`/subprograms/${id}`)
+                .patch(`/subscribers/${id}`)
                 .set('Authorization', `Bearer ${token}`)
                 .send({})
                 .end((err, res) => {
@@ -246,11 +236,11 @@ describe('*********** SUBPROGRAMS ***********', () => {
                     done()
                 })
         })
-        it('it should UPDATE a subprograms given the id', (done) => {
+        it('it should UPDATE a subscribers given the id', (done) => {
             const id = createdID[0]
             chai
                 .request(server)
-                .patch(`/subprograms/${id}`)
+                .patch(`/subscribers/${id}`)
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((error, res) => {
@@ -258,15 +248,14 @@ describe('*********** SUBPROGRAMS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
-                        'programId',
-                        'name',
-                        'description',
+                        'userId',
+                        'planId',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
-                    res.body.programId.should.be.a('number')
-                    res.body.name.should.be.a('string')
+                    res.body.userId.should.be.a('number')
+                    res.body.planId.should.be.a('number')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     done()
@@ -274,27 +263,27 @@ describe('*********** SUBPROGRAMS ***********', () => {
         })
     })
 
-    describe('/DELETE/:id subprograms', () => {
+    describe('/DELETE/:id subscribers', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .delete('/subprograms/1')
+                .delete('/subscribers/1')
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should DELETE a subprograms given the id', (done) => {
+        it('it should DELETE a subscribers given the id', (done) => {
             chai
                 .request(server)
-                .post('/subprograms')
+                .post('/subscribers')
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload)
                 .end((err, res) => {
                     res.should.have.status(201)
                     chai
                         .request(server)
-                        .delete(`/subprograms/${res.body.id}`)
+                        .delete(`/subscribers/${res.body.id}`)
                         .set('Authorization', `Bearer ${token}`)
                         .end((error, result) => {
                             result.should.have.status(200)
@@ -306,7 +295,7 @@ describe('*********** SUBPROGRAMS ***********', () => {
 
     after(() => {
         createdID.forEach((id) => {
-            subprogram.destroy({ where: { id } }).then()
+            subscriber.destroy({ where: { id } }).then()
         })
     })
 })
