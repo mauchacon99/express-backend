@@ -240,7 +240,93 @@ const swaggerOptions = {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 }
-            }
+            },
+            programs: {
+                type: 'object',
+                required: [
+                    'userId',
+                    'name',
+                    'storageId',
+                ],
+                properties: {
+                    userId: { type: 'number' },
+                    name: { type: 'string' },
+                    storageId: { type: 'number' },
+                    description: { type: 'string' },
+                    skills: { type: 'array' },
+                },
+                example: {
+                    userId: 2,
+                    name: 'The program',
+                    storageId: 1,
+                    description: 'Dolore non est labore in voluptate..',
+                    skills: ['skill1', 'skill2'],
+                }
+            },
+            subprograms: {
+                type: 'object',
+                required: [
+                    'programId',
+                    'name',
+                    'position',
+                ],
+                properties: {
+                    programId: { type: 'number' },
+                    name: { type: 'string' },
+                    position: { type: 'number' },
+                    description: { type: 'string' },
+                },
+                example: {
+                    programId: 1,
+                    name: 'The subprogram',
+                    position: 1,
+                    description: 'Dolore non est labore in voluptate..',
+                }
+            },
+            plans: {
+                type: 'object',
+                required: [
+                    'programId',
+                    'userId',
+                    'storageId',
+                    'roleId',
+                    'price',
+                    'users',
+                ],
+                properties: {
+                    programId: { type: 'number' },
+                    userId: { type: 'number' },
+                    storageId: { type: 'number' },
+                    roleId: { type: 'number' },
+                    price: { type: 'number' },
+                    users: { type: 'number' },
+                    status: { type: 'boolean' },
+                },
+                example: {
+                    users: 10,
+                    roleId: 2,
+                    userId: 2,
+                    status: true,
+                    programId: 1,
+                    storageId: 1,
+                    price: 99.99,
+                }
+            },
+            subscribers: {
+                type: 'object',
+                required: [
+                    'planId',
+                    'userId',
+                ],
+                properties: {
+                    planId: { type: 'number' },
+                    userId: { type: 'number' },
+                },
+                example: {
+                    userId: 1,
+                    planId: 1,
+                }
+            },
         }
     },
     // routers
