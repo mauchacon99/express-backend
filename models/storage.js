@@ -10,8 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
       this.hasMany(models.user, {as: 'avatar', foreignKey: 'storageId'})
+      this.hasMany(models.plan, {as: 'storagePL', foreignKey: 'storageId'})
+      this.hasMany(models.program, {as: 'storagePR', foreignKey: 'storageId'})
     }
   };
   storage.init({
