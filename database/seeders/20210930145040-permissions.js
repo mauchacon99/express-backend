@@ -526,7 +526,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        roleId: 4,
+        roleId: 5,
         moduleId: 9, // /programs
         status: true,
         methods: JSON.stringify(['get']),
@@ -535,7 +535,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        roleId: 4,
+        roleId: 5,
         moduleId: 10, // /subprograms
         status: true,
         methods: JSON.stringify(['get']),
@@ -544,7 +544,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        roleId: 4,
+        roleId: 5,
         moduleId: 11, // /plans
         status: true,
         methods: JSON.stringify(['get']),
@@ -553,7 +553,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        roleId: 4,
+        roleId: 5,
         moduleId: 12, // /subscribers
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
