@@ -76,7 +76,7 @@ module.exports = {
         route: '/events',
         createdAt: new Date(),
         updatedAt: new Date(),
-        visible: true,
+        visible: false,
       },
       {
         id: 7,
