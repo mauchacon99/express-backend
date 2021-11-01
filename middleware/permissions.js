@@ -31,9 +31,11 @@ const checkPermissions = (req, roleId, next) => {
                 return (
                     a.module.dataValues.route === route &&
                     a.methods.includes(method) &&
-                    a.module.dataValues.methods.includes(method)
+                    a.module.dataValues.methods.includes(method) &&
+                    a.status && a.module.status
                 )
             })
+
             if(authorization) next()
             else reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
         })
