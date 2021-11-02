@@ -48,24 +48,12 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('status')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('methods')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('route')
-        .optional(),
-    check('visible')
-        .optional(),
     check('icon')
-        .optional(),
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('id')
         .exists()
         .withMessage('MISSING')

@@ -21,10 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     methods: {
       type: DataTypes.STRING,
       get: function() {
-        return JSON.parse(this.getDataValue('methods'));
+        return JSON.parse(this.getDataValue('methods') || '[]');
       },
       set: function(value) {
-        return this.setDataValue('methods', JSON.stringify(value));
+        console.log(value)
+        return value.length ? this.setDataValue('methods', JSON.stringify(value)) : [];
       }
     },
     icon: {
