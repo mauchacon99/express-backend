@@ -171,7 +171,7 @@ module.exports = {
       {
         roleId: 2,
         moduleId: 6, // /events
-        status: true,
+        status: false,
         methods: JSON.stringify(['get']),
         visible: false,
         createdAt: new Date(),
@@ -501,7 +501,7 @@ module.exports = {
       {
         roleId: 5,
         moduleId: 6, // /events
-        status: true,
+        status: false,
         methods: JSON.stringify(['get']),
         visible: false,
         createdAt: new Date(),
