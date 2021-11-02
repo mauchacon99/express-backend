@@ -2,6 +2,8 @@ const db = require('../middleware/db')
 const { userevents, user } = require('../models')
 const { matchedData } = require('express-validator')
 const utils = require('../middleware/utils')
+const {Op, Sequelize} = require("sequelize");
+const _ = require("lodash");
 
 /**
  * Get item function called by route
@@ -10,21 +12,13 @@ const utils = require('../middleware/utils')
  */
 exports.getItem = async (req, res) => {
     try {
+        const queryParams = req.query
         const { id } = matchedData(req)
-        await userevents.findOne({
-            where:{ id },
-            include: [
-                {
-                    model: user,
-                    as: 'userE'
-                }
-            ]
+        const query = await db.checkQueryUserEvent(queryParams, id)
+        const data = await userevents.findAndCountAll({
+            ...query
         })
-            .then((data) => {
-                if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
-                else res.status(200).json(data)
-            })
-            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
+        res.status(200).json(db.respOptions(data, query))
     } catch (error) {
         utils.handleError(res, error)
     }

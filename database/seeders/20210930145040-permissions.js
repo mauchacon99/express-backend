@@ -63,7 +63,7 @@ module.exports = {
         moduleId: 6, // /events
         status: true,
         methods: JSON.stringify(['get']),
-        visible: true,
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -99,13 +99,13 @@ module.exports = {
         moduleId: 10, // /subprograms
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         roleId: 1,
-        moduleId: 11, // /permissions
+        moduleId: 11, // /plans
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: true,
@@ -117,7 +117,7 @@ module.exports = {
         moduleId: 12, // /subscribers
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -171,7 +171,7 @@ module.exports = {
       {
         roleId: 2,
         moduleId: 6, // /events
-        status: true,
+        status: false,
         methods: JSON.stringify(['get']),
         visible: false,
         createdAt: new Date(),
@@ -191,6 +191,42 @@ module.exports = {
         moduleId: 8, // /storage
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 9, // /programs
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 10, // /subprograms
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 11, // /plans
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 12, // /subscribers
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -269,6 +305,42 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 3,
+        moduleId: 9, // /programs
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 3,
+        moduleId: 10, // /subprograms
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 3,
+        moduleId: 11, // /plans
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 3,
+        moduleId: 12, // /subscribers
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 4 = company
       {
@@ -343,6 +415,42 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 4,
+        moduleId: 9, // /programs
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 4,
+        moduleId: 10, // /subprograms
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 4,
+        moduleId: 11, // /plans
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 4,
+        moduleId: 12, // /subscribers
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 5 = personal
       {
@@ -393,7 +501,7 @@ module.exports = {
       {
         roleId: 5,
         moduleId: 6, // /events
-        status: true,
+        status: false,
         methods: JSON.stringify(['get']),
         visible: false,
         createdAt: new Date(),
@@ -413,6 +521,42 @@ module.exports = {
         moduleId: 8, // /storage
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 9, // /programs
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 10, // /subprograms
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 11, // /plans
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 12, // /subscribers
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -127,6 +127,37 @@ exports.checkQueryString= (query) => {
     })
 }
 
+/**
+ * get users by filter: without admin and if vendor
+ * @param {Object} query - params of the request example req.query
+ * @param {Object} userId - id of user to search
+ */
+exports.checkQueryUserEvent = async (query, userId) => {
+    const queryRelations = await checkQueryStringRelations(query)
+    const queryFields = await this.checkQueryString(query)
+    let data = []
+    if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
+    if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(query),
+            where: {
+                [Op.or]: data,
+                [Op.and]: [{ userId }],
+            }
+        }
+    }
+    return {
+        ...await listInitOptions(query),
+        where: { userId }
+    }
+}
+
+/**
+ * get users by filter: without admin and if vendor
+ * @param {Object} query - params of the request example req.query
+ * @param {Object} user - user logged
+ */
 exports.checkQueryUser = async (query, user) => {
     let queryAnd = [
         { roleId: { [Op.ne]: 1 } }
@@ -154,7 +185,6 @@ exports.checkQueryUser = async (query, user) => {
         }
     }
     return { ...await listInitOptions(query) }
-
 }
 
 /**

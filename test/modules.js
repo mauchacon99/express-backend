@@ -252,22 +252,22 @@ describe('*********** MODULES ***********', () => {
                     done()
                 })
         })
-        it('it should NOT UPDATE a module with route that already exists', (done) => {
-            const id = 2
-            payload.route = '/phones'
-            chai
-                .request(server)
-                .patch(`/modules/${id}`)
-                .set('Authorization', `Bearer ${token}`)
-                .send(payload)
-                .end((err, res) => {
-                    res.should.have.status(400)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('string')
-                    done()
-                })
-        })
+        // it('it should NOT UPDATE a module with route that already exists', (done) => {
+        //     const id = 2
+        //     payload.route = '/phones'
+        //     chai
+        //         .request(server)
+        //         .patch(`/modules/${id}`)
+        //         .set('Authorization', `Bearer ${token}`)
+        //         .send(payload)
+        //         .end((err, res) => {
+        //             res.should.have.status(400)
+        //             res.body.should.be.a('object')
+        //             res.body.should.have.property('errors')
+        //             res.body.errors.msg.should.be.a('string')
+        //             done()
+        //         })
+        // })
     })
 
 
