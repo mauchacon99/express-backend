@@ -72,6 +72,8 @@ describe('*********** PROGRAMS ***********', () => {
                         'skills',
                         'description',
                         'userPR',
+                        'programPL',
+                        'programSP',
                         'storagePR',
                         'createdAt',
                         'updatedAt'
@@ -80,6 +82,8 @@ describe('*********** PROGRAMS ***********', () => {
                     res.body.docs[0].userId.should.be.a('number')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].programSP.should.be.a('array')
+                    res.body.docs[0].programPL.should.be.a('array')
                     res.body.docs[0].userPR.should.be.a('object')
                     res.body.docs[0].storagePR.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
@@ -109,6 +113,8 @@ describe('*********** PROGRAMS ***********', () => {
                         'skills',
                         'description',
                         'userPR',
+                        'programPL',
+                        'programSP',
                         'storagePR',
                         'createdAt',
                         'updatedAt'
@@ -117,6 +123,8 @@ describe('*********** PROGRAMS ***********', () => {
                     res.body.docs[0].userId.should.be.a('number')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].programSP.should.be.a('array')
+                    res.body.docs[0].programPL.should.be.a('array')
                     res.body.docs[0].userPR.should.be.a('object')
                     res.body.docs[0].storagePR.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')

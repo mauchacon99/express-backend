@@ -96,7 +96,7 @@ router.get(
  *      tags:
  *        - programs
  *      summary: "get all program"
- *      description: "get all program. relations alias `userPR`, `storagePR`"
+ *      description: "get all program. relations alias `userPR`, `programSP`, `programPL` "
  *      responses:
  *        '200':
  *          description: "return programs"
