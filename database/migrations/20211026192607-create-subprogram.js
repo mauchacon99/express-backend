@@ -8,10 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      programId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
       description: {
         type: Sequelize.STRING
       },
@@ -32,6 +28,20 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+    queryInterface.addColumn(
+      'subprograms', // name of Source model
+      'programId', // name of the key we're adding 
+      {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'programs', // name of Target model
+          key: 'id', // key in Target model that we're referencing
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      }
+    );
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('subprograms');

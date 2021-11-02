@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { program, user, storage } = require('../models')
+const { program, subprogram, user, storage, plan } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -25,6 +25,14 @@ exports.getItems = async (req, res) => {
 				{
                     model: storage,
                     as: 'storagePR'
+                },
+                {
+                    model: subprogram,
+                    as: 'programSP'
+                },
+                {
+                    model: plan,
+                    as: 'programPL'
                 },
             ]
 		})

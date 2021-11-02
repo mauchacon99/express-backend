@@ -1,7 +1,8 @@
 const { matchedData } = require('express-validator')
-const { plan, program, user, storage } = require('../models')
+const { plan, program, user, storage, subprogram, subscriber } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
+const { subscribe } = require('../server')
 
 /********************
  * Public functions *
@@ -24,11 +25,21 @@ exports.getItems = async (req, res) => {
                 },
                 {
                     model: program,
-                    as: 'programPL'
+                    as: 'programPL',
+                    include: [
+                        {
+                            model: subprogram,
+                            as: 'programSP'
+                        },
+                    ]
 				},
 				{
                     model: storage,
                     as: 'storagePL'
+                },
+                {
+                    model: subscriber,
+                    as: 'planS'
                 },
             ]
 		})
