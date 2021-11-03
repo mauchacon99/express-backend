@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     storageId: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER
     },
     createdAt: {

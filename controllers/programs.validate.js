@@ -18,16 +18,16 @@ exports.createItem = [
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('storageId')
+        .optional(),
+    check('description')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('description')
-        .optional(),
     check('skills')
         .optional(),
-    
+
     (req, res, next) => {
         validationResult(req, res, next)
     }

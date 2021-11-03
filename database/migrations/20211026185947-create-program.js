@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       storageId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       createdAt: {
