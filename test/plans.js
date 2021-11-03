@@ -77,6 +77,7 @@ describe('*********** PLANS ***********', () => {
                         'storageId',
                         'price',
                         'userPL',
+                        'planS',
                         'programPL',
                         'storagePL',
                         'createdAt',
@@ -90,6 +91,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].status.should.be.a('boolean')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
+                    res.body.docs[0].planS.should.be.a('array')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
@@ -122,6 +124,7 @@ describe('*********** PLANS ***********', () => {
                         'storageId',
                         'price',
                         'userPL',
+                        'planS',
                         'programPL',
                         'storagePL',
                         'createdAt',
@@ -135,6 +138,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].status.should.be.a('boolean')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
+                    res.body.docs[0].planS.should.be.a('array')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
