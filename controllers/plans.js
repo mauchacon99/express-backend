@@ -15,7 +15,7 @@ const { subscribe } = require('../server')
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQuery(req.query)
+        const query = await db.checkQueryByVendorOrCoach(req.query, req.user)
         const data = await plan.findAndCountAll({
             ...query,
             include: [
@@ -62,7 +62,7 @@ exports.getItem = async (req, res) => {
         const { id } = matchedData(req)
 
         plan.findOne({
-            where:{id:id}
+            where:{id}
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))

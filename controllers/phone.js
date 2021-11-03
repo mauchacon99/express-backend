@@ -42,8 +42,7 @@ exports.getItem = async (req, res) => {
         const { id } = matchedData(req)
 
         phone.findOne({
-            where:{id:id}
-
+            where:{id}
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
