@@ -96,7 +96,7 @@ router.get(
  *      tags:
  *        - plans
  *      summary: "get all plan"
- *      description: "get all plan. relations alias `userPL`, `storagePL`, `programPL`"
+ *      description: "get all plan. relations alias `userPL`, `storagePL`, `programPL`, `planS`"
  *      responses:
  *        '200':
  *          description: "return plans"

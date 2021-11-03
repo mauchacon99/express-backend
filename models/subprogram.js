@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   subprogram.init({
     programId: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     },
     description: {
       allowNull: false,
