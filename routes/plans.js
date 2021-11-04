@@ -85,7 +85,7 @@ router.post(
  *      tags:
  *        - plans
  *      summary: "search plan for id"
- *      description: "search plan for id"
+ *      description: "search plan for id. relations alias userPL, storagePL, programPL, planS"
  *      responses:
  *        '200':
  *          description: "return plan"
@@ -121,8 +121,8 @@ router.get(
  *    get:
  *      tags:
  *        - plans
- *      summary: "get all plan of logged in user"
- *      description: "get all plan. relations alias `userPL`, `storagePL`, `programPL`, `planS`"
+ *      summary: "get all plans of logged in user"
+ *      description: "get all plans of logged in user. relations alias `userPL`, `storagePL`, `programPL`, `planS`"
  *      responses:
  *        '200':
  *          description: "return plans"
