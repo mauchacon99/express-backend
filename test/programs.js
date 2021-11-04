@@ -134,6 +134,99 @@ describe('*********** PROGRAMS ***********', () => {
         })
     })
 
+    describe('/GET all programs', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .get('/programs/all')
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should GET all programs', (done) => {
+            chai
+                .request(server)
+                .get('/programs/all')
+                .set('Authorization', `Bearer ${token}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'userId',
+                        'storageId',
+                        'name',
+                        'skills',
+                        'description',
+                        'userPR',
+                        'programPL',
+                        'programSP',
+                        'storagePR',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].programSP.should.be.a('array')
+                    res.body.docs[0].programPL.should.be.a('array')
+                    res.body.docs[0].userPR.should.be.a('object')
+                    res.body.docs[0].storagePR.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+
+        it('it should GET the programs with filters', (done) => {
+            chai
+                .request(server)
+                .get(`/programs/all?${queryParams}`)
+                .set('Authorization', `Bearer ${token}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'userId',
+                        'storageId',
+                        'name',
+                        'skills',
+                        'description',
+                        'userPR',
+                        'programPL',
+                        'programSP',
+                        'storagePR',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].programSP.should.be.a('array')
+                    res.body.docs[0].programPL.should.be.a('array')
+                    res.body.docs[0].userPR.should.be.a('object')
+                    res.body.docs[0].storagePR.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                   done()
+                })
+        })
+    })
+
     describe('/POST programs', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai

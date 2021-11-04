@@ -14,7 +14,7 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQuery(req.query)
+        const query = await db.checkQuerySubscriber(req.query, req.user)
         const data = await subscriber.findAndCountAll({
             ...query,
             include: [
@@ -47,7 +47,7 @@ exports.getItem = async (req, res) => {
         const { id } = matchedData(req)
 
         subscriber.findOne({
-            where:{id:id}
+            where:{id}
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))

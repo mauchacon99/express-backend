@@ -43,7 +43,7 @@ exports.getItem = async (req, res) => {
 
         location.findOne(
             {
-                where:{id:id}
+                where:{id}
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))

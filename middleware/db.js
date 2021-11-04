@@ -154,6 +154,64 @@ exports.checkQueryUserEvent = async (query, userId) => {
 }
 
 /**
+ * Filters by userId if provided user roleId is 2 (coach) or 3 (vendor)
+ * @param {Object} query - params of the request example req.query
+ * @param {Object} user - user to search
+ */
+exports.checkQueryByVendorOrCoach = async (query, user) => {
+    const queryRelations = await checkQueryStringRelations(query)
+    const queryFields = await this.checkQueryString(query)
+    let data = []
+    if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
+    if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(query),
+            where: {
+                [Op.or]: data,
+                [Op.and]: [{ userId: user.id }],
+            }
+        }
+    }
+
+    const finalQuery = {
+        ...await listInitOptions(query),
+    }
+
+    return user.roleId == 2 || user.roleId == 3
+        ? { ...finalQuery, where: { userId: user.id } }
+        : finalQuery
+}
+
+/**
+ * Filters the subscriptions by userId except if the roleId is 1 (admin)
+ * @param {Object} query - params of the request example req.query
+ * @param {Object} user - user to search
+ */
+exports.checkQuerySubscriber = async (query, user) => {
+    const queryRelations = await checkQueryStringRelations(query)
+    const queryFields = await this.checkQueryString(query)
+    const userIdFilter = user.roleId === 1 ? {} : { userId: user.id };
+    let data = []
+    if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
+    if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(query),
+            where: {
+                [Op.or]: data,
+                [Op.and]: [userIdFilter],
+            }
+        }
+    }
+    return {
+        ...await listInitOptions(query),
+        where: userIdFilter
+    }
+}
+
+
+/**
  * get users by filter: without admin and if vendor
  * @param {Object} query - params of the request example req.query
  * @param {Object} user - user logged
