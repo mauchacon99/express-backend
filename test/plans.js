@@ -358,6 +358,10 @@ describe('*********** PLANS ***********', () => {
                         'status',
                         'storageId',
                         'price',
+                        'userPL',
+                        'planS',
+                        'programPL',
+                        'storagePL',
                         'createdAt',
                         'updatedAt'
                     )
@@ -369,6 +373,10 @@ describe('*********** PLANS ***********', () => {
                     res.body.status.should.be.a('boolean')
                     res.body.storageId.should.be.a('number')
                     res.body.price.should.be.a('number')
+                    res.body.planS.should.be.a('array')
+                    res.body.userPL.should.be.a('object')
+                    res.body.programPL.should.be.a('object')
+                    res.body.storagePL.should.be.a('object')
                     res.body.createdAt.should.be.a('string')
                     res.body.updatedAt.should.be.a('string')
                     done()

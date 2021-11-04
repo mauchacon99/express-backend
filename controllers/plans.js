@@ -15,7 +15,7 @@ const { subscribe } = require('../server')
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQueryByVendorOrCoach(req.query, req.user)
+        const query = await db.checkQueryWhereUserIdExceptIfAdmin(req.query, req.user)
         const data = await plan.findAndCountAll({
             ...query,
             include: [
@@ -101,16 +101,39 @@ exports.getAllItems = async (req, res) => {
  */
 exports.getItem = async (req, res) => {
     try {
-        const { user } = req
         const { id } = matchedData(req)
 
         plan.findOne({
-            where:{id}
+            where:{id},
+            include: [
+                {
+                    model: user,
+                    as: 'userPL'
+                },
+                {
+                    model: program,
+                    as: 'programPL',
+                    include: [
+                        {
+                            model: subprogram,
+                            as: 'programSP'
+                        },
+                    ]
+				},
+				{
+                    model: storage,
+                    as: 'storagePL'
+                },
+                {
+                    model: subscriber,
+                    as: 'planS'
+                },
+            ]
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {
-                    db.saveEvent({userId: user.id, event: `get_plan_${id}`})
+                    db.saveEvent({userId: req.user.id, event: `get_plan_${id}`})
                     res.status(200).json(data)
                 }
             })
