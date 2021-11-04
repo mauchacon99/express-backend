@@ -149,6 +149,111 @@ describe('*********** PLANS ***********', () => {
         })
     })
 
+    describe('/GET all plans', () => {
+        it('it should NOT be able to consume the route since no token was sent', (done) => {
+            chai
+                .request(server)
+                .get('/plans/all')
+                .end((err, res) => {
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        it('it should GET all plans', (done) => {
+            chai
+                .request(server)
+                .get('/plans/all')
+                .set('Authorization', `Bearer ${token}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'users',
+                        'roleId',
+                        'userId',
+                        'programId',
+                        'status',
+                        'storageId',
+                        'price',
+                        'userPL',
+                        'planS',
+                        'programPL',
+                        'storagePL',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].users.should.be.a('number')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].programId.should.be.a('number')
+                    res.body.docs[0].status.should.be.a('boolean')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].price.should.be.a('number')
+                    res.body.docs[0].planS.should.be.a('array')
+                    res.body.docs[0].userPL.should.be.a('object')
+                    res.body.docs[0].programPL.should.be.a('object')
+                    res.body.docs[0].storagePL.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+
+        it('it should GET the plans with filters', (done) => {
+            chai
+                .request(server)
+                .get(`/plans/all?${queryParams}`)
+                .set('Authorization', `Bearer ${token}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'users',
+                        'roleId',
+                        'userId',
+                        'programId',
+                        'status',
+                        'storageId',
+                        'price',
+                        'userPL',
+                        'planS',
+                        'programPL',
+                        'storagePL',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].users.should.be.a('number')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].programId.should.be.a('number')
+                    res.body.docs[0].status.should.be.a('boolean')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].price.should.be.a('number')
+                    res.body.docs[0].planS.should.be.a('array')
+                    res.body.docs[0].userPL.should.be.a('object')
+                    res.body.docs[0].programPL.should.be.a('object')
+                    res.body.docs[0].storagePL.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                   done()
+                })
+        })
+    })
+
     describe('/POST plans', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai

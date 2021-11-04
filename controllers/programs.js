@@ -8,13 +8,50 @@ const db = require('../middleware/db')
  ********************/
 
 /**
- * Get items function called by route
+ * Get items of logged in user, function called by route
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQueryByVendorOrCoach(req.query, req.user)
+        const data = await program.findAndCountAll({
+            ...query,
+            include: [
+                {
+                    model: user,
+                    as: 'userPR'
+				},
+				{
+                    model: storage,
+                    as: 'storagePR'
+                },
+                {
+                    model: subprogram,
+                    as: 'programSP'
+                },
+                {
+                    model: plan,
+                    as: 'programPL'
+                },
+            ]
+		})
+
+        db.saveEvent({userId: req.user.id, event: 'get_all_programs'})
+        res.status(200).json(db.respOptions(data, query))
+    } catch (error) {
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+    }
+}
+
+/**
+ * Get items function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.getAllItems = async (req, res) => {
+    try {
+        const query = await db.checkQuery(req.query)
         const data = await program.findAndCountAll({
             ...query,
             include: [

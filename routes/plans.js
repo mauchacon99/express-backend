@@ -11,6 +11,32 @@ const requireAuth = passport.authenticate('jwt', {
     session: false
 })
 
+/**
+ * @swagger
+ * /plans/all:
+ *    get:
+ *      tags:
+ *        - plans
+ *      summary: "get all plan"
+ *      description: "get all plan. relations alias `userPL`, `storagePL`, `programPL`, `planS`"
+ *      responses:
+ *        '200':
+ *          description: "return plans"
+ *        '401':
+ *          description: "Unauthorized."
+ *        '404':
+ *          description: "not founds"
+ *        '500':
+ *          description: "Internal server error."
+ */
+router.get(
+    '/all',
+    requireAuth,
+    permissions.roleAuthorization(),
+    trimRequest.all,
+    controller.getAllItems
+)
+
 /*
  * plan routes
  */
@@ -95,7 +121,7 @@ router.get(
  *    get:
  *      tags:
  *        - plans
- *      summary: "get all plan"
+ *      summary: "get all plan of logged in user"
  *      description: "get all plan. relations alias `userPL`, `storagePL`, `programPL`, `planS`"
  *      responses:
  *        '200':

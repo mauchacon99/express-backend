@@ -9,13 +9,56 @@ const { subscribe } = require('../server')
  ********************/
 
 /**
- * Get items function called by route
+ * Get items of logged in user, function called by route
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
 exports.getItems = async (req, res) => {
     try {
         const query = await db.checkQueryByVendorOrCoach(req.query, req.user)
+        const data = await plan.findAndCountAll({
+            ...query,
+            include: [
+                {
+                    model: user,
+                    as: 'userPL'
+                },
+                {
+                    model: program,
+                    as: 'programPL',
+                    include: [
+                        {
+                            model: subprogram,
+                            as: 'programSP'
+                        },
+                    ]
+				},
+				{
+                    model: storage,
+                    as: 'storagePL'
+                },
+                {
+                    model: subscriber,
+                    as: 'planS'
+                },
+            ]
+		})
+
+        db.saveEvent({userId: req.user.id, event: 'get_all_plans'})
+        res.status(200).json(db.respOptions(data, query))
+    } catch (error) {
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+    }
+}
+
+/**
+ * Get items function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.getAllItems = async (req, res) => {
+    try {
+        const query = await db.checkQuery(req.query)
         const data = await plan.findAndCountAll({
             ...query,
             include: [

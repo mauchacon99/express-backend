@@ -17,6 +17,32 @@ const requireAuth = passport.authenticate('jwt', {
 
 /**
  * @swagger
+ * /programs/all:
+ *    get:
+ *      tags:
+ *        - programs
+ *      summary: "get all program"
+ *      description: "get all program. relations alias `userPR`, `programSP`, `programPL` "
+ *      responses:
+ *        '200':
+ *          description: "return programs"
+ *        '401':
+ *          description: "Unauthorized."
+ *        '404':
+ *          description: "not founds"
+ *        '500':
+ *          description: "Internal server error."
+ */
+router.get(
+    '/all',
+    requireAuth,
+    permissions.roleAuthorization(),
+    trimRequest.all,
+    controller.getAllItems
+)
+
+/**
+ * @swagger
  * /programs:
  *    post:
  *      tags:
@@ -95,7 +121,7 @@ router.get(
  *    get:
  *      tags:
  *        - programs
- *      summary: "get all program"
+ *      summary: "get all program of logged in user"
  *      description: "get all program. relations alias `userPR`, `programSP`, `programPL` "
  *      responses:
  *        '200':
