@@ -21,7 +21,10 @@ exports.getItems = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userPL'
+                    as: 'userPL',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
                 },
                 {
                     model: program,
@@ -64,7 +67,10 @@ exports.getAllItems = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userPL'
+                    as: 'userPL',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
                 },
                 {
                     model: program,
@@ -108,7 +114,10 @@ exports.getItem = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userPL'
+                    as: 'userPL',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
                 },
                 {
                     model: program,

@@ -20,7 +20,10 @@ exports.getItems = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userPR'
+                    as: 'userPR',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
 				},
 				{
                     model: storage,
@@ -57,7 +60,10 @@ exports.getAllItems = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userPR'
+                    as: 'userPR',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
 				},
 				{
                     model: storage,
@@ -95,7 +101,10 @@ exports.getItem = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userPR'
+                    as: 'userPR',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
 				},
                 {
                     model: storage,
