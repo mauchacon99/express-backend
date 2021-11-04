@@ -50,11 +50,7 @@ exports.updateItem = [
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('storageId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('description')
         .optional(),
     check('skills')

@@ -17,15 +17,12 @@ exports.createItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('position')
+    check('description')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('description')
-        .optional(),
-    
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -47,14 +44,12 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('position')
+    check('description')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('description')
-        .optional(),
     check('id')
         .exists()
         .withMessage('MISSING')
