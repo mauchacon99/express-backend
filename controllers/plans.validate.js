@@ -5,6 +5,12 @@ const { validationResult } = require('../middleware/utils')
  * Validates create new item request
  */
 exports.createItem = [
+    check('name')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('users')
         .exists()
         .withMessage('MISSING')
@@ -53,6 +59,12 @@ exports.createItem = [
  * Validates update item request
  */
 exports.updateItem = [
+    check('name')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('users')
         .exists()
         .withMessage('MISSING')

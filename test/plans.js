@@ -13,6 +13,7 @@ const queryParams = ''
 
 const payload = {
     id: 1,
+    name: 'Some interesting plan name',
     users: 5,
     roleId: 2,
     userId: 2,
@@ -69,6 +70,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -84,6 +86,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -116,6 +119,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -131,6 +135,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -174,6 +179,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -189,6 +195,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -221,6 +228,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -236,6 +244,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -290,6 +299,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -301,6 +311,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
+                    res.body.name.should.be.a('string')
                     res.body.users.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.userId.should.be.a('number')
@@ -351,6 +362,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -366,6 +378,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
+                    res.body.name.should.be.a('string')
                     res.body.users.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.userId.should.be.a('number')
@@ -423,6 +436,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -434,6 +448,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
+                    res.body.name.should.be.a('string')
                     res.body.users.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.userId.should.be.a('number')
