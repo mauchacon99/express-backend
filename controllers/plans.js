@@ -15,7 +15,7 @@ const { subscribe } = require('../server')
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQueryByVendorOrCoach(req.query, req.user)
+        const query = await db.checkQueryWhereUserIdExceptIfAdmin(req.query, req.user)
         const data = await plan.findAndCountAll({
             ...query,
             include: [

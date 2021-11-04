@@ -22,7 +22,7 @@ const requireAuth = passport.authenticate('jwt', {
  *      tags:
  *        - programs
  *      summary: "get all program"
- *      description: "get all program. relations alias `userPR`, `programSP`, `programPL` "
+ *      description: "get all program. relations alias `userPR`, `programSP`, `programPL`, `storagePR` "
  *      responses:
  *        '200':
  *          description: "return programs"
@@ -121,8 +121,8 @@ router.get(
  *    get:
  *      tags:
  *        - programs
- *      summary: "get all program of logged in user"
- *      description: "get all program. relations alias `userPR`, `programSP`, `programPL` "
+ *      summary: "get all programs of logged in user"
+ *      description: "get all programs of logged in user. relations alias `userPR`, `programSP`, `programPL`, `storagePR` "
  *      responses:
  *        '200':
  *          description: "return programs"
