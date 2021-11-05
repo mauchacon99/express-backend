@@ -1,4 +1,5 @@
 const { matchedData } = require('express-validator')
+const {Sequelize} = require("sequelize")
 const { program, subprogram, user, storage, plan } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
@@ -17,6 +18,12 @@ exports.getItems = async (req, res) => {
         const query = await db.checkQueryWhereUserIdExceptIfAdmin(req.query, req.user)
         const data = await program.findAndCountAll({
             ...query,
+            attributes:  {
+                include: [
+                    [Sequelize.literal("(SELECT COUNT(plans.id) FROM plans WHERE (plans.programId = `program`.`id`))"), "plans"],
+                    [Sequelize.literal("(SELECT COUNT(subprograms.id) FROM subprograms WHERE (subprograms.programId = `program`.`id`))"), "subprograms"],
+                ]
+            },
             include: [
                 {
                     model: user,
@@ -28,14 +35,6 @@ exports.getItems = async (req, res) => {
 				{
                     model: storage,
                     as: 'storagePR'
-                },
-                {
-                    model: subprogram,
-                    as: 'programSP'
-                },
-                {
-                    model: plan,
-                    as: 'programPL'
                 },
             ]
 		})
@@ -57,6 +56,12 @@ exports.getAllItems = async (req, res) => {
         const query = await db.checkQuery(req.query)
         const data = await program.findAndCountAll({
             ...query,
+            attributes:  {
+                include: [
+                    [Sequelize.literal("(SELECT COUNT(plans.id) FROM plans WHERE (plans.programId = `program`.`id`))"), "plans"],
+                    [Sequelize.literal("(SELECT COUNT(subprograms.id) FROM subprograms WHERE (subprograms.programId = `program`.`id`))"), "subprograms"],
+                ]
+            },
             include: [
                 {
                     model: user,
@@ -68,14 +73,6 @@ exports.getAllItems = async (req, res) => {
 				{
                     model: storage,
                     as: 'storagePR'
-                },
-                {
-                    model: subprogram,
-                    as: 'programSP'
-                },
-                {
-                    model: plan,
-                    as: 'programPL'
                 },
             ]
 		})
@@ -128,7 +125,6 @@ exports.getItem = async (req, res) => {
                 }
             })
             .catch((err) => {
-                console.log(err);
                 utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
             })
     } catch (error) {
