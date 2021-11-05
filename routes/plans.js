@@ -18,7 +18,17 @@ const requireAuth = passport.authenticate('jwt', {
  *      tags:
  *        - plans
  *      summary: "get all plan"
- *      description: "get all plan. relations alias `userPL`, `storagePL`, `programPL`, `planS`"
+ *      description: get all plan. relations alias
+ * 
+ * 
+ *        `userPL` = relation of table users.
+ * 
+ * 
+ *        `storagePL` = relation of table storage.
+ * 
+ * 
+ *        `programPL` = relation of table programs.
+ * 
  *      responses:
  *        '200':
  *          description: "return plans"
@@ -85,7 +95,7 @@ router.post(
  *      tags:
  *        - plans
  *      summary: "search plan for id"
- *      description: "search plan for id. relations alias userPL, storagePL, programPL, planS"
+ *      description: "search plan for id"
  *      responses:
  *        '200':
  *          description: "return plan"
@@ -122,7 +132,17 @@ router.get(
  *      tags:
  *        - plans
  *      summary: "get all plans of logged in user"
- *      description: "get all plans of logged in user. relations alias `userPL`, `storagePL`, `programPL`, `planS`"
+ *      description: get all plans of logged in user. relations alias
+ * 
+ * 
+ *        `userPL` = relation of table users.
+ * 
+ * 
+ *        `storagePL` = relation of table storage.
+ * 
+ * 
+ *        `programPL` = relation of table programs.
+ * 
  *      responses:
  *        '200':
  *          description: "return plans"

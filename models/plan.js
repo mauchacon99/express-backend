@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   plan.init({
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
     users: {
       type: DataTypes.INTEGER,
       allowNull: false,

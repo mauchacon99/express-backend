@@ -286,6 +286,7 @@ const swaggerOptions = {
             plans: {
                 type: 'object',
                 required: [
+                    'name',
                     'programId',
                     'userId',
                     'storageId',
@@ -294,6 +295,7 @@ const swaggerOptions = {
                     'users',
                 ],
                 properties: {
+                    name: { type: 'string' },
                     programId: { type: 'number' },
                     userId: { type: 'number' },
                     storageId: { type: 'number' },
@@ -303,6 +305,7 @@ const swaggerOptions = {
                     status: { type: 'boolean' },
                 },
                 example: {
+                    name: 'The plan',
                     users: 10,
                     roleId: 2,
                     userId: 2,

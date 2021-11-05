@@ -1,8 +1,8 @@
 const { matchedData } = require('express-validator')
+const {Sequelize} = require("sequelize")
 const { plan, program, user, storage, subprogram, subscriber } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
-const { subscribe } = require('../server')
 
 /********************
  * Public functions *
@@ -18,28 +18,26 @@ exports.getItems = async (req, res) => {
         const query = await db.checkQueryWhereUserIdExceptIfAdmin(req.query, req.user)
         const data = await plan.findAndCountAll({
             ...query,
+            attributes:  {
+                include: [
+                    [Sequelize.literal("(SELECT COUNT(subscribers.id) FROM subscribers WHERE (subscribers.planId = `plan`.`id`))"), "subscribers"],
+                ]
+            },
             include: [
                 {
                     model: user,
-                    as: 'userPL'
+                    as: 'userPL',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
                 },
                 {
                     model: program,
                     as: 'programPL',
-                    include: [
-                        {
-                            model: subprogram,
-                            as: 'programSP'
-                        },
-                    ]
 				},
 				{
                     model: storage,
                     as: 'storagePL'
-                },
-                {
-                    model: subscriber,
-                    as: 'planS'
                 },
             ]
 		})
@@ -61,28 +59,26 @@ exports.getAllItems = async (req, res) => {
         const query = await db.checkQuery(req.query)
         const data = await plan.findAndCountAll({
             ...query,
+            attributes:  {
+                include: [
+                    [Sequelize.literal("(SELECT COUNT(subscribers.id) FROM subscribers WHERE (subscribers.planId = `plan`.`id`))"), "subscribers"],
+                ]
+            },
             include: [
                 {
                     model: user,
-                    as: 'userPL'
+                    as: 'userPL',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
                 },
                 {
                     model: program,
                     as: 'programPL',
-                    include: [
-                        {
-                            model: subprogram,
-                            as: 'programSP'
-                        },
-                    ]
 				},
 				{
                     model: storage,
                     as: 'storagePL'
-                },
-                {
-                    model: subscriber,
-                    as: 'planS'
                 },
             ]
 		})
@@ -108,7 +104,10 @@ exports.getItem = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userPL'
+                    as: 'userPL',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
                 },
                 {
                     model: program,
