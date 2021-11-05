@@ -9,10 +9,11 @@ const loginDetails = {
 }
 let token = ''
 const createdID = []
-const queryParams = ''
+const queryParams = 'fields=name&relations=programPL.name&filter=Some&sort=createdAt&page=1&limit=10&order=DESC'
 
 const payload = {
     id: 1,
+    name: 'Some interesting plan name',
     users: 5,
     roleId: 2,
     userId: 2,
@@ -69,6 +70,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -77,13 +79,14 @@ describe('*********** PLANS ***********', () => {
                         'storageId',
                         'price',
                         'userPL',
-                        'planS',
+                        'subscribers',
                         'programPL',
                         'storagePL',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -91,7 +94,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].status.should.be.a('boolean')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
-                    res.body.docs[0].planS.should.be.a('array')
+                    res.body.docs[0].subscribers.should.be.a('number')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
@@ -116,6 +119,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -124,13 +128,14 @@ describe('*********** PLANS ***********', () => {
                         'storageId',
                         'price',
                         'userPL',
-                        'planS',
+                        'subscribers',
                         'programPL',
                         'storagePL',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -138,7 +143,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].status.should.be.a('boolean')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
-                    res.body.docs[0].planS.should.be.a('array')
+                    res.body.docs[0].subscribers.should.be.a('number')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
@@ -174,6 +179,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -182,13 +188,14 @@ describe('*********** PLANS ***********', () => {
                         'storageId',
                         'price',
                         'userPL',
-                        'planS',
+                        'subscribers',
                         'programPL',
                         'storagePL',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -196,7 +203,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].status.should.be.a('boolean')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
-                    res.body.docs[0].planS.should.be.a('array')
+                    res.body.docs[0].subscribers.should.be.a('number')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
@@ -221,6 +228,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.totalPages.should.be.a('number')
                     res.body.docs[0].should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -229,13 +237,14 @@ describe('*********** PLANS ***********', () => {
                         'storageId',
                         'price',
                         'userPL',
-                        'planS',
+                        'subscribers',
                         'programPL',
                         'storagePL',
                         'createdAt',
                         'updatedAt'
                     )
                     res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].users.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].userId.should.be.a('number')
@@ -243,7 +252,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].status.should.be.a('boolean')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
-                    res.body.docs[0].planS.should.be.a('array')
+                    res.body.docs[0].subscribers.should.be.a('number')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
@@ -290,6 +299,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -301,6 +311,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
+                    res.body.name.should.be.a('string')
                     res.body.users.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.userId.should.be.a('number')
@@ -351,6 +362,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -366,6 +378,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
+                    res.body.name.should.be.a('string')
                     res.body.users.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.userId.should.be.a('number')
@@ -423,6 +436,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.include.keys(
                         'id',
+                        'name',
                         'users',
                         'roleId',
                         'userId',
@@ -434,6 +448,7 @@ describe('*********** PLANS ***********', () => {
                         'updatedAt'
                     )
                     res.body.id.should.be.a('number')
+                    res.body.name.should.be.a('string')
                     res.body.users.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.userId.should.be.a('number')

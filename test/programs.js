@@ -9,7 +9,7 @@ const loginDetails = {
 }
 let token = ''
 const createdID = []
-const queryParams = ''
+const queryParams = 'fields=name&relations=storagePR.id&filter=&sort=createdAt&page=1&limit=10&order=DESC'
 
 const payload = {
     userId: 2,
@@ -72,8 +72,8 @@ describe('*********** PROGRAMS ***********', () => {
                         'skills',
                         'description',
                         'userPR',
-                        'programPL',
-                        'programSP',
+                        'plans',
+                        'subprograms',
                         'storagePR',
                         'createdAt',
                         'updatedAt'
@@ -82,8 +82,8 @@ describe('*********** PROGRAMS ***********', () => {
                     res.body.docs[0].userId.should.be.a('number')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].programSP.should.be.a('array')
-                    res.body.docs[0].programPL.should.be.a('array')
+                    res.body.docs[0].subprograms.should.be.a('number')
+                    res.body.docs[0].plans.should.be.a('number')
                     res.body.docs[0].userPR.should.be.a('object')
                     res.body.docs[0].storagePR.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
@@ -113,8 +113,8 @@ describe('*********** PROGRAMS ***********', () => {
                         'skills',
                         'description',
                         'userPR',
-                        'programPL',
-                        'programSP',
+                        'plans',
+                        'subprograms',
                         'storagePR',
                         'createdAt',
                         'updatedAt'
@@ -123,8 +123,8 @@ describe('*********** PROGRAMS ***********', () => {
                     res.body.docs[0].userId.should.be.a('number')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].programSP.should.be.a('array')
-                    res.body.docs[0].programPL.should.be.a('array')
+                    res.body.docs[0].subprograms.should.be.a('number')
+                    res.body.docs[0].plans.should.be.a('number')
                     res.body.docs[0].userPR.should.be.a('object')
                     res.body.docs[0].storagePR.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
@@ -165,8 +165,8 @@ describe('*********** PROGRAMS ***********', () => {
                         'skills',
                         'description',
                         'userPR',
-                        'programPL',
-                        'programSP',
+                        'plans',
+                        'subprograms',
                         'storagePR',
                         'createdAt',
                         'updatedAt'
@@ -175,8 +175,8 @@ describe('*********** PROGRAMS ***********', () => {
                     res.body.docs[0].userId.should.be.a('number')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].programSP.should.be.a('array')
-                    res.body.docs[0].programPL.should.be.a('array')
+                    res.body.docs[0].subprograms.should.be.a('number')
+                    res.body.docs[0].plans.should.be.a('number')
                     res.body.docs[0].userPR.should.be.a('object')
                     res.body.docs[0].storagePR.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
@@ -206,8 +206,8 @@ describe('*********** PROGRAMS ***********', () => {
                         'skills',
                         'description',
                         'userPR',
-                        'programPL',
-                        'programSP',
+                        'plans',
+                        'subprograms',
                         'storagePR',
                         'createdAt',
                         'updatedAt'
@@ -216,8 +216,8 @@ describe('*********** PROGRAMS ***********', () => {
                     res.body.docs[0].userId.should.be.a('number')
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].name.should.be.a('string')
-                    res.body.docs[0].programSP.should.be.a('array')
-                    res.body.docs[0].programPL.should.be.a('array')
+                    res.body.docs[0].subprograms.should.be.a('number')
+                    res.body.docs[0].plans.should.be.a('number')
                     res.body.docs[0].userPR.should.be.a('object')
                     res.body.docs[0].storagePR.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')

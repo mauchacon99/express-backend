@@ -20,7 +20,10 @@ exports.getItems = async (req, res) => {
             include: [
                 {
                     model: user,
-                    as: 'userS'
+                    as: 'userS',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    }
 				},
 				{
                     model: plan,
