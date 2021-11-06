@@ -9,7 +9,7 @@ const loginDetails = {
 }
 let token = ''
 const createdID = []
-const queryParams = 'fields=name&relations=storagePR.id&filter=&sort=createdAt&page=1&limit=10&order=DESC'
+const queryParams = 'fields=name&relations=storagePR.id&filter=some&sort=createdAt&page=1&limit=10&order=DESC'
 
 const payload = {
     userId: 2,
