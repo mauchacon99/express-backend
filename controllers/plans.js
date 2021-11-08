@@ -1,6 +1,6 @@
 const { matchedData } = require('express-validator')
 const {Sequelize} = require("sequelize")
-const { plan, program, user, storage, subprogram, subscriber } = require('../models')
+const { plan, program, user, storage, subprogram, subscriber, roles } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -35,6 +35,10 @@ exports.getItems = async (req, res) => {
                     model: program,
                     as: 'programPL',
 				},
+                {
+                    model: roles,
+                    as: 'rolePL',
+                },
 				{
                     model: storage,
                     as: 'storagePL'
@@ -76,6 +80,10 @@ exports.getAllItems = async (req, res) => {
                     model: program,
                     as: 'programPL',
 				},
+                {
+                    model: roles,
+                    as: 'rolePL',
+                },
 				{
                     model: storage,
                     as: 'storagePL'
@@ -119,6 +127,10 @@ exports.getItem = async (req, res) => {
                         },
                     ]
 				},
+                {
+                    model: roles,
+                    as: 'rolePL',
+                },
 				{
                     model: storage,
                     as: 'storagePL'

@@ -79,6 +79,7 @@ describe('*********** PLANS ***********', () => {
                         'programId',
                         'status',
                         'storageId',
+                        'rolePL',
                         'price',
                         'userPL',
                         'subscribers',
@@ -98,6 +99,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].price.should.be.a('number')
                     res.body.docs[0].subscribers.should.be.a('number')
                     res.body.docs[0].userPL.should.be.a('object')
+                    res.body.docs[0].rolePL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
@@ -130,6 +132,7 @@ describe('*********** PLANS ***********', () => {
                         'storageId',
                         'description',
                         'price',
+                        'rolePL',
                         'userPL',
                         'subscribers',
                         'programPL',
@@ -147,6 +150,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
                     res.body.docs[0].subscribers.should.be.a('number')
+                    res.body.docs[0].rolePL.should.be.a('object')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
@@ -195,6 +199,7 @@ describe('*********** PLANS ***********', () => {
                         'subscribers',
                         'programPL',
                         'storagePL',
+                        'rolePL',
                         'createdAt',
                         'updatedAt'
                     )
@@ -210,6 +215,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].subscribers.should.be.a('number')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
+                    res.body.docs[0].rolePL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
                     res.body.docs[0].createdAt.should.be.a('string')
                     res.body.docs[0].updatedAt.should.be.a('string')
@@ -244,6 +250,7 @@ describe('*********** PLANS ***********', () => {
                         'userPL',
                         'subscribers',
                         'programPL',
+                        'rolePL',
                         'storagePL',
                         'createdAt',
                         'updatedAt'
@@ -258,6 +265,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.docs[0].storageId.should.be.a('number')
                     res.body.docs[0].price.should.be.a('number')
                     res.body.docs[0].subscribers.should.be.a('number')
+                    res.body.docs[0].rolePL.should.be.a('object')
                     res.body.docs[0].userPL.should.be.a('object')
                     res.body.docs[0].programPL.should.be.a('object')
                     res.body.docs[0].storagePL.should.be.a('object')
@@ -380,6 +388,7 @@ describe('*********** PLANS ***********', () => {
                         'description',
                         'planS',
                         'programPL',
+                        'rolePL',
                         'storagePL',
                         'createdAt',
                         'updatedAt'
@@ -394,6 +403,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.storageId.should.be.a('number')
                     res.body.price.should.be.a('number')
                     res.body.planS.should.be.a('array')
+                    res.body.rolePL.should.be.a('object')
                     res.body.userPL.should.be.a('object')
                     res.body.programPL.should.be.a('object')
                     res.body.storagePL.should.be.a('object')
