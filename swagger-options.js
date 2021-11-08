@@ -245,8 +245,7 @@ const swaggerOptions = {
                 type: 'object',
                 required: [
                     'userId',
-                    'name',
-                    'storageId',
+                    'name'
                 ],
                 properties: {
                     userId: { type: 'number' },
@@ -268,18 +267,15 @@ const swaggerOptions = {
                 required: [
                     'programId',
                     'name',
-                    'position',
                 ],
                 properties: {
                     programId: { type: 'number' },
                     name: { type: 'string' },
-                    position: { type: 'number' },
                     description: { type: 'string' },
                 },
                 example: {
                     programId: 1,
                     name: 'The subprogram',
-                    position: 1,
                     description: 'Dolore non est labore in voluptate..',
                 }
             },
@@ -289,7 +285,6 @@ const swaggerOptions = {
                     'name',
                     'programId',
                     'userId',
-                    'storageId',
                     'roleId',
                     'price',
                     'users',
@@ -303,6 +298,7 @@ const swaggerOptions = {
                     price: { type: 'number' },
                     users: { type: 'number' },
                     status: { type: 'boolean' },
+                    description: { type: 'string' }
                 },
                 example: {
                     name: 'The plan',
@@ -310,6 +306,7 @@ const swaggerOptions = {
                     roleId: 2,
                     userId: 2,
                     status: true,
+                    description: 'this is a plan',
                     programId: 1,
                     storageId: 1,
                     price: 99.99,
