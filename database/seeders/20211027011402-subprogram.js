@@ -7,7 +7,6 @@ module.exports = {
         id: 1,
         programId: 1,
         description: 'Sit Lorem irure esse voluptate.',
-        position: 1,
         name: 'Some Subprogram name',
         createdAt: new Date(),
         updatedAt: new Date(),

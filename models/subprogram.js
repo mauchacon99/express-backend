@@ -22,11 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       allowNull: false,
-      type: DataTypes.STRING
-    },
-    position: {
-      allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.TEXT
     },
     name: {
       allowNull: false,

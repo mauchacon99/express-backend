@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       allowNull: true,
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     name: {
       allowNull: false,
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     storageId: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER
     },
     createdAt: {

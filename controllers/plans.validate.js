@@ -35,12 +35,10 @@ exports.createItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('description')
+        .optional(),
     check('storageId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('price')
         .exists()
         .withMessage('MISSING')
@@ -49,7 +47,6 @@ exports.createItem = [
         .withMessage('IS_EMPTY'),
     check('status')
         .optional(),
-    
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -77,6 +74,8 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('description')
+        .optional(),
     check('userId')
         .exists()
         .withMessage('MISSING')
@@ -90,11 +89,7 @@ exports.updateItem = [
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('storageId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('price')
         .exists()
         .withMessage('MISSING')

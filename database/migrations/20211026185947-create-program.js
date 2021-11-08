@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       name: {
         allowNull: false,
@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       storageId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       createdAt: {

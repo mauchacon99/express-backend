@@ -9,11 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       description: {
-        type: Sequelize.STRING
-      },
-      position: {
-        allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
       },
       name: {
         allowNull: false,
@@ -31,7 +27,7 @@ module.exports = {
 
     queryInterface.addColumn(
       'subprograms', // name of Source model
-      'programId', // name of the key we're adding 
+      'programId', // name of the key we're adding
       {
         type: Sequelize.INTEGER,
         references: {
