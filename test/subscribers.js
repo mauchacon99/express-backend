@@ -12,8 +12,8 @@ const createdID = []
 const queryParams = ''
 
 const payload = {
-    userId: 2,
-    planId: 1,
+    userId: 1,
+    planId: 3,
 }
 
 chai.use(chaiHttp)

@@ -31,6 +31,19 @@ module.exports = {
         price: 30.99,
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        id: 3,
+        name: 'Plan 3',
+        users: 10,
+        roleId: 1,
+        userId: 3,
+        status: true,
+        programId: 2,
+        storageId: 1,
+        price: 20.80,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ], {});
   },

@@ -1,5 +1,5 @@
 const utils = require("./utils");
-const { permissions, modules } = require('../models')
+const { permissions, modules, plan } = require('../models')
 const _ = require("lodash");
 
 /**
@@ -44,6 +44,25 @@ const checkPermissions = (req, roleId, next) => {
 }
 
 /**
+ * Check if logged in user can subscribe to the plan
+ * @param {Object} req - request object
+ * @param {Number} roleId - id of role
+ * @param {Object || Function} next - next
+ */
+const checkSubscriber = (req, planId, next) => {
+    return new Promise((resolve, reject) => {
+        plan.findOne({ where: { id: planId } })
+        .then(resp => {
+            if(req.user.roleId === resp.roleId) next()
+            else reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+        })
+        .catch((err) => {
+            reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+        })
+    })
+}
+
+/**
  * Public functions
  */
 
@@ -54,6 +73,18 @@ exports.roleAuthorization = () => async (req, res, next) => {
     try {
         const { roleId } = req.user
         await checkPermissions(req, roleId, next)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
+ * check authorization for subscription
+ */
+exports.subscriberAuthorization = () => async (req, res, next) => {
+    try {
+        const { planId } = req.body;
+        await checkSubscriber(req, planId, next)
     } catch (error) {
         utils.handleError(res, error)
     }

@@ -324,7 +324,7 @@ const swaggerOptions = {
                 },
                 example: {
                     userId: 1,
-                    planId: 1,
+                    planId: 3,
                 }
             },
         }
