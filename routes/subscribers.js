@@ -49,6 +49,7 @@ router.post(
     permissions.roleAuthorization(),
     trimRequest.all,
     validate.createItem,
+    permissions.subscriberAuthorization(),
     controller.createItem
 )
 
