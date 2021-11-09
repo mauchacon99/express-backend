@@ -17,6 +17,13 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: 3,
+        userId: 9,
+        planId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
     ], {});
   },

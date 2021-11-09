@@ -159,6 +159,24 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: 9,
+        name: 'personal 2',
+        lastname: 'test 2',
+        roleId: 5,
+        vendor: null,
+        storageId: 1,
+        password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
+        email: 'personal1@personal.com',
+        verification: sanitizeHash(faker.datatype.uuid()),
+        verified: true,
+        description: 'Veniam ex eiusmod officia commodo occaecat exercitation.',
+        forgotPassword: false,
+        skills: JSON.stringify(['skill1', 'skill2']),
+        preferences: JSON.stringify(['skill1', 'skill2']),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ], {});
   },
 

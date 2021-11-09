@@ -137,7 +137,22 @@ exports.getItem = async (req, res) => {
                 },
                 {
                     model: subscriber,
-                    as: 'planS'
+                    as: 'planS',
+                    include: [
+                        {
+                            model: user,
+                            as: 'userS',
+                            attributes: {
+                                exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                            },
+                            include: [
+                                {
+                                    model: storage,
+                                    as: 'avatar'
+                                }
+                            ]
+                        },
+                    ]
                 },
             ]
         })
