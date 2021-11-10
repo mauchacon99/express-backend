@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { subscriber, user, plan } = require('../models')
+const { subscriber, user, plan, storage} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -23,7 +23,13 @@ exports.getItems = async (req, res) => {
                     as: 'userS',
                     attributes: {
                         exclude: ['password', 'verification', 'verified', 'forgotPassword']
-                    }
+                    },
+                    include: [
+                        {
+                            model: storage,
+                            as: 'avatar'
+                        }
+                    ]
 				},
 				{
                     model: plan,
