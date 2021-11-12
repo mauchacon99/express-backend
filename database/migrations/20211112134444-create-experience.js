@@ -18,7 +18,7 @@ module.exports = {
       },
       description: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       experience: {
         allowNull: false,
