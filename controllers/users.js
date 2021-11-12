@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 const { matchedData } = require('express-validator')
-const { user, roles, storage, phone, location } = require('../models')
+const { user, roles, storage, phone, location, experience } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 const emailer = require("../middleware/emailer");
@@ -93,11 +93,48 @@ exports.getItem = (req, res) => {
                     model: location,
                     as: 'userL'
                 },
+                {
+                    model: experience,
+                    as: 'userEX'
+                },
             ]
         })
-            .then((data) => {
+            .then(async (data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {
+                    if (data.vendor) {
+                        const vendorData = await user.findOne({
+                            attributes: {
+                                exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                            },
+                            where: { id: data.vendor },
+                            include: [
+                                {
+                                    model: roles,
+                                    as: 'roleU'
+                                },
+                                {
+                                    model: storage,
+                                    as: 'avatar'
+                                },
+                                {
+                                    model: phone,
+                                    as: 'userP'
+                                },
+                                {
+                                    model: location,
+                                    as: 'userL'
+                                },
+                                {
+                                    model: experience,
+                                    as: 'userEX'
+                                },
+                            ]
+                        })
+
+                        data.vendor = vendorData
+                    }
+
                     db.saveEvent({userId: users.id, event: `get_user_${id}`})
                     res.status(200).json(data)
                 }

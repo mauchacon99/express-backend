@@ -62,6 +62,26 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING
       },
+      instagram: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      facebook: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      linkedin: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      professions: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      languages: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

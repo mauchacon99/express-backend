@@ -5,44 +5,26 @@ const { validationResult } = require('../middleware/utils')
  * Validates create new item request
  */
 exports.createItem = [
+    check('userId')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('name')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('lastname')
-        .optional(),
     check('description')
         .optional(),
-    check('roleId')
+    check('experience')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('email')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isEmail()
-        .withMessage('EMAIL_IS_NOT_VALID'),
-    check('skills')
-        .optional(),
-    check('preferences')
-        .optional(),
-    check('instagram')
-        .optional(),
-    check('facebook')
-        .optional(),
-    check('linkedin')
-        .optional(),
-    check('professions')
-        .optional(),
-    check('languages')
-        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -52,38 +34,32 @@ exports.createItem = [
  * Validates update item request
  */
 exports.updateItem = [
+    check('userId')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('name')
-        .optional(),
-    check('lastname')
-        .optional(),
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('description')
         .optional(),
-    check('storageId')
-        .optional(),
-    check('roleId')
-        .optional(),
-    check('email')
-        .optional(),
+    check('experience')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('id')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-     check('skills')
-        .optional(),
-    check('preferences')
-        .optional(),
-    check('instagram')
-        .optional(),
-    check('facebook')
-        .optional(),
-    check('linkedin')
-        .optional(),
-    check('professions')
-        .optional(),
-    check('languages')
-        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }

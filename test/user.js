@@ -18,6 +18,11 @@ const userSend = {
     roleId: 2,
     skills: ['skill1', 'skill2'],
     preferences: ['pref1', 'pref2'],
+    instagram: 'https://www.instagram.com',
+    facebook: 'https://www.facebook.com',
+    linkedin: 'https://www.linkedin.com',
+    professions: ['Designer', 'Computer Engineer'],
+    languages: ['English', 'Spanish'],
 }
 
 chai.use(chaiHttp)
@@ -65,6 +70,7 @@ describe('*********** USERS ***********', () => {
                     res.body.totalDocs.should.be.a('number')
                     res.body.page.should.be.a('number')
                     res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys('vendor', 'description', 'phone', 'address', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages')
                     res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].lastname.should.be.a('string')
                     res.body.docs[0].email.should.be.a('string')
@@ -77,7 +83,6 @@ describe('*********** USERS ***********', () => {
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].roleU.should.include.keys('name', 'description', 'createdAt', 'updatedAt')
                     res.body.docs[0].verification.should.be.a('string')
-                    res.body.docs[0].should.include.keys('vendor', 'description', 'phone', 'address', 'skills', 'preferences')
                     res.body.docs[0].verified.should.be.a('boolean')
                     res.body.docs[0].forgotPassword.should.be.a('boolean')
                     done()
@@ -96,6 +101,7 @@ describe('*********** USERS ***********', () => {
                     res.body.totalDocs.should.be.a('number')
                     res.body.page.should.be.a('number')
                     res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys('vendor', 'description', 'phone', 'address', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages')
                     res.body.docs[0].name.should.be.a('string')
                     res.body.docs[0].lastname.should.be.a('string')
                     res.body.docs[0].email.should.be.a('string')
@@ -147,7 +153,7 @@ describe('*********** USERS ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'updatedAt', 'createdAt')
+                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages', 'updatedAt', 'createdAt')
                     res.body.id.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.name.should.be.a('string')
@@ -211,7 +217,7 @@ describe('*********** USERS ***********', () => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
                     res.body.should.have.property('id').eql(id)
-                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'roleU', 'email', 'skills', 'preferences', 'updatedAt', 'createdAt')
+                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'roleU', 'userEX', 'email', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages', 'updatedAt', 'createdAt')
                     res.body.roleU.should.include.keys('name', 'description', 'createdAt', 'updatedAt')
                     res.body.id.should.be.a('number')
                     res.body.roleId.should.be.a('number')
@@ -228,6 +234,7 @@ describe('*********** USERS ***********', () => {
                     res.body.forgotPassword.should.be.a('boolean')
                     res.body.userL.should.be.a('array')
                     res.body.userP.should.be.a('array')
+                    res.body.userEX.should.be.a('array')
                     done()
                 })
         })
@@ -273,7 +280,7 @@ describe('*********** USERS ***********', () => {
                     res.body.should.be.a('object')
                     res.body.should.have.property('id').eql(id)
                     res.body.should.have.property('name').eql('user admin')
-                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'updatedAt', 'createdAt')
+                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages', 'updatedAt', 'createdAt')
                     res.body.id.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.name.should.be.a('string')
