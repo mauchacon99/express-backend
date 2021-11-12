@@ -337,6 +337,26 @@ const swaggerOptions = {
                     planId: 3,
                 }
             },
+            experiences: {
+                type: 'object',
+                required: [
+                    'userId',
+                    'name',
+                    'experience',
+                ],
+                properties: {
+                    userId: { type: 'number' },
+                    name: { type: 'string' },
+                    description: { type: 'string' },
+                    experience: { type: 'string' },
+                },
+                example: {
+                    userId: 2,
+                    name: 'Software development',
+                    description: 'Esse minim elit laboris mollit do.',
+                    experience: '10 years of experience'
+                }
+            },
         }
     },
     // routers

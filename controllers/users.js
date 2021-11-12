@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 const { matchedData } = require('express-validator')
-const { user, roles, storage, phone, location } = require('../models')
+const { user, roles, storage, phone, location, experience } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 const emailer = require("../middleware/emailer");
@@ -92,6 +92,10 @@ exports.getItem = (req, res) => {
                 {
                     model: location,
                     as: 'userL'
+                },
+                {
+                    model: experience,
+                    as: 'userEX'
                 },
             ]
         })

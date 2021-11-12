@@ -144,6 +144,17 @@ module.exports = {
         updatedAt: new Date(),
         visible: false,
       },
+      {
+        id: 13,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        icon: '',
+        name: 'Experiences',
+        route: '/experiences',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: true,
+      },
     ], {});
   },
 
