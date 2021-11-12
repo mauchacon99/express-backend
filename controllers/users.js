@@ -110,25 +110,9 @@ exports.getItem = (req, res) => {
                             where: { id: data.vendor },
                             include: [
                                 {
-                                    model: roles,
-                                    as: 'roleU'
-                                },
-                                {
                                     model: storage,
                                     as: 'avatar'
-                                },
-                                {
-                                    model: phone,
-                                    as: 'userP'
-                                },
-                                {
-                                    model: location,
-                                    as: 'userL'
-                                },
-                                {
-                                    model: experience,
-                                    as: 'userEX'
-                                },
+                                }
                             ]
                         })
 
