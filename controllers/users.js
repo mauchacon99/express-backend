@@ -99,9 +99,42 @@ exports.getItem = (req, res) => {
                 },
             ]
         })
-            .then((data) => {
+            .then(async (data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {
+                    if (data.vendor) {
+                        const vendorData = await user.findOne({
+                            attributes: {
+                                exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                            },
+                            where: { id: data.vendor },
+                            include: [
+                                {
+                                    model: roles,
+                                    as: 'roleU'
+                                },
+                                {
+                                    model: storage,
+                                    as: 'avatar'
+                                },
+                                {
+                                    model: phone,
+                                    as: 'userP'
+                                },
+                                {
+                                    model: location,
+                                    as: 'userL'
+                                },
+                                {
+                                    model: experience,
+                                    as: 'userEX'
+                                },
+                            ]
+                        })
+
+                        data.vendor = vendorData
+                    }
+
                     db.saveEvent({userId: users.id, event: `get_user_${id}`})
                     res.status(200).json(data)
                 }
