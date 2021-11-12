@@ -33,6 +33,16 @@ exports.createItem = [
         .optional(),
     check('preferences')
         .optional(),
+    check('instagram')
+        .optional(),
+    check('facebook')
+        .optional(),
+    check('linkedin')
+        .optional(),
+    check('professions')
+        .optional(),
+    check('languages')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -63,6 +73,16 @@ exports.updateItem = [
      check('skills')
         .optional(),
     check('preferences')
+        .optional(),
+    check('instagram')
+        .optional(),
+    check('facebook')
+        .optional(),
+    check('linkedin')
+        .optional(),
+    check('professions')
+        .optional(),
+    check('languages')
         .optional(),
     (req, res, next) => {
         validationResult(req, res, next)

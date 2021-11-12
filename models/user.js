@@ -87,6 +87,36 @@ module.exports = (sequelize, DataTypes) => {
         return this.setDataValue('preferences', JSON.stringify(value));
       }
     },
+    instagram: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    facebook: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    linkedin: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    professions: {
+      type: DataTypes.STRING,
+      get: function() {
+        return JSON.parse(this.getDataValue('professions') || '[]');
+      },
+      set: function(value) {
+        return this.setDataValue('professions', JSON.stringify(value));
+      }
+    },
+    languages: {
+      type: DataTypes.STRING,
+      get: function() {
+        return JSON.parse(this.getDataValue('languages') || '[]');
+      },
+      set: function(value) {
+        return this.setDataValue('languages', JSON.stringify(value));
+      }
+    },
   }, {
     sequelize,
     modelName: 'user',

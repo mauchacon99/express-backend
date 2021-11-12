@@ -113,6 +113,11 @@ const swaggerOptions = {
                     lastname: { type: 'string' },
                     skills: { type: 'array' },
                     preferences: { type: 'array' },
+                    instagram: { type: 'string' },
+                    facebook: { type: 'string' },
+                    linkedin: { type: 'string' },
+                    professions: { type: 'array' },
+                    languages: { type: 'array' },
                 },
                 example: {
                     name: 'user',
@@ -121,6 +126,11 @@ const swaggerOptions = {
                     lastname: "test",
                     skills: ['skill1', 'skill2'],
                     preferences: ['pref1', 'pref2'],
+                    instagram: 'https://www.instagram.com',
+                    facebook: 'https://www.facebook.com',
+                    linkedin: 'https://www.linkedin.com',
+                    professions: ['Designer', 'Computer Engineer'],
+                    languages: ['English', 'Spanish'],
                 }
             },
             roles: {
