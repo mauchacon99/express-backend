@@ -113,6 +113,11 @@ const swaggerOptions = {
                     lastname: { type: 'string' },
                     skills: { type: 'array' },
                     preferences: { type: 'array' },
+                    instagram: { type: 'string' },
+                    facebook: { type: 'string' },
+                    linkedin: { type: 'string' },
+                    professions: { type: 'array' },
+                    languages: { type: 'array' },
                 },
                 example: {
                     name: 'user',
@@ -121,6 +126,11 @@ const swaggerOptions = {
                     lastname: "test",
                     skills: ['skill1', 'skill2'],
                     preferences: ['pref1', 'pref2'],
+                    instagram: 'https://www.instagram.com',
+                    facebook: 'https://www.facebook.com',
+                    linkedin: 'https://www.linkedin.com',
+                    professions: ['Designer', 'Computer Engineer'],
+                    languages: ['English', 'Spanish'],
                 }
             },
             roles: {
@@ -325,6 +335,26 @@ const swaggerOptions = {
                 example: {
                     userId: 1,
                     planId: 3,
+                }
+            },
+            experiences: {
+                type: 'object',
+                required: [
+                    'userId',
+                    'name',
+                    'experience',
+                ],
+                properties: {
+                    userId: { type: 'number' },
+                    name: { type: 'string' },
+                    description: { type: 'string' },
+                    experience: { type: 'string' },
+                },
+                example: {
+                    userId: 2,
+                    name: 'Software development',
+                    description: 'Esse minim elit laboris mollit do.',
+                    experience: '10 years of experience'
                 }
             },
         }
