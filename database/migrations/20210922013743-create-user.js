@@ -60,7 +60,7 @@ module.exports = {
       },
       preferences: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       instagram: {
         type: Sequelize.STRING,
@@ -76,11 +76,11 @@ module.exports = {
       },
       professions: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       languages: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
