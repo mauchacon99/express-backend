@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     skills: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       get: function() {
         return JSON.parse(this.getDataValue('skills') || '[]');
       },
@@ -80,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     preferences: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       get: function() {
         return JSON.parse(this.getDataValue('preferences') || '[]');
       },
@@ -101,7 +101,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     professions: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       get: function() {
         return JSON.parse(this.getDataValue('professions') || '[]');
       },
@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     languages: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       get: function() {
         return JSON.parse(this.getDataValue('languages') || '[]');
       },
