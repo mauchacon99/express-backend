@@ -1,6 +1,6 @@
 const { matchedData } = require('express-validator')
 const {Sequelize} = require("sequelize")
-const { program, subprogram, user, storage, plan } = require('../models')
+const { program, subprogram, user, storage, plan, subscriber } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -92,30 +92,47 @@ exports.getAllItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
+        let shouldIncludeSubprograms = true
+        
+        if (req.user.roleId === 4 || req.user.roleId === 5) {
+            const _res = await subscriber.findAndCountAll({
+                where: Sequelize.literal(`subscriber.planId IN (SELECT p.id FROM plans as p WHERE p.programId = ${id}) AND subscriber.userId = ${req.user.id}`),
+            })
 
+            if (_res.count < 1) shouldIncludeSubprograms = false
+        }
+
+        const include = [
+            {
+                model: user,
+                as: 'userPR',
+                attributes: {
+                    exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                }
+            },
+            {
+                model: storage,
+                as: 'storagePR'
+            },
+            {
+                model: plan,
+                as: 'programPL'
+            },
+        ]
+
+        // When Role is Company or Personal, only if the user
+        // is subscribed to any plan of this program, then it
+        // includes the respective subprograms.
+        if (shouldIncludeSubprograms) {
+            include.push({
+                model: subprogram,
+                as: 'programSP'
+            })
+        }
+        
         program.findOne({
             where:{id},
-            include: [
-                {
-                    model: user,
-                    as: 'userPR',
-                    attributes: {
-                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
-                    }
-				},
-                {
-                    model: storage,
-                    as: 'storagePR'
-                },
-                {
-                    model: subprogram,
-                    as: 'programSP'
-                },
-                {
-                    model: plan,
-                    as: 'programPL'
-                },
-            ]
+            include,
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
