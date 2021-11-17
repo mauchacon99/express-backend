@@ -72,6 +72,19 @@ exports.getItem = async (req, res) => {
                         {
                             model: program,
                             as: 'programPL',
+                            include: [
+                                {
+                                    model: user,
+                                    as: 'userPR',
+                                    attributes: {
+                                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                                    }
+                                },
+                                {
+                                    model: storage,
+                                    as: 'storagePR'
+                                },
+                            ]
                         },
                         {
                             model: roles,
