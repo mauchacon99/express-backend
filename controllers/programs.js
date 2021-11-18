@@ -194,6 +194,7 @@ exports.createItem = async (req, res) => {
             userId: req.user.id,
             event: `new_program`
         }
+        if(req.user.vendor) utils.handleError(res, utils.buildErrObject(401, 'UNAUTHORIZED'))
         req = matchedData(req)
         res.status(201).json(await db.createItem(req, program, event))
     } catch (error) {
