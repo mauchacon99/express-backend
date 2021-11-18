@@ -357,6 +357,18 @@ const swaggerOptions = {
                     experience: '10 years of experience'
                 }
             },
+            invitations: {
+                type: 'object',
+                required: [
+                    'to',
+                ],
+                properties: {
+                    to: { type: 'number' },
+                },
+                example: {
+                    to: 3,
+                }
+            },
         }
     },
     // routers

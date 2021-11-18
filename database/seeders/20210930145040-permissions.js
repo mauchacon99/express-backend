@@ -130,6 +130,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 1,
+        moduleId: 14, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 2 = coach
       {
@@ -249,6 +258,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 2,
+        moduleId: 14, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 3 = vendor
       {
@@ -356,6 +374,15 @@ module.exports = {
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 3,
+        moduleId: 14, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -469,6 +496,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 4,
+        moduleId: 14, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 5 = personal
       {
@@ -578,7 +614,16 @@ module.exports = {
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
+      },
+      {
+        roleId: 5,
+        moduleId: 14, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ], {});
   },
 

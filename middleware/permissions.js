@@ -1,6 +1,8 @@
-const utils = require("./utils");
-const { permissions, modules, plan } = require('../models')
+const { Op } = require("sequelize")
 const _ = require("lodash");
+
+const utils = require("./utils");
+const { permissions, modules, plan, user } = require('../models')
 
 /**
  * Private functions
@@ -63,6 +65,36 @@ const checkSubscriber = (req, planId, next) => {
 }
 
 /**
+ * Check if the sender or receiver has a vendor
+ * @param {Object} req - request object
+ * @param {Number} from - id of sender
+ * @param {Number} to - id of receiver
+ * @param {Object || Function} next - next
+ */
+const checkInvitation = (from, to, next) => {
+    return new Promise((resolve, reject) => {
+        user.findAll({
+            where: { id: { [Op.in]: [from, to] } }
+        })
+            .then(resp => {
+
+                const unauthorized = _.find(resp, ({dataValues: a}) => a.vendor !== null)
+
+                if (unauthorized)
+                    reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+
+                else next()
+
+            })
+            .catch((err) => {
+                console.log(err);
+
+                reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+            })
+    })
+}
+
+/**
  * Public functions
  */
 
@@ -85,6 +117,21 @@ exports.subscriberAuthorization = () => async (req, res, next) => {
     try {
         const { planId } = req.body;
         await checkSubscriber(req, planId, next)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
+ * check authorization for invitation
+ */
+exports.invitationAuthorization = () => async (req, res, next) => {
+    try {
+        const { user, body } = req;
+        const { id: from } = user;
+        const { to } = body;
+
+        await checkInvitation(from, to, next)
     } catch (error) {
         utils.handleError(res, error)
     }
