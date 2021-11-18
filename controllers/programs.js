@@ -5,6 +5,57 @@ const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
 /********************
+ * Private functions *
+ ********************/
+
+/**
+ * Get items of logged in user, function called by route
+ * @param {Object} req - request object
+ * @param {number} id - id of program
+ */
+const validateViewSubprogram = async (req, id) => {
+    let shouldIncludeSubprograms = true
+    if (req.user.roleId === 4 || req.user.roleId === 5) {
+        const _res = await subscriber.findAndCountAll({
+            where: Sequelize.literal(`subscriber.planId IN (SELECT p.id FROM plans as p WHERE p.programId = ${id}) AND subscriber.userId = ${req.user.id}`),
+        })
+        shouldIncludeSubprograms = (_res.count > 0)
+    } else {
+        const pro = await program.findByPk(id)
+        shouldIncludeSubprograms = (pro.userId === req.user.id || pro.userId === req.user.vendor || req.user.roleId === 1)
+    }
+
+    const include = [
+        {
+            model: user,
+            as: 'userPR',
+            attributes: {
+                exclude: ['password', 'verification', 'verified', 'forgotPassword']
+            }
+        },
+        {
+            model: storage,
+            as: 'storagePR'
+        },
+        {
+            model: plan,
+            as: 'programPL'
+        },
+    ]
+
+    // When Role is Company or Personal, only if the user
+    // is subscribed to any plan of this program, then it
+    // includes the respective subprograms.
+    if (shouldIncludeSubprograms) {
+        include.push({
+            model: subprogram,
+            as: 'programSP'
+        })
+    }
+    return include
+}
+
+/********************
  * Public functions *
  ********************/
 
@@ -92,47 +143,11 @@ exports.getAllItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        let shouldIncludeSubprograms = true
-        
-        if (req.user.roleId === 4 || req.user.roleId === 5) {
-            const _res = await subscriber.findAndCountAll({
-                where: Sequelize.literal(`subscriber.planId IN (SELECT p.id FROM plans as p WHERE p.programId = ${id}) AND subscriber.userId = ${req.user.id}`),
-            })
+        const include = await validateViewSubprogram(req, id)
 
-            if (_res.count < 1) shouldIncludeSubprograms = false
-        }
-
-        const include = [
-            {
-                model: user,
-                as: 'userPR',
-                attributes: {
-                    exclude: ['password', 'verification', 'verified', 'forgotPassword']
-                }
-            },
-            {
-                model: storage,
-                as: 'storagePR'
-            },
-            {
-                model: plan,
-                as: 'programPL'
-            },
-        ]
-
-        // When Role is Company or Personal, only if the user
-        // is subscribed to any plan of this program, then it
-        // includes the respective subprograms.
-        if (shouldIncludeSubprograms) {
-            include.push({
-                model: subprogram,
-                as: 'programSP'
-            })
-        }
-        
         program.findOne({
             where:{id},
-            include,
+            include
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
@@ -141,7 +156,7 @@ exports.getItem = async (req, res) => {
                     res.status(200).json(data)
                 }
             })
-            .catch((err) => {
+            .catch(() => {
                 utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
             })
     } catch (error) {
