@@ -58,20 +58,14 @@ exports.generateToken = (id) => {
  * @param {Object} item - request object
  */
 exports.setUserInfo = (item) => {
-    return {
-        // id: user.id,
-        name: item.name,
-        id: item.id,
-        email: item.email,
-        verified: item.verified,
-        verification: item.verification,
-        lastname: item.lastname,
-        roleId: item.roleId,
-        userL: item.userL,
-        userP: item.userP,
-        roleU: item.roleU,
-        avatar: item.avatar
-    }
+    const {
+        password,
+        verification,
+        forgotPassword,
+        ...user
+    } = item.dataValues
+
+    return user
 }
 
 /**
