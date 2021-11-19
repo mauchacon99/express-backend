@@ -3,6 +3,7 @@ const { matchedData } = require('express-validator')
 const { invitation, user, storage } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
+const emailer = require("../middleware/emailer");
 
 /********************
  * Public functions *
@@ -113,15 +114,27 @@ exports.updateItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
+        const locale = req.getLocale()
         const event = {
             userId: req.user.id,
             event: `new_invitation`
         }
-        const from = req.user.id;
+
+        const receiverData = await user.findOne({where: { id: req.body.to }})
+        const senderData = req.user
+
+        const dataToSave = {
+            from: senderData.id,
+            to: receiverData.id,
+        }
+
+        if (!receiverData) reject(utils.buildErrObject(404, 'NOT_FOUND'))
+
+        emailer.sendInvitationEmailMessage(locale, senderData, receiverData.dataValues).then()
         
         req = matchedData(req)
 
-        res.status(201).json(await db.createItem({ ...req, from }, invitation, event))
+        res.status(201).json(await db.createItem(dataToSave, invitation, event))
     } catch (error) {
         utils.handleError(res, error)
     }
