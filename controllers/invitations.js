@@ -1,5 +1,6 @@
+const _ = require('lodash')
 const { matchedData } = require('express-validator')
-const { invitation } = require('../models')
+const { invitation, user, storage } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -14,13 +15,48 @@ const db = require('../middleware/db')
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQuery(req.query)
-        const data = await invitation.findAndCountAll({
+        const query = await db.checkQueryInvitationExceptIfAdmin(req.query, req.user)
+        const data = await invitation.findAll({
             ...query,
-		})
+            include: [
+                {
+                    model: user,
+                    as: 'userI-FROM',
+                    attributes: {
+                        exclude: ['password', 'verified', 'forgotPassword']
+                    },
+                    include: [
+                        {
+                            model: storage,
+                            as: 'avatar'
+                        }
+                    ]
+                },
+                {
+                    model: user,
+                    as: 'userI-TO',
+                    attributes: {
+                        exclude: ['password', 'verified', 'forgotPassword']
+                    },
+                    include: [
+                        {
+                            model: storage,
+                            as: 'avatar'
+                        }
+                    ]
+                },
+            ]
+        })
+
+        const _data = { from: [], to: [] }
+
+        _.each(data, (item) => {
+            _data.from.push(item.dataValues['userI-FROM'])
+            _data.to.push(item.dataValues['userI-TO'])
+        })
 
         db.saveEvent({userId: req.user.id, event: 'get_all_invitations'})
-        res.status(200).json(db.respOptions(data, query))
+        res.status(200).json(_data)
     } catch (error) {
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }

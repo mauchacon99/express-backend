@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.user, {as: 'userI-FROM', foreignKey: 'from'})
+      this.belongsTo(models.user, {as: 'userI-TO', foreignKey: 'to'})
     }
   };
   invitation.init({
