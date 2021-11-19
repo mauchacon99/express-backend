@@ -103,11 +103,11 @@ exports.getItem = (req, res) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {
                     if (data.vendor) {
-                        const vendorData = await user.findOne({
+                        data.vendor = await user.findOne({
                             attributes: {
                                 exclude: ['password', 'verification', 'verified', 'forgotPassword']
                             },
-                            where: { id: data.vendor },
+                            where: {id: data.vendor},
                             include: [
                                 {
                                     model: storage,
@@ -115,8 +115,6 @@ exports.getItem = (req, res) => {
                                 }
                             ]
                         })
-
-                        data.vendor = vendorData
                     }
 
                     db.saveEvent({userId: users.id, event: `get_user_${id}`})

@@ -37,7 +37,7 @@ module.exports = {
         name: 'Plan 3',
         description: faker.random.words(15),
         users: 10,
-        roleId: 1,
+        roleId: 5,
         userId: 3,
         status: true,
         programId: 2,

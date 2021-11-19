@@ -59,8 +59,8 @@ router.post(
  *    get:
  *      tags:
  *        - subscribers
- *      summary: "search subscriber for id"
- *      description: "search subscriber for id"
+ *      summary: "search subscribers for id of user"
+ *      description: "search subscribers for id of user"
  *      responses:
  *        '200':
  *          description: "return subscriber"
@@ -75,7 +75,7 @@ router.post(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of subscriber"
+ *          description: "id of user"
  *          required: true
  *          schema:
  *            type: number
