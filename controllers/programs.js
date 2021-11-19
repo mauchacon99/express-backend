@@ -14,7 +14,7 @@ const db = require('../middleware/db')
  * @param {number} id - id of program
  */
 const validateViewSubprogram = async (req, id) => {
-    let shouldIncludeSubprograms = true
+    let shouldIncludeSubprograms = false
     if (req.user.roleId === 4 || req.user.roleId === 5) {
         const _res = await subscriber.findAndCountAll({
             where: Sequelize.literal(`subscriber.planId IN (SELECT p.id FROM plans as p WHERE p.programId = ${id}) AND subscriber.userId = ${req.user.id}`),
@@ -22,7 +22,8 @@ const validateViewSubprogram = async (req, id) => {
         shouldIncludeSubprograms = (_res.count > 0)
     } else {
         const pro = await program.findByPk(id)
-        shouldIncludeSubprograms = (pro.userId === req.user.id || pro.userId === req.user.vendor || req.user.roleId === 1)
+        if(pro)
+         shouldIncludeSubprograms = (pro.userId === req.user.id || pro.userId === req.user.vendor || req.user.roleId === 1)
     }
 
     const include = [

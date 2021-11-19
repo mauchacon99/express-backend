@@ -60,7 +60,6 @@ exports.generateToken = (id) => {
 exports.setUserInfo = (item) => {
     const {
         password,
-        verification,
         forgotPassword,
         ...user
     } = item.dataValues
