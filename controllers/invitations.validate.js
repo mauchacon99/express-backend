@@ -47,7 +47,7 @@ exports.updateItem = [
  * Validates get item request
  */
 exports.getItem = [
-    check('id')
+    check('hash')
         .exists()
         .withMessage('MISSING')
         .not()

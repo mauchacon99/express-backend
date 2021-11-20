@@ -55,12 +55,12 @@ router.post(
 
 /**
  * @swagger
- * /invitations/{id}:
+ * /invitations/{hash}:
  *    get:
  *      tags:
  *        - invitations
- *      summary: "search invitation for id"
- *      description: "search invitation for id"
+ *      summary: "accept invitation"
+ *      description: "accept invitation"
  *      responses:
  *        '200':
  *          description: "return invitation"
@@ -73,16 +73,16 @@ router.post(
  *        '500':
  *          description: "Internal server error."
  *      parameters:
- *        - name: id
+ *        - name: hash
  *          in: query
- *          description: "id of invitation"
+ *          description: "hash of sender (verification)"
  *          required: true
  *          schema:
- *            type: number
- *            format: number
+ *            type: string
+ *            format: string
  */
 router.get(
-    '/:id',
+    '/:hash',
     requireAuth,
     permissions.roleAuthorization(),
     trimRequest.all,

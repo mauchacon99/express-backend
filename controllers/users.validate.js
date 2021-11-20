@@ -84,6 +84,8 @@ exports.updateItem = [
         .optional(),
     check('languages')
         .optional(),
+    check('vendor')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }

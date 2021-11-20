@@ -1,5 +1,7 @@
 const _ = require('lodash')
+const { Op } = require("sequelize")
 const { matchedData } = require('express-validator')
+
 const { invitation, user, storage } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
@@ -70,17 +72,70 @@ exports.getItems = async (req, res) => {
  */
 exports.getItem = async (req, res) => {
     try {
-        const { id } = matchedData(req)
+        const { hash: verification } = matchedData(req)
 
         invitation.findOne({
-            where:{id},
+            attributes: {
+                exclude: ['password', 'verification', 'verified', 'forgotPassword']
+            },
+            where:{ verification },
         })
-            .then((data) => {
+            .then(async (data) => {
+
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
-                else {
-                    db.saveEvent({userId: req.user.id, event: `get_invitation_${id}`})
-                    res.status(200).json(data)
+
+                const senderData = data.dataValues;
+
+                // Coach
+                if (req.user.roleId === 2) {
+                    const userPayload = {
+                        ...req.user,
+                        vendor: senderData.id
+                    }
+
+                    const { dataValues } = await db.updateItem(req.user.id, user, userPayload, {
+                        userId: req.user.id,
+                        event: `update_user_${req.user.id}`
+                    })
+
+                    await invitation.deleteAll({
+                        where: {
+                            [Op.or]: [{ from: req.user.id }, { to: req.user.id }]
+                        }
+                    })
+
+                    const { password, ...updatedUser } = dataValues
+
+                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${hash}`})
+                    res.status(200).json(updatedUser)
                 }
+                
+                // Vendor
+                else if (req.user.roleId === 3) {
+                    const userPayload = {
+                        ...req.user,
+                        vendor: req.user.id
+                    }
+
+                    const { dataValues } = await db.updateItem(senderData.id, user, userPayload, {
+                        userId: req.user.id,
+                        event: `update_user_${senderData.id}`
+                    })
+
+                    await invitation.deleteAll({
+                        where: {
+                            [Op.or]: [{ from: senderData.id }, { to: senderData.id }]
+                        }
+                    })
+
+                    const { password, ...updatedUser } = dataValues
+
+                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${hash}`})
+                    res.status(200).json(updatedUser)
+                }
+
+                else utils.buildErrObject(401, 'UNAUTHORIZED')
+                
             })
             .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
