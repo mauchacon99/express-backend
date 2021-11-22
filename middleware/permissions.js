@@ -48,7 +48,7 @@ const checkPermissions = (req, roleId, next) => {
 /**
  * Check if logged in user can subscribe to the plan
  * @param {Object} req - request object
- * @param {Number} roleId - id of role
+ * @param {Number} planId - id of plan
  * @param {Object || Function} next - next
  */
 const checkSubscriber = (req, planId, next) => {
@@ -58,7 +58,7 @@ const checkSubscriber = (req, planId, next) => {
             if(req.user.roleId === resp.roleId) next()
             else reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
         })
-        .catch((err) => {
+        .catch(() => {
             reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
         })
     })

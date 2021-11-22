@@ -153,18 +153,29 @@ module.exports = {
         route: '/experiences',
         createdAt: new Date(),
         updatedAt: new Date(),
-        visible: false,
+        visible: false
       },
       {
         id: 14,
         status: true,
+        methods: JSON.stringify(['get', 'post']),
+        icon: 'brightness_7',
+        name: 'Profile',
+        route: '/profile',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: false
+      },
+      {
+        id: 15,
+        status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        icon: '',
+        icon: 'brightness_7',
         name: 'Invitations',
         route: '/invitations',
         createdAt: new Date(),
         updatedAt: new Date(),
-        visible: false,
+        visible: false
       },
     ], {});
   },

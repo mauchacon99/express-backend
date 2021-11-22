@@ -1,7 +1,8 @@
 const { matchedData } = require('express-validator')
-const { subscriber, user, plan, storage} = require('../models')
+const { subscriber, user, plan, storage, program, roles} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
+const {Sequelize} = require("sequelize");
 
 /********************
  * Public functions *
@@ -23,13 +24,7 @@ exports.getItems = async (req, res) => {
                     as: 'userS',
                     attributes: {
                         exclude: ['password', 'verification', 'verified', 'forgotPassword']
-                    },
-                    include: [
-                        {
-                            model: storage,
-                            as: 'avatar'
-                        }
-                    ]
+                    }
 				},
 				{
                     model: plan,
@@ -52,20 +47,59 @@ exports.getItems = async (req, res) => {
  */
 exports.getItem = async (req, res) => {
     try {
-        const { user } = req
+        const userE = req.user
         const { id } = matchedData(req)
 
-        subscriber.findOne({
-            where:{id}
+        const data = await subscriber.findAndCountAll({
+            where: {userId: id},
+            include: [
+                {
+                    model: plan,
+                    as: 'planS',
+                    attributes:  {
+                        include: [
+                            [Sequelize.literal("(SELECT COUNT(subscribers.id) FROM subscribers WHERE (subscribers.planId = `subscriber`.`planId`))"), "subscribers"],
+                        ]
+                    },
+                    include: [
+                        {
+                            model: user,
+                            as: 'userPL',
+                            attributes: {
+                                exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                            }
+                        },
+                        {
+                            model: program,
+                            as: 'programPL',
+                            include: [
+                                {
+                                    model: user,
+                                    as: 'userPR',
+                                    attributes: {
+                                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                                    }
+                                },
+                                {
+                                    model: storage,
+                                    as: 'storagePR'
+                                },
+                            ]
+                        },
+                        {
+                            model: roles,
+                            as: 'rolePL',
+                        },
+                        {
+                            model: storage,
+                            as: 'storagePL'
+                        },
+                    ]
+                },
+            ]
         })
-            .then((data) => {
-                if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
-                else {
-                    db.saveEvent({userId: user.id, event: `get_subscriber_${id}`})
-                    res.status(200).json(data)
-                }
-            })
-            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
+        db.saveEvent({userId: userE.id, event: `get_subscriber_${id}`}).then()
+        res.status(200).json(data.rows)
     } catch (error) {
         utils.handleError(res, error)
     }

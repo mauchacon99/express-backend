@@ -119,13 +119,7 @@ exports.getItem = async (req, res) => {
                 },
                 {
                     model: program,
-                    as: 'programPL',
-                    include: [
-                        {
-                            model: subprogram,
-                            as: 'programSP'
-                        },
-                    ]
+                    as: 'programPL'
 				},
                 {
                     model: roles,
@@ -199,6 +193,7 @@ exports.createItem = async (req, res) => {
             userId: req.user.id,
             event: `new_plan`
         }
+        if(req.user.vendor) utils.handleError(res, utils.buildErrObject(401, 'UNAUTHORIZED'))
         req = matchedData(req)
         res.status(201).json(await db.createItem(req, plan, event))
     } catch (error) {
