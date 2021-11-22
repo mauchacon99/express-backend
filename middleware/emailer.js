@@ -52,7 +52,8 @@ exports.sendInvitationEmailMessage = async (locale = '', senderData = {}, receiv
     const data = {
         ...receiverData,
         verification: senderData.verification,
-        sender: `${senderData.name} ${senderData.lastname}`
+        sender: `${senderData.name} ${senderData.lastname}`,
+        senderEmail: senderData.email
     }
 
     const subject = i18n.__('invitation.SUBJECT')
@@ -147,6 +148,7 @@ const parseHtml = (template, user) => {
 
             if (user.sender) {
                 data = data.replace(/SENDER/, user.sender)
+                data = data.replace(/FROM_E_MAIL/, user.senderEmail)
             }
 
             if (user.verification) {
