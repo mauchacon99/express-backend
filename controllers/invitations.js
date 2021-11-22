@@ -74,7 +74,7 @@ exports.getItem = async (req, res) => {
     try {
         const { hash: verification } = matchedData(req)
 
-        invitation.findOne({
+        user.findOne({
             attributes: {
                 exclude: ['password', 'verification', 'verified', 'forgotPassword']
             },
@@ -98,7 +98,7 @@ exports.getItem = async (req, res) => {
                         event: `update_user_${req.user.id}`
                     })
 
-                    await invitation.deleteAll({
+                    await invitation.destroy({
                         where: {
                             [Op.or]: [{ from: req.user.id }, { to: req.user.id }]
                         }
@@ -106,7 +106,7 @@ exports.getItem = async (req, res) => {
 
                     const { password, ...updatedUser } = dataValues
 
-                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${hash}`})
+                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${verification}`})
                     res.status(200).json(updatedUser)
                 }
                 
@@ -122,7 +122,7 @@ exports.getItem = async (req, res) => {
                         event: `update_user_${senderData.id}`
                     })
 
-                    await invitation.deleteAll({
+                    await invitation.destroy({
                         where: {
                             [Op.or]: [{ from: senderData.id }, { to: senderData.id }]
                         }
@@ -130,7 +130,7 @@ exports.getItem = async (req, res) => {
 
                     const { password, ...updatedUser } = dataValues
 
-                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${hash}`})
+                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${verification}`})
                     res.status(200).json(updatedUser)
                 }
 
