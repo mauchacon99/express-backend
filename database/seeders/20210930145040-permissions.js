@@ -126,7 +126,16 @@ module.exports = {
         moduleId: 13, // /experiences
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 1,
+        moduleId: 14, // /profile
+        status: true,
+        methods: JSON.stringify(['get', 'post']),
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -145,7 +154,7 @@ module.exports = {
         roleId: 2,
         moduleId: 2, // /users
         status: true,
-        methods: JSON.stringify(['get', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -245,7 +254,16 @@ module.exports = {
         moduleId: 13, // /experiences
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 14, // /profile
+        status: true,
+        methods: JSON.stringify(['get', 'post']),
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -359,6 +377,24 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 3,
+        moduleId: 13, // /experiences
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 3,
+        moduleId: 14, // /profile
+        status: true,
+        methods: JSON.stringify(['get', 'post']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 4 = company
       {
@@ -374,7 +410,7 @@ module.exports = {
         roleId: 4,
         moduleId: 2, // /users
         status: true,
-        methods: JSON.stringify(['get', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -465,6 +501,24 @@ module.exports = {
         moduleId: 12, // /subscribers
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 4,
+        moduleId: 13, // /experiences
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 4,
+        moduleId: 14, // /profile
+        status: true,
+        methods: JSON.stringify(['get', 'post']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -484,7 +538,7 @@ module.exports = {
         roleId: 5,
         moduleId: 2, // /users
         status: true,
-        methods: JSON.stringify(['get', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -578,7 +632,25 @@ module.exports = {
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
+      },
+      {
+        roleId: 5,
+        moduleId: 13, // /experiences
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 14, // /profile
+        status: true,
+        methods: JSON.stringify(['get', 'post']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ], {});
   },
 
