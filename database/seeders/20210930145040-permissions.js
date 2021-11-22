@@ -154,7 +154,7 @@ module.exports = {
         roleId: 2,
         moduleId: 2, // /users
         status: true,
-        methods: JSON.stringify(['get', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -410,7 +410,7 @@ module.exports = {
         roleId: 4,
         moduleId: 2, // /users
         status: true,
-        methods: JSON.stringify(['get', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -538,7 +538,7 @@ module.exports = {
         roleId: 5,
         moduleId: 2, // /users
         status: true,
-        methods: JSON.stringify(['get', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
