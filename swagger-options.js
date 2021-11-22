@@ -109,6 +109,8 @@ const swaggerOptions = {
                 properties: {
                     name: { type: 'string' },
                     email: { type: 'string' },
+                    description: { type: 'string' },
+                    storageId: { type: 'number' },
                     roleId: { type: 'number' },
                     lastname: { type: 'string' },
                     skills: { type: 'array' },
@@ -122,13 +124,15 @@ const swaggerOptions = {
                 example: {
                     name: 'user',
                     email: 'user1@user.com',
+                    description: 'this is a description',
+                    storageId: 1,
                     roleId: 2,
                     lastname: "test",
                     skills: ['skill1', 'skill2'],
                     preferences: ['pref1', 'pref2'],
-                    instagram: 'https://www.instagram.com',
-                    facebook: 'https://www.facebook.com',
-                    linkedin: 'https://www.linkedin.com',
+                    instagram: '@instagram',
+                    facebook: 'facebook',
+                    linkedin: 'linkedin',
                     professions: ['Designer', 'Computer Engineer'],
                     languages: ['English', 'Spanish'],
                 }
@@ -357,6 +361,56 @@ const swaggerOptions = {
                     experience: '10 years of experience'
                 }
             },
+            profile: {
+                type: 'object',
+                required: [
+                    'name',
+                    'email'
+                ],
+                properties: {
+                    name: { type: 'string' },
+                    lastname: { type: 'string' },
+                    description: { type: 'string' },
+                    storageId: { type: 'number' },
+                    email: { type: 'string' },
+                    skills: { type: 'array' },
+                    preferences: { type: 'array' },
+                    instagram: { type: 'string' },
+                    facebook: { type: 'string' },
+                    linkedin: { type: 'string' },
+                    professions: { type: 'array' },
+                    languages: { type: 'array' }
+                },
+                example: {
+                    name: 'user',
+                    email: 'user1@user.com',
+                    description: 'this is a description',
+                    storageId: 1,
+                    lastname: "test",
+                    skills: ['skill1', 'skill2'],
+                    preferences: ['pref1', 'pref2'],
+                    instagram: '@instagram',
+                    facebook: 'facebook',
+                    linkedin: 'linkedin',
+                    professions: ['Designer', 'Computer Engineer'],
+                    languages: ['English', 'Spanish'],
+                }
+            },
+            profilePassword: {
+                type: 'object',
+                required: [
+                    'oldPassword',
+                    'newPassword'
+                ],
+                properties: {
+                    oldPassword: { type: 'string' },
+                    newPassword: { type: 'string' },
+                },
+                example: {
+                    oldPassword: '123456',
+                    newPassword: '654321'
+                }
+            }
         }
     },
     // routers
