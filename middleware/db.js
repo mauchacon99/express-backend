@@ -184,6 +184,41 @@ exports.checkQueryWhereUserIdExceptIfAdmin = async (query, user) => {
     }
 }
 
+/**
+ * Filters the invitations by userId except if the roleId is 1 (admin)
+ * @param {Object} query - params of the request example req.query
+ * @param {Object} user - user to search
+ */
+exports.checkQueryInvitationExceptIfAdmin = async (query, user) => {
+    const queryRelations = await checkQueryStringRelations(query)
+    const queryFields = await this.checkQueryString(query)
+    const userIdFilter = user.roleId === 1
+        ? {}
+        : {
+            [Op.or]: [
+                { from: user.id },
+                { to: user.id }
+            ]
+        };
+    let data = []
+    if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
+    if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))
+    if (!_.isEmpty(data)) {
+        return {
+            ...await listInitOptions(query),
+            where: {
+                [Op.or]: data,
+                [Op.and]: [userIdFilter],
+            }
+        }
+    }
+    return {
+        ...await listInitOptions(query),
+        where: userIdFilter
+    }
+}
+
+
 
 /**
  * get users by filter: without admin and if vendor

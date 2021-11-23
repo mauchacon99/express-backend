@@ -9,5 +9,8 @@
   },
   "password": {
     "SUBJECT": "User password at myProject"
+  },
+  "invitation": {
+    "SUBJECT": "User invitation at myProject"
   }
 }

@@ -139,6 +139,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 1,
+        moduleId: 15, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 2 = coach
       {
@@ -267,6 +276,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 2,
+        moduleId: 15, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 3 = vendor
       {
@@ -392,6 +410,15 @@ module.exports = {
         status: true,
         methods: JSON.stringify(['get', 'post']),
         visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 3,
+        moduleId: 15, // /invitations
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
