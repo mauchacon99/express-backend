@@ -12,5 +12,8 @@
   },
   "invitation": {
     "SUBJECT": "User invitation at myProject"
-  }
+  },
+  "profilePasswordUpdated": {
+		"SUBJECT": "Profile password updated"
+	}
 }

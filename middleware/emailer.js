@@ -43,6 +43,19 @@ exports.sendPasswordEmailMessage = async (locale = '', user = {}) => {
 }
 
 /**
+ * Sends profile password updated email
+ * @param {string} locale - locale
+ * @param {Object} user - user object
+ */
+exports.sendProfilePasswordUpdatedEmailMessage = async (locale = '', user = {}) => {
+    i18n.setLocale(locale)
+    const subject = i18n.__('profilePasswordUpdated.SUBJECT')
+    const htmlMessage = await parseHtml('profilePasswordUpdated.html', user);
+
+    prepareToSendEmail(user, subject, htmlMessage)
+}
+
+/**
  * Sends user invitation email
  * @param {string} locale - locale
  * @param {Object} from - user object

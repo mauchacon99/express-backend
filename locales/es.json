@@ -9,5 +9,11 @@
 	},
 	"password": {
 		"SUBJECT": "Contraseña de usuario"
+	},
+	"invitation": {
+		"SUBJECT": "Invitación de usuario en myProject"
+	},
+	"profilePasswordUpdated": {
+		"SUBJECT": "Contraseña de perfil actualizada"
 	}
 }
