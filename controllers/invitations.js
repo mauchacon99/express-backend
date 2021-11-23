@@ -123,25 +123,6 @@ exports.getItem = async (req, res) => {
 }
 
 /**
- * Update item function called by route
- * @param {Object} req - request object
- * @param {Object} res - response object
- */
-exports.updateItem = async (req, res) => {
-    try {
-        const { id } = req
-        const event = {
-            userId: req.user.id,
-            event: `update_invitation_${id}`
-        }
-        req = matchedData(req)
-        res.status(201).json(await db.updateItem(req.id, invitation, req, event))
-    } catch (error) {
-        utils.handleError(res, error)
-    }
-}
-
-/**
  * Create item function called by route
  * @param {Object} req - request object
  * @param {Object} res - response object

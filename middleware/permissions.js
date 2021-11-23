@@ -77,14 +77,14 @@ const checkInvitation = (from, to, next) => {
             .then(resp => {
 
                 const unauthorized = _.find(resp, ({dataValues: a}) => a.vendor !== null)
-                
+
                 if (unauthorized)
                     reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
 
                 else next()
 
             })
-            .catch((err) => reject(utils.buildErrObject(401, 'UNAUTHORIZED')))
+            .catch(() => reject(utils.buildErrObject(401, 'UNAUTHORIZED')))
     })
 }
 

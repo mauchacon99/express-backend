@@ -119,49 +119,6 @@ router.get(
 /**
  * @swagger
  * /invitations/{id}:
- *    patch:
- *      tags:
- *        - invitations
- *      summary: "update invitation for id"
- *      description: "search invitation and update"
- *      responses:
- *        '201':
- *          description: "return invitation updated"
- *        '400':
- *          description: "Updated failed."
- *        '401':
- *          description: "Unauthorized."
- *        '422':
- *          description: "Validation error in any of the fields entered or a field is missing."
- *        '500':
- *          description: "Internal server error."
- *      parameters:
- *        - name: id
- *          in: query
- *          description: "id of invitation"
- *          required: true
- *          schema:
- *            type: number
- *            format: number
- *        -  in: "body"
- *           name: "body"
- *           description: "parameters required to insert module."
- *           required: true
- *           schema:
- *                $ref: "#/definitions/invitations"
- */
-router.patch(
-    '/:id',
-    requireAuth,
-    permissions.roleAuthorization(),
-    trimRequest.all,
-    validate.updateItem,
-    controller.updateItem
-)
-
-/**
- * @swagger
- * /invitations/{id}:
  *    delete:
  *      tags:
  *        - invitations
