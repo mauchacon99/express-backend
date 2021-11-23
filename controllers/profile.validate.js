@@ -6,11 +6,7 @@ const { validationResult } = require('../middleware/utils')
  */
 exports.updateItem = [
     check('name')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('lastname')
         .optional(),
     check('description')
@@ -18,13 +14,7 @@ exports.updateItem = [
     check('storageId')
         .optional(),
     check('email')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isEmail()
-        .withMessage('EMAIL_IS_NOT_VALID'),
+        .optional(),
     check('skills')
         .optional(),
     check('preferences')
