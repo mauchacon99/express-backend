@@ -169,7 +169,7 @@ module.exports = {
       {
         id: 15,
         status: true,
-        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        methods: JSON.stringify(['get', 'post', 'delete']),
         icon: 'brightness_7',
         name: 'Invitations',
         route: '/invitations',

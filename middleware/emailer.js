@@ -45,15 +45,16 @@ exports.sendPasswordEmailMessage = async (locale = '', user = {}) => {
 /**
  * Sends user invitation email
  * @param {string} locale - locale
- * @param {Object} user - user object
+ * @param {Object} from - user object
+ * @param {Object} to - user object
  */
-exports.sendInvitationEmailMessage = async (locale = '', senderData = {}, receiverData = {}) => {
+exports.sendInvitationEmailMessage = async (locale = '', from = {}, to = {}) => {
     i18n.setLocale(locale)
     const data = {
-        ...receiverData,
-        verification: senderData.verification,
-        sender: `${senderData.name} ${senderData.lastname}`,
-        senderEmail: senderData.email
+        ...to,
+        verification: from.verification,
+        sender: `${from.name} ${from.lastname}`,
+        senderEmail: from.email
     }
 
     const subject = i18n.__('invitation.SUBJECT')
