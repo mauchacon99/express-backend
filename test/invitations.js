@@ -17,9 +17,9 @@ const createdID = []
 let coachHashVerification = ''
 let vendorHashVerification = ''
 
-const payload = {
-    to: 3,
-}
+const payload1 = { to: 3 }
+const payload2 = { to: 6 }
+const payload3 = { to: 7 }
 
 chai.use(chaiHttp)
 
@@ -96,7 +96,7 @@ describe('*********** INVITATIONS ***********', () => {
             chai
                 .request(server)
                 .post('/invitations')
-                .send(payload)
+                .send(payload1)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
@@ -122,7 +122,7 @@ describe('*********** INVITATIONS ***********', () => {
                 .request(server)
                 .post('/invitations')
                 .set('Authorization', `Bearer ${coachToken}`)
-                .send(payload)
+                .send(payload1)
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.a('object')
@@ -192,6 +192,31 @@ describe('*********** INVITATIONS ***********', () => {
         })
     })
 
+    it('it should NOT POST invitations if receiver already has a vendor', (done) => {
+        chai
+            .request(server)
+            .post('/invitations')
+            .set('Authorization', `Bearer ${vendorToken}`)
+            .send(payload3)
+            .end((err, res) => {
+                res.should.have.status(401)
+                done()
+            })
+    })
+
+    it('it should NOT POST invitations if sender has a vendor', (done) => {
+        chai
+            .request(server)
+            .post('/invitations')
+            .set('Authorization', `Bearer ${coachToken}`)
+            .send(payload1)
+            .end((err, res) => {
+                res.should.have.status(401)
+                done()
+            })
+    })
+
+
     describe('/DELETE/:id invitations', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
@@ -206,14 +231,14 @@ describe('*********** INVITATIONS ***********', () => {
             chai
                 .request(server)
                 .post('/invitations')
-                .set('Authorization', `Bearer ${coachToken}`)
-                .send(payload)
+                .set('Authorization', `Bearer ${vendorToken}`)
+                .send(payload2)
                 .end((err, res) => {
                     res.should.have.status(201)
                     chai
                         .request(server)
                         .delete(`/invitations/${res.body.id}`)
-                        .set('Authorization', `Bearer ${coachToken}`)
+                        .set('Authorization', `Bearer ${vendorToken}`)
                         .end((error, result) => {
                             result.should.have.status(200)
                             done()

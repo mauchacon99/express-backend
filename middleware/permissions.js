@@ -58,9 +58,7 @@ const checkSubscriber = (req, planId, next) => {
             if(req.user.roleId === resp.roleId) next()
             else reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
         })
-        .catch(() => {
-            reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
-        })
+        .catch(() => reject(utils.buildErrObject(401, 'UNAUTHORIZED')))
     })
 }
 
@@ -79,18 +77,14 @@ const checkInvitation = (from, to, next) => {
             .then(resp => {
 
                 const unauthorized = _.find(resp, ({dataValues: a}) => a.vendor !== null)
-
+                
                 if (unauthorized)
                     reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
 
                 else next()
 
             })
-            .catch((err) => {
-                console.log(err);
-
-                reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
-            })
+            .catch((err) => reject(utils.buildErrObject(401, 'UNAUTHORIZED')))
     })
 }
 
