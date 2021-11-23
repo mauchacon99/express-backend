@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.plan, {as: 'userPL', foreignKey: 'userId'})
       this.hasMany(models.subscriber, {as: 'userS', foreignKey: 'userId'})
       this.hasMany(models.experience, {as: 'userEX', foreignKey: 'userId'})
+      this.hasMany(models.invitation, {as: 'userI-FROM', foreignKey: 'from'})
+      this.hasMany(models.invitation, {as: 'userI-TO', foreignKey: 'to'})
       this.belongsTo(models.roles, {as: 'roleU', foreignKey: 'roleId'})
       this.belongsTo(models.storage, {as: 'avatar', foreignKey: 'storageId'})
     }

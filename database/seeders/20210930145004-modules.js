@@ -165,7 +165,18 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         visible: false
-      }
+      },
+      {
+        id: 15,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        icon: 'brightness_7',
+        name: 'Invitations',
+        route: '/invitations',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: false
+      },
     ], {});
   },
 

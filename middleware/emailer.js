@@ -43,6 +43,27 @@ exports.sendPasswordEmailMessage = async (locale = '', user = {}) => {
 }
 
 /**
+ * Sends user invitation email
+ * @param {string} locale - locale
+ * @param {Object} from - user object
+ * @param {Object} to - user object
+ */
+exports.sendInvitationEmailMessage = async (locale = '', from = {}, to = {}) => {
+    i18n.setLocale(locale)
+    const data = {
+        ...to,
+        verification: from.verification,
+        sender: `${from.name} ${from.lastname}`,
+        senderEmail: from.email
+    }
+
+    const subject = i18n.__('invitation.SUBJECT')
+    const htmlMessage = await parseHtml('invitation.html', data);
+
+    prepareToSendEmail(data, subject, htmlMessage)
+}
+
+/**
  * Sends email
  * @param {Object} data - data
  * @param {function} callback - callback
@@ -126,9 +147,15 @@ const parseHtml = (template, user) => {
             // VERIFIED
             data = data.replace(/USERNAME/, `${user.name} ${user.lastname}`)
 
+            if (user.sender) {
+                data = data.replace(/SENDER/, user.sender)
+                data = data.replace(/FROM_E_MAIL/, user.senderEmail)
+            }
+
             if (user.verification) {
-                data = data.replace(/VERIFICATION/, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
-                data = data.replace(/RESET_PASSWORD/, `${process.env.FRONTEND_URL}/auth/reset/${user.verification}`)
+                data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
+                data = data.replace(/RESET_PASSWORD/g, `${process.env.FRONTEND_URL}/auth/reset/${user.verification}`)
+                data = data.replace(/ACCEPT_INVITATION/g, `${process.env.FRONTEND_URL}/invitations/${user.verification}`)
             }
 
             if (user.email) {
