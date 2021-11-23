@@ -97,20 +97,20 @@ describe('*********** PROFILE ***********', () => {
                     done()
                 })
         })
-        it('it should NOT POST user if data its empty', (done) => {
-            chai
-                .request(server)
-                .post('/profile')
-                .set('Authorization', `Bearer ${token}`)
-                .send({})
-                .end((err, res) => {
-                    res.should.have.status(422)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('array')
-                    done()
-                })
-        })
+        // it('it should NOT POST user if data its empty', (done) => {
+        //     chai
+        //         .request(server)
+        //         .post('/profile')
+        //         .set('Authorization', `Bearer ${token}`)
+        //         .send({})
+        //         .end((err, res) => {
+        //             res.should.have.status(422)
+        //             res.body.should.be.a('object')
+        //             res.body.should.have.property('errors')
+        //             res.body.errors.msg.should.be.a('array')
+        //             done()
+        //         })
+        // })
         it('it should POST a user edit profile', (done) => {
             chai
                 .request(server)

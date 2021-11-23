@@ -192,14 +192,12 @@ exports.checkQueryWhereUserIdExceptIfAdmin = async (query, user) => {
 exports.checkQueryInvitationExceptIfAdmin = async (query, user) => {
     const queryRelations = await checkQueryStringRelations(query)
     const queryFields = await this.checkQueryString(query)
-    const userIdFilter = user.roleId === 1
-        ? {}
-        : {
-            [Op.or]: [
-                { from: user.id },
-                { to: user.id }
-            ]
-        };
+    const userIdFilter =  {
+        [Op.or]: [
+            { from: user.id },
+            { to: user.id }
+        ]
+    }
     let data = []
     if (!_.isEmpty(queryRelations)) _.map(queryRelations, e => data.push(e))
     if (!_.isEmpty(queryFields)) _.map(queryFields, e => data.push(e))

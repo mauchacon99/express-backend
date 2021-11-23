@@ -73,7 +73,7 @@ exports.getItems = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { hash: verification } = matchedData(req)
-
+        const userId = req.user.id
         user.findOne({
             attributes: {
                 exclude: ['password', 'verification', 'verified', 'forgotPassword']
@@ -81,61 +81,40 @@ exports.getItem = async (req, res) => {
             where:{ verification },
         })
             .then(async (data) => {
-
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
-
-                const senderData = data.dataValues;
+                const senderData = data.dataValues
 
                 // Coach
                 if (req.user.roleId === 2) {
-                    const userPayload = {
-                        ...req.user,
-                        vendor: senderData.id
-                    }
-
-                    const { dataValues } = await db.updateItem(req.user.id, user, userPayload, {
-                        userId: req.user.id,
-                        event: `update_user_${req.user.id}`
+                    await db.updateItem(userId, user, { vendor: senderData.id }, {
+                        userId: userId,
+                        event: `update_user_${userId}`
                     })
-
                     await invitation.destroy({
                         where: {
-                            [Op.or]: [{ from: req.user.id }, { to: req.user.id }]
+                            [Op.or]: [{ from: userId }, { to: userId }]
                         }
                     })
-
-                    const { password, ...updatedUser } = dataValues
-
-                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${verification}`})
-                    res.status(200).json(updatedUser)
+                    db.saveEvent({userId: userId, event: `accept_invitation_${verification}`}).then()
+                    res.status(200).json({ msg: 'success' })
                 }
-                
+
                 // Vendor
                 else if (req.user.roleId === 3) {
-                    const userPayload = {
-                        ...req.user,
-                        vendor: req.user.id
-                    }
-
-                    const { dataValues } = await db.updateItem(senderData.id, user, userPayload, {
-                        userId: req.user.id,
+                    const { dataValues } = await db.updateItem(senderData.id, user, { vendor: userId }, {
+                        userId: userId,
                         event: `update_user_${senderData.id}`
                     })
-
                     await invitation.destroy({
                         where: {
                             [Op.or]: [{ from: senderData.id }, { to: senderData.id }]
                         }
                     })
 
-                    const { password, ...updatedUser } = dataValues
-
-                    db.saveEvent({userId: req.user.id, event: `accept_invitation_${verification}`})
-                    res.status(200).json(updatedUser)
+                    db.saveEvent({userId: userId, event: `accept_invitation_${verification}`})
+                    res.status(200).json({ msg: 'success' })
                 }
-
                 else utils.buildErrObject(401, 'UNAUTHORIZED')
-                
             })
             .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {
@@ -170,25 +149,22 @@ exports.updateItem = async (req, res) => {
 exports.createItem = async (req, res) => {
     try {
         const locale = req.getLocale()
+        const senderData = req.user
         const event = {
-            userId: req.user.id,
+            userId: senderData.id,
             event: `new_invitation`
         }
-
-        const receiverData = await user.findOne({where: { id: req.body.to }})
-        const senderData = req.user
+        req = matchedData(req)
+        const receiverData = await user.findByPk(req.to)
 
         const dataToSave = {
             from: senderData.id,
             to: receiverData.id,
         }
 
-        if (!receiverData) reject(utils.buildErrObject(404, 'NOT_FOUND'))
+        if (!receiverData) utils.handleError(res,utils.buildErrObject(404, 'NOT_FOUND'))
 
         emailer.sendInvitationEmailMessage(locale, senderData, receiverData.dataValues).then()
-        
-        req = matchedData(req)
-
         res.status(201).json(await db.createItem(dataToSave, invitation, event))
     } catch (error) {
         utils.handleError(res, error)
