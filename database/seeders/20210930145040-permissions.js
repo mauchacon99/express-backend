@@ -143,8 +143,8 @@ module.exports = {
         roleId: 1,
         moduleId: 15, // /invitations
         status: true,
-        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        methods: JSON.stringify(['get', 'post', 'delete',]),
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -280,8 +280,8 @@ module.exports = {
         roleId: 2,
         moduleId: 15, // /invitations
         status: true,
-        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        methods: JSON.stringify(['get', 'post', 'delete']),
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -417,8 +417,8 @@ module.exports = {
         roleId: 3,
         moduleId: 15, // /invitations
         status: true,
-        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        visible: true,
+        methods: JSON.stringify(['get', 'post', 'delete']),
+        visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -550,6 +550,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 4,
+        moduleId: 15, // /invitations
+        status: false,
+        methods: JSON.stringify(['get', 'post', 'delete']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 5 = personal
       {
@@ -674,6 +683,15 @@ module.exports = {
         moduleId: 14, // /profile
         status: true,
         methods: JSON.stringify(['get', 'post']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 15, // /invitations
+        status: false,
+        methods: JSON.stringify(['get', 'post', 'delete']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
