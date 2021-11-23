@@ -27,7 +27,7 @@ module.exports = {
         id: 2,
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        icon: 'people',
+        icon: 'account_circle',
         name: 'Users',
         route: '/users',
         createdAt: new Date(),
