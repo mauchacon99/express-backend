@@ -18,23 +18,15 @@ const emailer = require("../middleware/emailer");
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQueryInvitationExceptIfAdmin(req.query, req.user)
-        const data = await invitation.findAll({
-            ...query,
+        const queryFrom = await db.checkQueryInvitation(req.query, req.user, 'from')
+        const queryTo = await db.checkQueryInvitation(req.query, req.user, 'to')
+        const data = {
+            from: [], // Invitations I've sent
+            to: [] // Invitations that have been sent to me
+        }
+        const dataFrom = await invitation.findAll({
+            ...queryFrom,
             include: [
-                {
-                    model: user,
-                    as: 'userI-FROM',
-                    attributes: {
-                        exclude: ['password', 'verified', 'forgotPassword']
-                    },
-                    include: [
-                        {
-                            model: storage,
-                            as: 'avatar'
-                        }
-                    ]
-                },
                 {
                     model: user,
                     as: 'userI-TO',
@@ -51,16 +43,38 @@ exports.getItems = async (req, res) => {
             ]
         })
 
-        const _data = { from: [], to: [] }
+        const dataTo = await invitation.findAll({
+            ...queryTo,
+            include: [
+                {
+                    model: user,
+                    as: 'userI-FROM',
+                    attributes: {
+                        exclude: ['password', 'verified', 'forgotPassword']
+                    },
+                    include: [
+                        {
+                            model: storage,
+                            as: 'avatar'
+                        }
+                    ]
+                },
+            ]
+        })
 
-        _.each(data, (item) => {
-            _data.from.push(item.dataValues['userI-FROM'])
-            _data.to.push(item.dataValues['userI-TO'])
+        _.each(dataTo, (item) => {
+            const { 'userI-FROM': userTo, ...body } = item.dataValues
+            data.to.push({ ...body, user: userTo })
+        })
+        _.each(dataFrom, (item) => {
+            const { 'userI-TO': userFrom, ...body } = item.dataValues
+            data.from.push({ ...body, user: userFrom })
         })
 
         db.saveEvent({userId: req.user.id, event: 'get_all_invitations'})
-        res.status(200).json(_data)
+        res.status(200).json(data)
     } catch (error) {
+        console.log(error)
         utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
     }
 }
