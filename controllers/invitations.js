@@ -82,39 +82,40 @@ exports.getItem = async (req, res) => {
         })
             .then(async (data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
-                const senderData = data.dataValues
+                else {
+                    const senderData = data.dataValues
+                    // Coach
+                    if (req.user.roleId === 2) {
+                        await db.updateItem(userId, user, { vendor: senderData.id }, {
+                            userId: userId,
+                            event: `update_user_${userId}`
+                        })
+                        await invitation.destroy({
+                            where: {
+                                [Op.or]: [{ from: userId }, { to: userId }]
+                            }
+                        })
+                        db.saveEvent({userId: userId, event: `accept_invitation_${verification}`}).then()
+                        res.status(200).json({ msg: 'success' })
+                    }
 
-                // Coach
-                if (req.user.roleId === 2) {
-                    await db.updateItem(userId, user, { vendor: senderData.id }, {
-                        userId: userId,
-                        event: `update_user_${userId}`
-                    })
-                    await invitation.destroy({
-                        where: {
-                            [Op.or]: [{ from: userId }, { to: userId }]
-                        }
-                    })
-                    db.saveEvent({userId: userId, event: `accept_invitation_${verification}`}).then()
-                    res.status(200).json({ msg: 'success' })
+                    // Vendor
+                    else if (req.user.roleId === 3) {
+                        const { dataValues } = await db.updateItem(senderData.id, user, { vendor: userId }, {
+                            userId: userId,
+                            event: `update_user_${senderData.id}`
+                        })
+                        await invitation.destroy({
+                            where: {
+                                [Op.or]: [{ from: senderData.id }, { to: senderData.id }]
+                            }
+                        })
+
+                        db.saveEvent({userId: userId, event: `accept_invitation_${verification}`})
+                        res.status(200).json({ msg: 'success' })
+                    }
+                    else utils.buildErrObject(401, 'UNAUTHORIZED')
                 }
-
-                // Vendor
-                else if (req.user.roleId === 3) {
-                    const { dataValues } = await db.updateItem(senderData.id, user, { vendor: userId }, {
-                        userId: userId,
-                        event: `update_user_${senderData.id}`
-                    })
-                    await invitation.destroy({
-                        where: {
-                            [Op.or]: [{ from: senderData.id }, { to: senderData.id }]
-                        }
-                    })
-
-                    db.saveEvent({userId: userId, event: `accept_invitation_${verification}`})
-                    res.status(200).json({ msg: 'success' })
-                }
-                else utils.buildErrObject(401, 'UNAUTHORIZED')
             })
             .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
     } catch (error) {

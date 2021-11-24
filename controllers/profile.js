@@ -1,10 +1,9 @@
-const crypto = require("crypto");
 const { matchedData } = require('express-validator')
 const { user, roles, storage, phone, location, experience } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
-const {Sequelize} = require("sequelize")
-const auth = require("../middleware/auth");
+const auth = require("../middleware/auth")
+const emailer = require("../middleware/emailer")
 
 /********************
  * Private functions *
@@ -105,6 +104,7 @@ exports.updateItem = async (req, res) => {
  */
 exports.changePassword = async (req, res) => {
     try {
+        const locale = req.getLocale()
         const { id } = req.user
         const event = {
             userId: id,
@@ -116,6 +116,9 @@ exports.changePassword = async (req, res) => {
         if (!isPasswordMatch) {
             utils.handleError(res, utils.buildErrObject(403, 'WRONG_PASSWORD'))
         } else {
+
+            emailer.sendProfilePasswordUpdatedEmailMessage(locale, req.user).then()
+
             await db.updateItem(id, user, { password: newPassword }, event)
             res.status(201).json({msg: 'success'})
         }
