@@ -1,8 +1,9 @@
 const { Op } = require("sequelize")
-const _ = require("lodash");
+const _ = require("lodash")
 
-const utils = require("./utils");
-const { permissions, modules, plan, user } = require('../models')
+const utils = require("./utils")
+const { permissions, modules, plan, user, invitation } = require('../models')
+const {matchedData} = require("express-validator");
 
 /**
  * Private functions
@@ -89,6 +90,36 @@ const checkInvitation = (from, to, next) => {
 }
 
 /**
+ * Check if the invitation can be accepted
+ * @param {Object} req - request object
+ * @param {Number} hash - hash of sender
+ * @param {Number} to - id of receiver
+ * @param {Object || Function} next - next
+ */
+const checkInvitationAccepting = (hash, to, next) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const from = await user.findOne({ where: {verification: hash} })
+
+            if (!from) {
+                reject(utils.buildErrObject(404, 'UNAUTHORIZED'))
+                return
+            }
+
+            const inv = await invitation.findOne({ where: { to, from: from.dataValues.id } })
+
+            if (!inv) {
+                reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+                return
+            } else next()
+
+        } catch (err) {
+            reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+        }
+    })
+}
+
+/**
  * Public functions
  */
 
@@ -109,7 +140,7 @@ exports.roleAuthorization = () => async (req, res, next) => {
  */
 exports.subscriberAuthorization = () => async (req, res, next) => {
     try {
-        const { planId } = req.body;
+        const { planId } = req.body
         await checkSubscriber(req, planId, next)
     } catch (error) {
         utils.handleError(res, error)
@@ -121,11 +152,25 @@ exports.subscriberAuthorization = () => async (req, res, next) => {
  */
 exports.invitationAuthorization = () => async (req, res, next) => {
     try {
-        const { user, body } = req;
-        const { id: from } = user;
-        const { to } = body;
+        const { user, body } = req
+        const { id: from } = user
+        const { to } = body
 
         await checkInvitation(from, to, next)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
+ * check authorization for invitation accepting
+ */
+exports.invitationAcceptingAuthorization = () => async (req, res, next) => {
+    try {
+        const { user } = req
+        const { hash } = matchedData(req)
+        const { id: to } = user
+        await checkInvitationAccepting(hash, to, next)
     } catch (error) {
         utils.handleError(res, error)
     }

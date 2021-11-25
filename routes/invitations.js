@@ -87,6 +87,7 @@ router.get(
     permissions.roleAuthorization(),
     trimRequest.all,
     validate.getItem,
+    permissions.invitationAcceptingAuthorization(),
     controller.getItem
 )
 

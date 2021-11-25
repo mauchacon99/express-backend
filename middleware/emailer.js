@@ -168,7 +168,7 @@ const parseHtml = (template, user) => {
             if (user.verification) {
                 data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
                 data = data.replace(/RESET_PASSWORD/g, `${process.env.FRONTEND_URL}/auth/reset/${user.verification}`)
-                data = data.replace(/ACCEPT_INVITATION/g, `${process.env.FRONTEND_URL}/invitations/${user.verification}`)
+                data = data.replace(/ACCEPT_INVITATION/g, `${process.env.FRONTEND_URL}/auth/invitation/${user.verification}`)
             }
 
             if (user.email) {
