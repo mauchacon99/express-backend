@@ -101,16 +101,19 @@ const checkInvitationAccepting = (hash, to, next) => {
         try {
             const from = await user.findOne({ where: {verification: hash} })
 
-            if (!from) reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+            if (!from) {
+                reject(utils.buildErrObject(404, 'UNAUTHORIZED'))
+                return
+            }
 
             const inv = await invitation.findOne({ where: { to, from: from.dataValues.id } })
 
-            if (!inv) reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
-
-            else next()
+            if (!inv) {
+                reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+                return
+            } else next()
 
         } catch (err) {
-            console.log(err)
             reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
         }
     })
