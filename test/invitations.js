@@ -3,7 +3,11 @@ const chaiHttp = require('chai-http')
 const { invitation } = require('../models')
 const server = require('../server')
 const should = chai.should()
-const coachLoginDetails = {
+const coachALoginDetails = {
+    email: 'coach@coach.com',
+    password: '123456'
+}
+const coachBLoginDetails = {
     email: 'coach1@coach.com',
     password: '123456'
 }
@@ -11,10 +15,12 @@ const vendorLoginDetails = {
     email: 'vendor@vendor.com',
     password: '123456'
 }
-let coachToken = ''
+let coachAToken = ''
+let coachBToken = ''
 let vendorToken = ''
 const createdID = []
-let coachHashVerification = ''
+let coachAHashVerification = ''
+let coachBHashVerification = ''
 let vendorHashVerification = ''
 
 const payload1 = { to: 3 }
@@ -24,12 +30,12 @@ const payload3 = { to: 7 }
 chai.use(chaiHttp)
 
 describe('*********** INVITATIONS ***********', () => {
-    describe('/POST login coach', () => {
+    describe('/POST login coach A', () => {
         it('it should GET token', (done) => {
             chai
                 .request(server)
                 .post('/login')
-                .send(coachLoginDetails)
+                .send(coachALoginDetails)
                 .end((err, res) => {
                     res.should.have.status(202)
                     res.body.should.be.a('object')
@@ -37,8 +43,28 @@ describe('*********** INVITATIONS ***********', () => {
                     res.body.permissions.should.be.a('array')
                     res.body.token.should.be.a('string')
                     res.body.user.should.be.a('object')
-                    coachToken = res.body.token
-                    coachHashVerification = res.body.user.verification;
+                    coachAToken = res.body.token
+                    coachAHashVerification = res.body.user.verification;
+                    done()
+                })
+        })
+    })
+
+    describe('/POST login coach B', () => {
+        it('it should GET token', (done) => {
+            chai
+                .request(server)
+                .post('/login')
+                .send(coachBLoginDetails)
+                .end((err, res) => {
+                    res.should.have.status(202)
+                    res.body.should.be.a('object')
+                    res.body.should.include.keys('permissions', 'token', 'user')
+                    res.body.permissions.should.be.a('array')
+                    res.body.token.should.be.a('string')
+                    res.body.user.should.be.a('object')
+                    coachBToken = res.body.token
+                    coachBHashVerification = res.body.user.verification;
                     done()
                 })
         })
@@ -78,7 +104,7 @@ describe('*********** INVITATIONS ***********', () => {
             chai
                 .request(server)
                 .get('/invitations')
-                .set('Authorization', `Bearer ${coachToken}`)
+                .set('Authorization', `Bearer ${coachAToken}`)
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.an('object')
@@ -91,7 +117,7 @@ describe('*********** INVITATIONS ***********', () => {
         })
     })
 
-    describe('/POST invitations from coach', () => {
+    describe('/POST invitations', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
@@ -106,7 +132,7 @@ describe('*********** INVITATIONS ***********', () => {
             chai
                 .request(server)
                 .post('/invitations')
-                .set('Authorization', `Bearer ${coachToken}`)
+                .set('Authorization', `Bearer ${coachAToken}`)
                 .send({})
                 .end((err, res) => {
                     res.should.have.status(422)
@@ -117,12 +143,38 @@ describe('*********** INVITATIONS ***********', () => {
                 })
         })
 
-        it('it should POST a invitations', (done) => {
+        it('it should POST a invitations from coach to vendor', (done) => {
             chai
                 .request(server)
                 .post('/invitations')
-                .set('Authorization', `Bearer ${coachToken}`)
+                .set('Authorization', `Bearer ${coachAToken}`)
                 .send(payload1)
+                .end((err, res) => {
+                    res.should.have.status(201)
+                    res.body.should.be.a('object')
+                    res.body.should.include.keys(
+                        'id',
+                        'from',
+                        'to',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.id.should.be.a('number')
+                    res.body.from.should.be.a('number')
+                    res.body.to.should.be.a('number')
+                    res.body.createdAt.should.be.a('string')
+                    res.body.updatedAt.should.be.a('string')
+                    createdID.push(res.body.id)
+                    done()
+                })
+        })
+
+        it('it should POST a invitations from vendor to coach', (done) => {
+            chai
+                .request(server)
+                .post('/invitations')
+                .set('Authorization', `Bearer ${vendorToken}`)
+                .send(payload2)
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.a('object')
@@ -148,7 +200,7 @@ describe('*********** INVITATIONS ***********', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai
                 .request(server)
-                .get(`/invitations/${coachHashVerification}`)
+                .get(`/invitations/${coachAHashVerification}`)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
@@ -158,7 +210,7 @@ describe('*********** INVITATIONS ***********', () => {
             chai
                 .request(server)
                 .get('/invitations/xyz')
-                .set('Authorization', `Bearer ${coachToken}`)
+                .set('Authorization', `Bearer ${coachAToken}`)
                 .end((err, res) => {
                     res.should.have.status(404)
                     res.body.should.be.a('object')
@@ -167,10 +219,10 @@ describe('*********** INVITATIONS ***********', () => {
                     done()
                 })
         })
-        it('it should GET accept invitation if vendor by the given id', (done) => {
+        it('it should GET accept invitation if vendor by the given hash', (done) => {
             chai
                 .request(server)
-                .get(`/invitations/${coachHashVerification}`)
+                .get(`/invitations/${coachAHashVerification}`)
                 .set('Authorization', `Bearer ${vendorToken}`)
                 .end((error, res) => {
                     res.should.have.status(200)
@@ -179,11 +231,11 @@ describe('*********** INVITATIONS ***********', () => {
                     done()
                 })
         })
-        it('it should GET accept invitation if coach by the given id', (done) => {
+        it('it should GET accept invitation if coach by the given hash', (done) => {
             chai
                 .request(server)
                 .get(`/invitations/${vendorHashVerification}`)
-                .set('Authorization', `Bearer ${coachToken}`)
+                .set('Authorization', `Bearer ${coachBToken}`)
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
@@ -209,7 +261,7 @@ describe('*********** INVITATIONS ***********', () => {
         chai
             .request(server)
             .post('/invitations')
-            .set('Authorization', `Bearer ${coachToken}`)
+            .set('Authorization', `Bearer ${coachAToken}`)
             .send(payload1)
             .end((err, res) => {
                 res.should.have.status(401)
@@ -233,7 +285,7 @@ describe('*********** INVITATIONS ***********', () => {
                 .request(server)
                 .post('/invitations')
                 .set('Authorization', `Bearer ${vendorToken}`)
-                .send({to: 2})
+                .send(payload3)
                 .end((err, res) => {
                     res.should.have.status(201)
                     chai

@@ -3,6 +3,7 @@ const _ = require("lodash")
 
 const utils = require("./utils")
 const { permissions, modules, plan, user, invitation } = require('../models')
+const {matchedData} = require("express-validator");
 
 /**
  * Private functions
@@ -97,18 +98,20 @@ const checkInvitation = (from, to, next) => {
  */
 const checkInvitationAccepting = (hash, to, next) => {
     return new Promise(async (resolve, reject) => {
-
         try {
-
             const from = await user.findOne({ where: {verification: hash} })
 
-            if (!from) reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+            if (!from) {
+                reject(utils.buildErrObject(404, 'UNAUTHORIZED'))
+                return
+            }
 
             const inv = await invitation.findOne({ where: { to, from: from.dataValues.id } })
 
-            if (!inv) reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
-
-            else next()
+            if (!inv) {
+                reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+                return
+            } else next()
 
         } catch (err) {
             reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
@@ -164,10 +167,9 @@ exports.invitationAuthorization = () => async (req, res, next) => {
  */
 exports.invitationAcceptingAuthorization = () => async (req, res, next) => {
     try {
-        const { user, query } = req
+        const { user } = req
+        const { hash } = matchedData(req)
         const { id: to } = user
-        const { hash } = query
-
         await checkInvitationAccepting(hash, to, next)
     } catch (error) {
         utils.handleError(res, error)

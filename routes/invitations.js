@@ -85,9 +85,9 @@ router.get(
     '/:hash',
     requireAuth,
     permissions.roleAuthorization(),
-    permissions.invitationAcceptingAuthorization(),
     trimRequest.all,
     validate.getItem,
+    permissions.invitationAcceptingAuthorization(),
     controller.getItem
 )
 
