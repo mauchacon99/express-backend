@@ -314,9 +314,13 @@ describe('*********** INVITATIONS ***********', () => {
             invitation.destroy({ where: { id } }).then()
         })
 
-        await user.update(
+        user.update(
             { vendor: 3 },
             { where: { id: { [Op.in]: [6, 7] } } }
-        )
+        ).then()
+        user.update(
+            { vendor: null },
+            { where: { id: 2 } }
+        ).then()
     })
 })
