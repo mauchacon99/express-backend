@@ -13,7 +13,7 @@ let token = ''
 const queryParams = 'fields=route&filter=phones'
 
 const payload = {
-    icon: "image.jpg",
+    icon: "people",
     name: 'User',
     visible: true,
     status: true,
