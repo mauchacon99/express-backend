@@ -1,6 +1,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const { invitation } = require('../models')
+const { Op } = require("sequelize")
+const { invitation, user } = require('../models')
 const server = require('../server')
 const should = chai.should()
 const coachALoginDetails = {
@@ -30,6 +31,14 @@ const payload3 = { to: 7 }
 chai.use(chaiHttp)
 
 describe('*********** INVITATIONS ***********', () => {
+
+    before(async () => {
+        await user.update(
+            { vendor: null },
+            { where: { id: { [Op.in]: [6, 7] } } }
+        )
+    })
+
     describe('/POST login coach A', () => {
         it('it should GET token', (done) => {
             chai
@@ -300,9 +309,14 @@ describe('*********** INVITATIONS ***********', () => {
         })
     })
 
-    after(() => {
+    after(async () => {
         createdID.forEach((id) => {
             invitation.destroy({ where: { id } }).then()
         })
+
+        await user.update(
+            { vendor: 3 },
+            { where: { id: { [Op.in]: [6, 7] } } }
+        )
     })
 })
