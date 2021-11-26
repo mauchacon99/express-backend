@@ -135,7 +135,7 @@ module.exports = {
         name: 'coach1',
         lastname: 'test',
         roleId: 2,
-        vendor: null,
+        vendor: 3,
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'coach1@coach.com',
@@ -158,7 +158,7 @@ module.exports = {
         name: 'coach2',
         lastname: 'test',
         roleId: 2,
-        vendor: null,
+        vendor: 3,
         storageId: 1,
         password: '$2b$10$2C37ies.74Yr2sCaPzPkOeH0pPqp0T5s5o/CB1FlueT2mZgQEJoj2', // 123456
         email: 'coach2@coach.com',
