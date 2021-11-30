@@ -10,11 +10,11 @@ module.exports = {
       },
       planId: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       storageId: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       name: {
         allowNull: false,

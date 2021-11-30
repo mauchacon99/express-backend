@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   };
   document.init({
     planId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     storageId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     name: {
