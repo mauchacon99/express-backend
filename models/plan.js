@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.subscriber, {as: 'planS', foreignKey: 'planId'})
+      this.hasMany(models.document, {as: 'planD', foreignKey: 'planId'})
       this.belongsTo(models.user, {as: 'userPL', foreignKey: 'userId'})
       this.belongsTo(models.roles, {as: 'rolePL', foreignKey: 'roleId'})
       this.belongsTo(models.program, {as: 'programPL', foreignKey: 'programId'})

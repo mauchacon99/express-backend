@@ -422,7 +422,37 @@ const swaggerOptions = {
                     oldPassword: '123456',
                     newPassword: '654321'
                 }
-            }
+            },
+            documents: {
+                type: 'object',
+                required: [
+                    'planId',
+                    'storageId',
+                    'name',
+                ],
+                properties: {
+                    planId: { type: 'number' },
+                    storageId: { type: 'number' },
+                    name: { type: 'string' },
+                },
+                example: {
+                    planId: 1,
+                    storageId: 1,
+                    name: 'My document'
+                }
+            },
+            documentsUpdate: {
+                type: 'object',
+                required: [
+                    'name',
+                ],
+                properties: {
+                    name: { type: 'string' },
+                },
+                example: {
+                    name: 'My updated document'
+                }
+            },
         }
     },
     // routers

@@ -177,6 +177,17 @@ module.exports = {
         updatedAt: new Date(),
         visible: false
       },
+      {
+        id: 16,
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        icon: 'brightness_7',
+        name: 'Documents',
+        route: '/documents',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: false
+      },
     ], {});
   },
 

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.user, {as: 'avatar', foreignKey: 'storageId'})
       this.hasMany(models.plan, {as: 'storagePL', foreignKey: 'storageId'})
       this.hasMany(models.program, {as: 'storagePR', foreignKey: 'storageId'})
+      this.hasMany(models.document, {as: 'storageD', foreignKey: 'storageId'})
     }
   };
   storage.init({

@@ -148,6 +148,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 1,
+        moduleId: 16, // /documents
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 2 = coach
       {
@@ -281,6 +290,15 @@ module.exports = {
         moduleId: 15, // /invitations
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 16, // /documents
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -422,6 +440,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 3,
+        moduleId: 16, // /documents
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 4 = company
       {
@@ -559,6 +586,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 4,
+        moduleId: 16, // /documents
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 5 = personal
       {
@@ -692,6 +728,15 @@ module.exports = {
         moduleId: 15, // /invitations
         status: false,
         methods: JSON.stringify(['get', 'post', 'delete']),
+        visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 16, // /documents
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
