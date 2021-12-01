@@ -123,8 +123,6 @@ exports.getDocItems = async (req, res) => {
         }
         const query = await db.checkDocItems(req.query, req.user)
 
-        console.log(query)
-
         res.status(200).json(await db.getItems(req, storage, query, event))
     } catch (error) {
 
