@@ -139,7 +139,13 @@ exports.getItem = async (req, res) => {
                 },
                 {
                     model: program,
-                    as: 'programPL'
+                    as: 'programPL',
+                    include: [
+                        {
+                            model: storage,
+                            as: 'storagePR'
+                        },
+                    ]
 				},
                 {
                     model: roles,
