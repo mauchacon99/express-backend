@@ -40,6 +40,32 @@ router.get(
 
 /**
  * @swagger
+ * /storage/documents:
+ *    get:
+ *      tags:
+ *        - storage
+ *      summary: "get all documents of logged in user in storage"
+ *      description: "get all documents of logged in user in storage"
+ *      responses:
+ *        '200':
+ *          description: "return storages"
+ *        '401':
+ *          description: "Unauthorized."
+ *        '404':
+ *          description: "not founds"
+ *        '500':
+ *          description: "Internal server error."
+ */
+router.get(
+    '/documents',
+    requireAuth,
+    permissions.roleAuthorization(),
+    trimRequest.all,
+    controller.getDocItems
+)
+
+/**
+ * @swagger
  * /storage:
  *    post:
  *      tags:

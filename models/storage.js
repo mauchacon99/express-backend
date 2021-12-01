@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.plan, {as: 'storagePL', foreignKey: 'storageId'})
       this.hasMany(models.program, {as: 'storagePR', foreignKey: 'storageId'})
       this.hasMany(models.document, {as: 'storageD', foreignKey: 'storageId'})
+      this.belongsTo(models.user, {as: 'userST', foreignKey: 'userId'})
     }
   };
   storage.init({
@@ -22,7 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     origin: DataTypes.STRING,
     small: DataTypes.STRING,
     medium: DataTypes.STRING,
-    large: DataTypes.STRING
+    large: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   }, {
     sequelize,
     modelName: 'storage',

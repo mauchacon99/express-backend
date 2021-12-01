@@ -128,6 +128,68 @@ exports.checkQueryString= (query) => {
 }
 
 /**
+ * create object for search in single table
+ * @param {Object} query - params of the request example req.query
+ */
+exports.checkDocItems = (query, user) => {
+    return new Promise((resolve, reject) => {
+        try {
+
+            const imgExts = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.psd', '.bmp']
+
+            let userIdFilter
+            
+            if(user.roleId === 1) userIdFilter = {}
+            else userIdFilter = { userId: user.id }
+
+            const docFilter = {
+                fileType: {
+                    [Op.notIn]: [
+                        ...imgExts,
+                        ...imgExts.map(ext => ext.toUpperCase())
+                    ],
+                }
+            }
+
+            if (
+                typeof query.filter !== 'undefined'
+                && typeof query.fields !== 'undefined'
+            ) {
+                const array = []
+                // Takes fields param and builds an array by splitting with ','
+                const arrayFields = query.fields.split(',')
+                // Adds SQL Like %word% with regex
+                arrayFields.map((item) => {
+                    array.push({
+                        [item]: {
+                            [Op.like]: `%${query.filter}%`
+                        }
+                    })
+                })
+                // Puts array result in data
+                resolve({
+                    where: {
+                        [Op.or]: array,
+                        [Op.and]: userIdFilter.userId
+                            ? [docFilter, userIdFilter]
+                            : docFilter,
+                    }})
+            } else {
+                resolve({
+                    where: {
+                        ...docFilter,
+                        ...userIdFilter,
+                    }
+                })
+            }
+        } catch (err) {
+            reject(utils.buildErrObject(422, 'ERROR_WITH_FILTER'))
+        }
+    })
+}
+
+
+/**
  * get users by filter: without admin and if vendor
  * @param {Object} query - params of the request example req.query
  * @param {Object} userId - id of user to search
