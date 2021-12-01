@@ -387,6 +387,7 @@ describe('*********** PLANS ***********', () => {
                         'userPL',
                         'description',
                         'planS',
+                        'planD',
                         'programPL',
                         'rolePL',
                         'storagePL',
@@ -403,6 +404,7 @@ describe('*********** PLANS ***********', () => {
                     res.body.storageId.should.be.a('number')
                     res.body.price.should.be.a('number')
                     res.body.planS.should.be.a('array')
+                    res.body.planD.should.be.a('array')
                     res.body.rolePL.should.be.a('object')
                     res.body.userPL.should.be.a('object')
                     res.body.programPL.should.be.a('object')
