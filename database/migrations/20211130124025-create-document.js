@@ -1,34 +1,24 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('storages', {
+    await queryInterface.createTable('documents', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      fileName: {
-        type: Sequelize.STRING
-      },
-      fileType: {
-        type: Sequelize.STRING
-      },
-      origin: {
-        type: Sequelize.STRING
-      },
-      small: {
-        type: Sequelize.STRING
-      },
-      medium: {
-        type: Sequelize.STRING
-      },
-      large: {
-        type: Sequelize.STRING
-      },
-      userId: {
+      planId: {
         allowNull: false,
         type: Sequelize.INTEGER
+      },
+      storageId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      name: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +31,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('storages');
+    await queryInterface.dropTable('documents');
   }
 };

@@ -22,6 +22,7 @@ module.exports = {
         small: faker.image.image(),
         medium: faker.image.image(),
         large: faker.image.image(),
+        userId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       }

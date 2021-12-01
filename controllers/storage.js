@@ -61,11 +61,13 @@ const loadInS3Images = (file) => new Promise(async (resolve) => {
     resolve(file)
 })
 
+const removeExtFromFileName = (fileName) => fileName.substr(0, fileName.lastIndexOf('.')) || fileName;
+
 const otherType = (file = {}) => new Promise(async (resolve) => {
     const ext = path.extname(file.filename)
     // const fileName = `${cryptoRandomString({ length: 3 })}-${slugify(file.filename)}`
     resolve({
-        fileName: file.filename,
+        fileName: removeExtFromFileName(file.originalname),
         fileType: ext,
         origin: await storageUploadMedia(file.filename)
     })
@@ -104,6 +106,28 @@ exports.getItems = async (req, res) => {
         const query = await db.checkQueryString(req.query)
         res.status(200).json(await db.getItems(req, storage, query, event))
     } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
+ * Get doc items function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.getDocItems = async (req, res) => {
+    try {
+        const event = {
+            userId: req.user.id,
+            event: `get_all_document_files`
+        }
+        const query = await db.checkDocItems(req.query, req.user)
+
+        res.status(200).json(await db.getItems(req, storage, query, event))
+    } catch (error) {
+
+        console.log(error);
+
         utils.handleError(res, error)
     }
 }
@@ -156,7 +180,13 @@ exports.createItem = async (req, res) => {
                 } else {
                     objectFile = await otherType(file)
                 }
-                return await db.createItem(objectFile, storage, event)
+
+                const payload = {
+                    userId: req.user.id,
+                    ...objectFile,
+                }
+
+                return await db.createItem(payload, storage, event)
             })
         )
         res.status(201).json(data)

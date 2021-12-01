@@ -1,6 +1,14 @@
 const { matchedData } = require('express-validator')
 const {Sequelize} = require("sequelize")
-const { plan, program, user, storage, subscriber, roles } = require('../models')
+const {
+    plan,
+    program,
+    user,
+    storage,
+    subscriber,
+    roles,
+    document,
+} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -146,6 +154,10 @@ exports.getItem = async (req, res) => {
 				{
                     model: storage,
                     as: 'storagePL'
+                },
+                {
+                    model: document,
+                    as: 'planD'
                 },
                 {
                     model: subscriber,
