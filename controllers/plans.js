@@ -157,7 +157,13 @@ exports.getItem = async (req, res) => {
                 },
                 {
                     model: document,
-                    as: 'planD'
+                    as: 'planD',
+                    include: [
+                        {
+                            model: storage,
+                            as: 'storageD'
+                        }
+                    ]
                 },
                 {
                     model: subscriber,

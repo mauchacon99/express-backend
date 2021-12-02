@@ -1,7 +1,20 @@
-'use strict';
+'use strict'
 
-const faker = require('faker');
-const { sanitizeHash } = require('../../middleware/utils');
+const faker = require('faker')
+const { sanitizeHash } = require('../../middleware/utils')
+const fs = require('fs')
+const path = require('path')
+
+const directory = 'public/media'
+
+fs.readdir(directory, (err, files) => {
+  if (err) throw err
+  for (const file of files) {
+    fs.unlink(path.join(directory, file), err => {
+      if (err) throw err
+    })
+  }
+})
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -226,6 +239,8 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+
+
     /**
      * Add commands to revert seed here.
      *

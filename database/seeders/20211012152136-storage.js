@@ -25,6 +25,18 @@ module.exports = {
         userId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        id: 2,
+        fileName: 'Test file doc',
+        fileType: '.docx',
+        origin: 'http://localhost:3000/test.docx',
+        small: null,
+        medium: null,
+        large: null,
+        userId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ], {});
   },
