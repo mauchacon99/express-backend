@@ -1,3 +1,4 @@
+const fs = require('fs')
 const { matchedData } = require('express-validator')
 const sharp = require('sharp')
 const { v4: uuidv4 } = require('uuid')
@@ -226,10 +227,27 @@ exports.deleteItem = async (req, res) => {
             return
         }
 
-        const { dataValues: data } = file;
+        const { dataValues: data } = file
+        const mediaDirname = `${__dirname}/../public/media`
 
         if (utils.isImage(data.fileType)) {
             res.status(200).json(await db.deleteItem(id, storage, eventDeleteFile))
+
+            const imgURIs = [
+                `${mediaDirname}/${data.fileName}`,
+                `${mediaDirname}/origin_${data.fileName}`,
+                `${mediaDirname}/small_${data.fileName}`,
+                `${mediaDirname}/medium_${data.fileName}`,
+                `${mediaDirname}/large_${data.fileName}`,
+            ];
+
+            imgURIs.forEach(uri => {
+                fs.unlink(uri, (err) => {
+                    if (err) console.log(err);
+                    else console.log(`deleted file ${uri}`);
+                })
+            })
+            
             return
         }
 
@@ -238,6 +256,14 @@ exports.deleteItem = async (req, res) => {
         await db.deleteItem(null, document, eventDeleteDocs, _where)
 
         res.status(200).json(await db.deleteItem(id, storage, eventDeleteFile))
+
+        const fileKey = data.origin.match(/[\w-]+?(?=\.)/g)[0]
+        const docUri = `${mediaDirname}/${fileKey}${data.fileType}`
+
+        fs.unlink(docUri, (err) => {
+            if (err) console.log(err);
+            else console.log(`deleted file ${docUri}`);
+        })
 
     } catch (error) {
         utils.handleError(res, error)
