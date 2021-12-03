@@ -6,7 +6,7 @@ const slugify = require('slugify')
 const cryptoRandomString = require('crypto-random-string')
 const multer = require('multer')
 const db = require('../middleware/db')
-const { storage } = require('../models')
+const { storage, document } = require('../models')
 const utils = require('../middleware/utils')
 
 const router = 'public/media/'
@@ -202,12 +202,43 @@ exports.createItem = async (req, res) => {
  */
 exports.deleteItem = async (req, res) => {
     try {
-        const event = {
+        const eventGetFile = {
             userId: req.user.id,
-            event: `delete_module`
+            event: `get_file`
         }
+        const eventDeleteFile = {
+            userId: req.user.id,
+            event: `delete_file`
+        }
+        const eventDeleteDocs = {
+            userId: req.user.id,
+            event: `delete_documents`
+        }
+
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, storage, event))
+        
+        let file
+        
+        try {
+            file = await db.getItem(id, storage, eventGetFile)
+        } catch (err) {
+            res.status(404).json(err)
+            return
+        }
+
+        const { dataValues: data } = file;
+
+        if (utils.isImage(data.fileType)) {
+            res.status(200).json(await db.deleteItem(id, storage, eventDeleteFile))
+            return
+        }
+
+        const _where = { storageId: id };
+
+        await db.deleteItem(null, document, eventDeleteDocs, _where)
+
+        res.status(200).json(await db.deleteItem(id, storage, eventDeleteFile))
+
     } catch (error) {
         utils.handleError(res, error)
     }

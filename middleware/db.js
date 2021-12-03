@@ -134,9 +134,6 @@ exports.checkQueryString= (query) => {
 exports.checkDocItems = (query, user) => {
     return new Promise((resolve, reject) => {
         try {
-
-            const imgExts = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.psd', '.bmp']
-
             let userIdFilter
             
             if(user.roleId === 1) userIdFilter = {}
@@ -145,8 +142,8 @@ exports.checkDocItems = (query, user) => {
             const docFilter = {
                 fileType: {
                     [Op.notIn]: [
-                        ...imgExts,
-                        ...imgExts.map(ext => ext.toUpperCase())
+                        ...utils.imgExts,
+                        ...utils.imgExts.map(ext => ext.toUpperCase())
                     ],
                 }
             }
@@ -416,10 +413,14 @@ exports.updateItem = (id, model, req, event) => {
  * @param {string} id - id of item
  * @param {Object} model - model of db
  * @param {Object} event - object { userId, event}
+ * @param {Object} where - object (optional)
  */
-exports.deleteItem = (id, model, event) => {
+exports.deleteItem = (id, model, event, where) => {
+
+    const _where = where ? where : { id };
+
     return new Promise((resolve, reject) => {
-        model.destroy({ where: { id } })
+        model.destroy({ where: _where })
             .then(() => {
                 this.saveEvent(event)
                 resolve({message: 'deleted'})
