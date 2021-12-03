@@ -134,11 +134,10 @@ exports.checkQueryString= (query) => {
 exports.checkDocItems = (query, user) => {
     return new Promise((resolve, reject) => {
         try {
-
             const imgExts = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.psd', '.bmp']
 
             let userIdFilter
-            
+
             if(user.roleId === 1) userIdFilter = {}
             else userIdFilter = { userId: user.id }
 

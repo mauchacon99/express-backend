@@ -81,7 +81,7 @@ module.exports = {
         moduleId: 8, // /storage
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete']),
-        visible: false,
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -227,7 +227,7 @@ module.exports = {
         moduleId: 8, // /storage
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete']),
-        visible: false,
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -373,7 +373,7 @@ module.exports = {
         moduleId: 8, // /storage
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete']),
-        visible: false,
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -590,7 +590,7 @@ module.exports = {
         roleId: 4,
         moduleId: 16, // /documents
         status: true,
-        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -736,7 +736,7 @@ module.exports = {
         roleId: 5,
         moduleId: 16, // /documents
         status: true,
-        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        methods: JSON.stringify(['get']),
         visible: false,
         createdAt: new Date(),
         updatedAt: new Date(),

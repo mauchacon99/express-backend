@@ -122,7 +122,6 @@ exports.getDocItems = async (req, res) => {
             event: `get_all_document_files`
         }
         const query = await db.checkDocItems(req.query, req.user)
-
         res.status(200).json(await db.getItems(req, storage, query, event))
     } catch (error) {
 
