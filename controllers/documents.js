@@ -45,17 +45,13 @@ exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
 
-        document.findOne({
-            where:{id},
+        document.findAll({
+            where:{ storageId: id},
             include: [
                 {
                     model: plan,
                     as: 'planD'
-                },
-                                {
-                    model: storage,
-                    as: 'storageD'
-                },
+                }
             ]
         })
             .then((data) => {
