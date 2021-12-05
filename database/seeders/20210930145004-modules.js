@@ -98,7 +98,7 @@ module.exports = {
         route: '/storage',
         createdAt: new Date(),
         updatedAt: new Date(),
-        visible: false,
+        visible: true,
       },
       {
         id: 9,
