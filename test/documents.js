@@ -143,55 +143,51 @@ describe('*********** DOCUMENTS ***********', () => {
 
     describe('/GET/:id documents', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
-            const id = createdID[0]
             chai
                 .request(server)
-                .get(`/documents/${id}`)
+                .get(`/documents/2`)
                 .end((err, res) => {
                     res.should.have.status(401)
                     done()
                 })
         })
-        it('it should NOT GET a document if id is not exist', (done) => {
-            chai
-                .request(server)
-                .get('/documents/100')
-                .set('Authorization', `Bearer ${token}`)
-                .end((err, res) => {
-                    res.should.have.status(404)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
-                    res.body.errors.msg.should.be.a('string')
-                    done()
-                })
-        })
+        // it('it should NOT GET a document if id is not exist', (done) => {
+        //     chai
+        //         .request(server)
+        //         .get('/documents/100')
+        //         .set('Authorization', `Bearer ${token}`)
+        //         .end((err, res) => {
+        //             res.should.have.status(404)
+        //             res.body.should.be.a('object')
+        //             res.body.should.have.property('errors')
+        //             res.body.errors.msg.should.be.a('string')
+        //             done()
+        //         })
+        // })
         it('it should GET a document by the given id', (done) => {
-            const id = createdID[0]
             chai
                 .request(server)
-                .get(`/documents/${id}`)
+                .get(`/documents/2`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((error, res) => {
                     res.should.have.status(200)
-                    res.body.should.be.a('object')
-                    res.body.should.include.keys(
+                    res.body.should.be.a('array')
+                    res.body[0].should.include.keys(
                         'id',
                         'name',
                         'planId',
                         'storageId',
                         'planD',
-                        'storageD',
                         'createdAt',
                         'updatedAt'
                     )
-                    res.body.id.should.be.a('number')
-                    res.body.name.should.be.a('string')
-                    res.body.planId.should.be.a('number')
-                    res.body.storageId.should.be.a('number')
-                    res.body.planD.should.be.a('object')
-                    res.body.storageD.should.be.a('object')
-                    res.body.createdAt.should.be.a('string')
-                    res.body.updatedAt.should.be.a('string')
+                    res.body[0].id.should.be.a('number')
+                    res.body[0].name.should.be.a('string')
+                    res.body[0].planId.should.be.a('number')
+                    res.body[0].storageId.should.be.a('number')
+                    res.body[0].planD.should.be.a('object')
+                    res.body[0].createdAt.should.be.a('string')
+                    res.body[0].updatedAt.should.be.a('string')
                     done()
                 })
         })

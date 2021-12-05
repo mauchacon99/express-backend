@@ -58,11 +58,11 @@ router.post(
  *    get:
  *      tags:
  *        - documents
- *      summary: "search document for id"
- *      description: "search document for id"
+ *      summary: "search documents for idStorage"
+ *      description: "search documents for idStorage"
  *      responses:
  *        '200':
- *          description: "return document"
+ *          description: "return documents"
  *        '401':
  *          description: "Unauthorized."
  *        '404':
@@ -74,7 +74,7 @@ router.post(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of document"
+ *          description: "id of idStorage"
  *          required: true
  *          schema:
  *            type: number
@@ -100,8 +100,8 @@ router.get(
  *
  *
  *          `planD` = relation of table plans.
- * 
- * 
+ *
+ *
  *          `storageD` = relation of table storages.
  *
  *
