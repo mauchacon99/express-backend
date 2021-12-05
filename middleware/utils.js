@@ -68,3 +68,22 @@ exports.sanitizeHash = (hash) => {
 
     return slugify(hash, {remove: _regex});
 }
+
+const _imgExts = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.psd', '.bmp']
+
+/**
+ * Image extensions
+ * @constant
+ */
+exports.imgExts = _imgExts
+
+/**
+ * Checks if fileType is image
+ * @function
+ * @param {String} fileType
+ * @returns {boolean}
+ */
+exports.isImage = (fileType) => {
+    if (!fileType) return false;
+    return _imgExts.includes(fileType.trim().toLowerCase())
+}

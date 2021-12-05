@@ -1,3 +1,4 @@
+const fs = require('fs')
 const { matchedData } = require('express-validator')
 const sharp = require('sharp')
 const { v4: uuidv4 } = require('uuid')
@@ -6,7 +7,7 @@ const slugify = require('slugify')
 const cryptoRandomString = require('crypto-random-string')
 const multer = require('multer')
 const db = require('../middleware/db')
-const { storage } = require('../models')
+const { storage, document } = require('../models')
 const utils = require('../middleware/utils')
 
 const router = 'public/media/'
@@ -201,12 +202,36 @@ exports.createItem = async (req, res) => {
  */
 exports.deleteItem = async (req, res) => {
     try {
-        const event = {
-            userId: req.user.id,
-            event: `delete_module`
-        }
         const { id } = matchedData(req)
-        res.status(200).json(await db.deleteItem(id, storage, event))
+        const events = { userId: req.user.id }
+        events.event = 'get_file'
+        const file = await db.getItem(id, storage, events)
+        const { dataValues: data } = file
+        const mediaDirname = 'public/media'
+        let files
+        if (utils.isImage(data.fileType)) {
+            files = [
+                data.fileName,
+                `origin_${data.fileName}`,
+                `small_${data.fileName}`,
+                `medium_${data.fileName}`,
+                `large_${data.fileName}`,
+            ];
+        } else {
+            const fileKey = data.origin.match(/[\w-]+?(?=\.)/g)[0]
+            const docUri = `${fileKey}${data.fileType}`
+            files = [ docUri ]
+        }
+        files.map(uri => {
+            fs.unlink(path.join(mediaDirname, uri), (err) => {
+                if (err) console.log(err)
+            })
+        })
+
+        events.event = 'delete_documents'
+        db.deleteItem(null, document, events, { storageId: id }).then()
+        events.event = 'delete_file'
+        res.status(200).json(await db.deleteItem(id, storage, events))
     } catch (error) {
         utils.handleError(res, error)
     }

@@ -15,7 +15,6 @@ fs.readdir(directory, (err, files) => {
         if (err) throw err
       })
     }
-
   }
 })
 
