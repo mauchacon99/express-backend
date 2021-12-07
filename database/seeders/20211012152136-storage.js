@@ -30,7 +30,7 @@ module.exports = {
         id: 2,
         fileName: 'Test file doc',
         fileType: '.docx',
-        origin: 'http://localhost:3000/test.docx',
+        origin: `${process.env.API_URL}/media/test.docx`,
         small: null,
         medium: null,
         large: null,

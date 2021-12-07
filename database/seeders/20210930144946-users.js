@@ -4,19 +4,18 @@ const faker = require('faker')
 const { sanitizeHash } = require('../../middleware/utils')
 const fs = require('fs')
 const path = require('path')
+const publicPath = path.join(process.cwd(),'public')
 
-const directory = 'public/media'
-
-fs.readdir(directory, (err, files) => {
+fs.readdir(`${publicPath}/media`, (err, files) => {
   if (err) throw err
   for (const file of files) {
-    if(file !== '.gitkeep') {
-      fs.unlink(path.join(directory, file), err => {
-        if (err) throw err
-      })
-    }
+    if(file !== '.gitkeep')
+      fs.unlink(path.join(`${publicPath}/media`, file), (err) => { if (err) throw err })
   }
+  fs.copyFile(path.join(publicPath, 'test.docx'), path.join(`${publicPath}/media`, 'test.docx'),
+      (err) => { if (err) throw err })
 })
+
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
