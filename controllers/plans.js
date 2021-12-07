@@ -118,6 +118,57 @@ exports.getAllItems = async (req, res) => {
     }
 }
 
+
+/**
+ * Get items function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.getItemsHome = async (req, res) => {
+    try {
+        const query = await db.checkQuery(req.query)
+        const data = await plan.findAndCountAll({
+            ...query,
+            attributes:  {
+                include: [
+                    [Sequelize.literal("(SELECT COUNT(subscribers.id) FROM subscribers WHERE (subscribers.planId = `plan`.`id`))"), "subscribers"],
+                ]
+            },
+            include: [
+                {
+                    model: user,
+                    as: 'userPL',
+                    attributes: {
+                        exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                    },
+                    include: [
+                        {
+                            model: storage,
+                            as: 'avatar'
+                        }
+                    ]
+                },
+                {
+                    model: program,
+                    as: 'programPL',
+                },
+                {
+                    model: roles,
+                    as: 'rolePL',
+                },
+                {
+                    model: storage,
+                    as: 'storagePL'
+                },
+            ]
+        })
+
+        res.status(200).json(db.respOptions(data, query))
+    } catch (error) {
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+    }
+}
+
 /**
  * Get item function called by route
  * @param {Object} req - request object

@@ -10,7 +10,7 @@ const loginDetails = {
 }
 let token = ''
 const createdID = []
-const queryParams = 'fileds=name,email&relations=roleU.name&filter=admin'
+const queryParams = 'fileds=name,email&relations=roleU.name&filter=coach'
 const userSend = {
     name: faker.name.firstName(),
     lastname: faker.name.lastName(),
@@ -113,7 +113,68 @@ describe('*********** USERS ***********', () => {
                     res.body.docs[0].id.should.be.a('number')
                     res.body.docs[0].roleId.should.be.a('number')
                     res.body.docs[0].roleU.should.include.keys('name', 'description', 'createdAt', 'updatedAt')
-                    res.body.docs[0].should.have.property('email').eql('admin@admin.com')
+                    res.body.docs[0].should.have.property('email').eql('coach@coach.com')
+                    done()
+                })
+        })
+    })
+
+    describe('/GET users/home without authentication', () => {
+        it('it should GET all the users', (done) => {
+            chai
+                .request(server)
+                .get('/users/home')
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys('vendor', 'description', 'phone', 'address', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].lastname.should.be.a('string')
+                    res.body.docs[0].email.should.be.a('string')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    res.body.docs[0].roleU.should.be.a('object')
+                    res.body.docs[0].avatar.should.be.a('object')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].roleU.should.include.keys('name', 'description', 'createdAt', 'updatedAt')
+                    res.body.docs[0].verification.should.be.a('string')
+                    res.body.docs[0].verified.should.be.a('boolean')
+                    res.body.docs[0].forgotPassword.should.be.a('boolean')
+                    done()
+                })
+        })
+        it('it should GET the users with filters', (done) => {
+            chai
+                .request(server)
+                .get(`/users/home?${queryParams}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys('vendor', 'description', 'phone', 'address', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].lastname.should.be.a('string')
+                    res.body.docs[0].email.should.be.a('string')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    res.body.docs[0].roleU.should.be.a('object')
+                    res.body.docs[0].avatar.should.be.a('object')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].roleU.should.include.keys('name', 'description', 'createdAt', 'updatedAt')
+                    res.body.docs[0].should.have.property('email').eql('coach@coach.com')
                     done()
                 })
         })

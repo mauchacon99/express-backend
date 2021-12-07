@@ -23,14 +23,14 @@ const requireAuth = passport.authenticate('jwt', {
  *        - programs
  *      summary: "get all program"
  *      description: get all program. relations alias
- * 
- * 
+ *
+ *
  *          `userPR` = relation of table users.
- * 
- * 
+ *
+ *
  *          `storagePR` = relation of table storage.
- * 
- * 
+ *
+ *
  *      responses:
  *        '200':
  *          description: "return programs"
@@ -47,6 +47,36 @@ router.get(
     permissions.roleAuthorization(),
     trimRequest.all,
     controller.getAllItems
+)
+
+/**
+ * @swagger
+ * /programs/home:
+ *    get:
+ *      tags:
+ *        - programs
+ *      summary: "get all programs"
+ *      description: get all programs. (endpoint without authentication) relations alias
+ *
+ *
+ *          `userPR` = relation of table users.
+ *
+ *
+ *          `storagePR` = relation of table storage.
+ *
+ *
+ *      responses:
+ *        '200':
+ *          description: "return programs"
+ *        '404':
+ *          description: "not founds"
+ *        '500':
+ *          description: "Internal server error."
+ */
+router.get(
+    '/home',
+    trimRequest.all,
+    controller.getItemsHome
 )
 
 /**
@@ -131,14 +161,14 @@ router.get(
  *        - programs
  *      summary: "get all programs of logged in user"
  *      description: get all programs of logged in user. relations alias
- * 
- * 
+ *
+ *
  *          `userPR` = relation of table users.
- * 
- * 
+ *
+ *
  *          `storagePR` = relation of table storage.
- * 
- * 
+ *
+ *
  *      responses:
  *        '200':
  *          description: "return programs"

@@ -134,6 +134,88 @@ describe('*********** PROGRAMS ***********', () => {
         })
     })
 
+    describe('/GET programs/home without authentication', () => {
+        it('it should GET all programs', (done) => {
+            chai
+                .request(server)
+                .get('/programs/home')
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'userId',
+                        'storageId',
+                        'name',
+                        'skills',
+                        'description',
+                        'userPR',
+                        'plans',
+                        'subprograms',
+                        'storagePR',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].subprograms.should.be.a('number')
+                    res.body.docs[0].plans.should.be.a('number')
+                    res.body.docs[0].userPR.should.be.a('object')
+                    res.body.docs[0].storagePR.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+
+        it('it should GET the programs with filters', (done) => {
+            chai
+                .request(server)
+                .get(`/programs/home?${queryParams}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'userId',
+                        'storageId',
+                        'name',
+                        'skills',
+                        'description',
+                        'userPR',
+                        'plans',
+                        'subprograms',
+                        'storagePR',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].subprograms.should.be.a('number')
+                    res.body.docs[0].plans.should.be.a('number')
+                    res.body.docs[0].userPR.should.be.a('object')
+                    res.body.docs[0].storagePR.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+    })
+
     describe('/GET all programs', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai

@@ -64,6 +64,42 @@ exports.getItems = async (req, res) => {
     }
 }
 
+
+/**
+ * Get items function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.getItemsHome = async (req, res) => {
+    try {
+        const query = await db.checkQueryUser(req.query, {})
+        const data = await user.findAndCountAll({
+            ...query,
+            attributes:  {
+                exclude: ['password'],
+                include: [
+                    [Sequelize.literal("(SELECT phones.internationalNumber FROM phones WHERE (phones.userId = user.id) LIMIT 1 )"), "phone"],
+                    [Sequelize.literal("(SELECT locations.address FROM locations WHERE (locations.userId = user.id) LIMIT 1 )"), "address"]
+                ]
+            },
+            include: [
+                {
+                    model: roles,
+                    as: 'roleU'
+                },
+                {
+                    model: storage,
+                    as: 'avatar'
+                }
+            ]
+        })
+        res.status(200).json(db.respOptions(data, query))
+    } catch (error) {
+        console.log(error)
+        utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+    }
+}
+
 /**
  * Get item function called by route
  * @param {Object} req - request object

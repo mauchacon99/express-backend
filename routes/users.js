@@ -57,6 +57,31 @@ router.post(
 
 /**
  * @swagger
+ * /users/home:
+ *    get:
+ *      tags:
+ *        - users
+ *      summary: "get all users"
+ *      description: "get all users. (endpoint without authentication) relations alias
+ *
+ *
+ *          `roleU` = relation of table roles."
+ *      responses:
+ *        '200':
+ *          description: "return users"
+ *        '404':
+ *          description: "not founds"
+ *        '500':
+ *          description: "Internal server error."
+ */
+router.get(
+    '/home',
+    trimRequest.all,
+    controller.getItemsHome
+)
+
+/**
+ * @swagger
  * /users/{id}:
  *    get:
  *      tags:
