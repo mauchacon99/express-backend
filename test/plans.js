@@ -161,6 +161,110 @@ describe('*********** PLANS ***********', () => {
         })
     })
 
+    describe('/GET plans/home without authentication', () => {
+        it('it should GET all plans', (done) => {
+            chai
+                .request(server)
+                .get('/plans/home')
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'name',
+                        'users',
+                        'roleId',
+                        'userId',
+                        'description',
+                        'programId',
+                        'status',
+                        'storageId',
+                        'rolePL',
+                        'price',
+                        'userPL',
+                        'subscribers',
+                        'programPL',
+                        'storagePL',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].users.should.be.a('number')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].programId.should.be.a('number')
+                    res.body.docs[0].status.should.be.a('boolean')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].price.should.be.a('number')
+                    res.body.docs[0].subscribers.should.be.a('number')
+                    res.body.docs[0].userPL.should.be.a('object')
+                    res.body.docs[0].rolePL.should.be.a('object')
+                    res.body.docs[0].programPL.should.be.a('object')
+                    res.body.docs[0].storagePL.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+
+        it('it should GET the plans with filters', (done) => {
+            chai
+                .request(server)
+                .get(`/plans/home?${queryParams}`)
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.an('object')
+                    res.body.should.include.keys('docs', 'totalDocs', 'page', 'totalPages')
+                    res.body.docs.should.be.a('array')
+                    res.body.totalDocs.should.be.a('number')
+                    res.body.page.should.be.a('number')
+                    res.body.totalPages.should.be.a('number')
+                    res.body.docs[0].should.include.keys(
+                        'id',
+                        'name',
+                        'users',
+                        'roleId',
+                        'userId',
+                        'programId',
+                        'status',
+                        'storageId',
+                        'description',
+                        'price',
+                        'rolePL',
+                        'userPL',
+                        'subscribers',
+                        'programPL',
+                        'storagePL',
+                        'createdAt',
+                        'updatedAt'
+                    )
+                    res.body.docs[0].id.should.be.a('number')
+                    res.body.docs[0].name.should.be.a('string')
+                    res.body.docs[0].users.should.be.a('number')
+                    res.body.docs[0].roleId.should.be.a('number')
+                    res.body.docs[0].userId.should.be.a('number')
+                    res.body.docs[0].programId.should.be.a('number')
+                    res.body.docs[0].status.should.be.a('boolean')
+                    res.body.docs[0].storageId.should.be.a('number')
+                    res.body.docs[0].price.should.be.a('number')
+                    res.body.docs[0].subscribers.should.be.a('number')
+                    res.body.docs[0].rolePL.should.be.a('object')
+                    res.body.docs[0].userPL.should.be.a('object')
+                    res.body.docs[0].programPL.should.be.a('object')
+                    res.body.docs[0].storagePL.should.be.a('object')
+                    res.body.docs[0].createdAt.should.be.a('string')
+                    res.body.docs[0].updatedAt.should.be.a('string')
+                    done()
+                })
+        })
+    })
+
     describe('/GET all plans', () => {
         it('it should NOT be able to consume the route since no token was sent', (done) => {
             chai

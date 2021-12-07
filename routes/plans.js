@@ -11,6 +11,10 @@ const requireAuth = passport.authenticate('jwt', {
     session: false
 })
 
+/*
+ * plan routes
+ */
+
 /**
  * @swagger
  * /plans/all:
@@ -50,9 +54,40 @@ router.get(
     controller.getAllItems
 )
 
-/*
- * plan routes
+/**
+ * @swagger
+ * /plans/home:
+ *    get:
+ *      tags:
+ *        - plans
+ *      summary: "get all plans"
+ *      description: get all plans. (endpoint without authentication) relations alias
+ *
+ *
+ *        `userPL` = relation of table users.
+ *
+ *
+ *        `storagePL` = relation of table storage.
+ *
+ *
+ *        `programPL` = relation of table programs.
+ *
+ *
+ *        `rolePL` = relation of table roles.
+ *
+ *      responses:
+ *        '200':
+ *          description: "return plans"
+ *        '404':
+ *          description: "not founds"
+ *        '500':
+ *          description: "Internal server error."
  */
+router.get(
+    '/home',
+    trimRequest.all,
+    controller.getItemsHome
+)
 
 /**
  * @swagger

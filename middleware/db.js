@@ -130,6 +130,7 @@ exports.checkQueryString= (query) => {
 /**
  * create object for search in single table
  * @param {Object} query - params of the request example req.query
+ * @param {Object} user - params of the request example req.user
  */
 exports.checkDocItems = (query, user) => {
     return new Promise((resolve, reject) => {
@@ -281,14 +282,14 @@ exports.checkQueryUser = async (query, user) => {
     let queryAnd = [
         { roleId: { [Op.ne]: 1 } }
     ]
-    if(query.vendor && user.roleId === 3) {
+    if(query?.vendor && user?.roleId === 3) {
         const {vendor, ...queryParams} = query
         queryAnd = [
             ...queryAnd,
             {vendor: user.id}
         ]
         query = queryParams
-    } else if(user.roleId === 1) queryAnd =[]
+    } else if(user?.roleId === 1) queryAnd = []
     const queryRelations = await checkQueryStringRelations(query)
     const queryFields = await this.checkQueryString(query)
     let data = []
