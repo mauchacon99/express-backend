@@ -454,6 +454,64 @@ const swaggerOptions = {
                     name: 'My updated document'
                 }
             },
+            payments: {
+                type: 'object',
+                required: [
+                    'userId',
+                    'transactionId',
+                    'transaction',
+                    'amount',
+                    'type',
+                ],
+                properties: {
+                    userId: { type: 'number' },
+                    description: { type: 'string' },
+                    transactionId: { type: 'string' },
+                    transaction: { type: 'object' },
+                    amount: { type: 'number' },
+                    type: { type: 'string' },
+                },
+                example: {
+                    userId: 1,
+                    description: 'Mollit anim non exercitation amet eu aliqua irure quis.',
+                    transactionId: 'ipi_1HJsAi2qZvKhlo2Dfr8US8rS',
+                    transaction: {
+                      "id": "ipi_1HJsAi2qZvKhlo2Dfr8US8rS",
+                      "object": "issuing.transaction",
+                      "amount": 32.99,
+                      "amount_details": {
+                        "atm_fee": null
+                      },
+                      "authorization": "iauth_1JIdAO2eZvKYlo2CNzjj2lif",
+                      "balance_transaction": "txn_1JIdAm2eZvKYlo2CHfFOwGfr",
+                      "card": "ic_1JId7I2eZvKYlo2CQcSKF8Df",
+                      "cardholder": "ich_1JId712eZvKYlo2C0lXNIoYn",
+                      "created": 1627580251,
+                      "currency": "usd",
+                      "dispute": null,
+                      "livemode": false,
+                      "merchant_amount": 32.99,
+                      "merchant_currency": "usd",
+                      "merchant_data": {
+                        "category": "computer_software_stores",
+                        "category_code": "5734",
+                        "city": "SAN FRANCISCO",
+                        "country": "US",
+                        "name": "STRIPE",
+                        "network_id": "1234567890",
+                        "postal_code": "94103",
+                        "state": "CA"
+                      },
+                      "metadata": {
+                        "order_id": "willfeug@gmail.com"
+                      },
+                      "type": "capture",
+                      "wallet": null
+                    },
+                    amount: 32.99,
+                    type: 'coach-subscription',
+                }
+            },
         }
     },
     // routers

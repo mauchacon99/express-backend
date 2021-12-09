@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.invitation, {as: 'userI-FROM', foreignKey: 'from'})
       this.hasMany(models.invitation, {as: 'userI-TO', foreignKey: 'to'})
       this.hasMany(models.storage, {as: 'userST', foreignKey: 'userId'})
+      this.hasMany(models.payment, {as: 'userPA', foreignKey: 'userId'})
       this.belongsTo(models.roles, {as: 'roleU', foreignKey: 'roleId'})
       this.belongsTo(models.storage, {as: 'avatar', foreignKey: 'storageId'})
     }
