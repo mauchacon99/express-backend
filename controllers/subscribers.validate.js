@@ -17,6 +17,8 @@ exports.createItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('subprogramId')
+        .optional(),
     
     (req, res, next) => {
         validationResult(req, res, next)
@@ -45,6 +47,8 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('subprogramId')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }

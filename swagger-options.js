@@ -335,6 +335,7 @@ const swaggerOptions = {
                 properties: {
                     planId: { type: 'number' },
                     userId: { type: 'number' },
+                    subprogramId: { type: 'number' },
                 },
                 example: {
                     userId: 1,

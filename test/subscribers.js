@@ -14,6 +14,7 @@ const queryParams = ''
 const payload = {
     userId: 5,
     planId: 3,
+    subprogramId: 1,
 }
 
 chai.use(chaiHttp)
@@ -65,6 +66,7 @@ describe('*********** SUBSCRIBERS ***********', () => {
                         'id',
                         'userId',
                         'planId',
+                        'subprogramId',
                         'createdAt',
                         'updatedAt'
                     )
@@ -94,6 +96,7 @@ describe('*********** SUBSCRIBERS ***********', () => {
                         'id',
                         'userId',
                         'planId',
+                        'subprogramId',
                         'createdAt',
                         'updatedAt'
                     )
@@ -145,6 +148,7 @@ describe('*********** SUBSCRIBERS ***********', () => {
                         'id',
                         'userId',
                         'planId',
+                        'subprogramId',
                         'createdAt',
                         'updatedAt'
                     )
@@ -195,6 +199,7 @@ describe('*********** SUBSCRIBERS ***********', () => {
                         'id',
                         'userId',
                         'planId',
+                        'subprogramId',
                         'planS',
                         'createdAt',
                         'updatedAt'
@@ -251,6 +256,7 @@ describe('*********** SUBSCRIBERS ***********', () => {
                         'id',
                         'userId',
                         'planId',
+                        'subprogramId',
                         'createdAt',
                         'updatedAt'
                     )

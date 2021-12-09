@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.user, {as: 'userS', foreignKey: 'userId'})
       this.belongsTo(models.plan, {as: 'planS', foreignKey: 'planId'})
+      this.belongsTo(models.subprogram, {as: 'subprogramS', foreignKey: 'subprogramId'})
     }
   };
   subscriber.init({
@@ -21,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    subprogramId: {
+      allowNull: true,
       type: DataTypes.INTEGER
     },
     createdAt: {
