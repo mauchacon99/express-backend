@@ -470,9 +470,10 @@ const swaggerOptions = {
                     transaction: { type: 'object' },
                     amount: { type: 'number' },
                     type: { type: 'string' },
+                    planId: { type: 'number' },
                 },
                 example: {
-                    userId: 1,
+                    userId: 5,
                     description: 'Mollit anim non exercitation amet eu aliqua irure quis.',
                     transactionId: 'ipi_1HJsAi2qZvKhlo2Dfr8US8rS',
                     transaction: {
@@ -509,7 +510,8 @@ const swaggerOptions = {
                       "wallet": null
                     },
                     amount: 32.99,
-                    type: 'coach-subscription',
+                    type: 'plan',
+                    planId: 1,
                 }
             },
         }

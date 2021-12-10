@@ -374,14 +374,15 @@ exports.getItem = (id, model, event) => {
  * @param {Object} model - model of db
  * @param {Object} event - object { userId, event}
  */
-exports.createItem = (req, model, event) => {
+exports.createItem = (req, model, event, onSuccess) => {
     return new Promise((resolve, reject) => {
         model.create(req)
             .then(item => {
                 if(!item) reject(utils.buildErrObject(400, 'NOT_CREATED'))
                 else {
-                this.saveEvent(event)
-                    resolve(item)
+                    this.saveEvent(event)
+                    onSuccess && onSuccess(item)
+                    resolve(item)   
                 }
             })
             .catch(() => reject(utils.buildErrObject(400, 'NOT_CREATED')))
@@ -394,10 +395,14 @@ exports.createItem = (req, model, event) => {
  * @param {Object} model - model of db
  * @param {Object} req - request object
  * @param {Object} event - object { userId, event}
+ * @param {Object} where - object (optional)
  */
-exports.updateItem = (id, model, req, event) => {
+exports.updateItem = (id, model, req, event, where = null) => {
+
+    where ??= { id }
+
     return new Promise((resolve, reject) => {
-        model.update(req, { where: { id } })
+        model.update(req, { where })
             .then(item => {
                 if(!item) reject(utils.buildErrObject(400, 'NOT_UPDATED'))
                 else {

@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { payment, user } = require('../models')
+const { payment, user, subscriber } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 
@@ -95,12 +95,28 @@ exports.updateItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
-        const event = {
-            userId: req.user.id,
-            event: `new_payment`
-        }
+        const events = { userId: req.user.id }
+
         req = matchedData(req)
-        res.status(201).json(await db.createItem(req, payment, event))
+
+        events.event = 'new_payment'
+
+        const payload = await db.createItem(req, payment, events, (p) => {
+            
+            const { id: paymentId, type, userId } = p.dataValues
+            const { planId } = req
+
+            if (type === 'plan') {
+                events.event = 'update_subscriber'
+                
+                db.updateItem(null, subscriber, { paymentId }, events, { userId, planId }).then()
+            }
+
+        })
+
+
+
+        res.status(201).json(payload)
     } catch (error) {
         utils.handleError(res, error)
     }

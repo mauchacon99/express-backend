@@ -9,11 +9,10 @@ const loginDetails = {
 }
 let token = ''
 const createdID = []
-// const queryParams = 'fields=type&relations=userPA.name&filter=admin&sort=createdAt&page=1&limit=10&order=DESC'
-const queryParams = ''
+const queryParams = 'fields=type&relations=userPA.name&filter=admin&sort=createdAt&page=1&limit=10&order=DESC'
 
 const payload = {
-    userId: 1,
+    userId: 5,
     description: 'Mollit anim non exercitation amet eu aliqua irure quis.',
     transactionId: 'ipi_1HJsAi2qZvKhlo2Dfr8US8rS',
     transaction: {
@@ -50,7 +49,8 @@ const payload = {
       "wallet": null
     },
     amount: 32.99,
-    type: 'coach-subscription',
+    type: 'plan',
+    planId: 1,
 }
 
 chai.use(chaiHttp)

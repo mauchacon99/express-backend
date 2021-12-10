@@ -16,13 +16,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       subprogramId: {
         allowNull: true,
         type: Sequelize.INTEGER
+      },
+      paymentId: {
+        allowNull: true,
+        type: Sequelize.INTEGER
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
