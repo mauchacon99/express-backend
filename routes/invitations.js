@@ -17,6 +17,44 @@ const requireAuth = passport.authenticate('jwt', {
 
 /**
  * @swagger
+ * /invitations/send:
+ *    post:
+ *      tags:
+ *        - invitations
+ *      summary: "send invitation to unregistered coach"
+ *      description: "send invitation to unregistered coach"
+ *      responses:
+ *        '201':
+ *          description: "return invitation created"
+ *        '400':
+ *          description: "Created failed."
+ *        '401':
+ *          description: "Unauthorized."
+ *        '422':
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
+ *      parameters:
+ *        -  in: "body"
+ *           name: "body"
+ *           description: "parameters required to insert invitation"
+ *           required: true
+ *           schema:
+ *                $ref: "#/definitions/invitations"
+ */
+
+router.post(
+    '/send',
+    requireAuth,
+    permissions.roleAuthorization(),
+    permissions.ifRoleIdMatchesAuthorization(3),
+    trimRequest.all,
+    validate.send,
+    controller.send
+)
+
+/**
+ * @swagger
  * /invitations:
  *    post:
  *      tags:

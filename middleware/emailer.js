@@ -61,7 +61,7 @@ exports.sendProfilePasswordUpdatedEmailMessage = async (locale = '', user = {}) 
  * @param {Object} from - user object
  * @param {Object} to - user object
  */
-exports.sendInvitationEmailMessage = async (locale = '', from = {}, to = {}) => {
+exports.sendInvitationEmailMessage = async (locale = '', from = {}, to = {}, templateName = 'invitation.html') => {
     i18n.setLocale(locale)
     const data = {
         ...to,
@@ -71,7 +71,7 @@ exports.sendInvitationEmailMessage = async (locale = '', from = {}, to = {}) => 
     }
 
     const subject = i18n.__('invitation.SUBJECT')
-    const htmlMessage = await parseHtml('invitation.html', data);
+    const htmlMessage = await parseHtml(templateName, data);
 
     prepareToSendEmail(data, subject, htmlMessage)
 }
@@ -169,6 +169,7 @@ const parseHtml = (template, user) => {
                 data = data.replace(/VERIFICATION/g, `${process.env.FRONTEND_URL}/auth/verify/${user.verification}`)
                 data = data.replace(/RESET_PASSWORD/g, `${process.env.FRONTEND_URL}/auth/reset/${user.verification}`)
                 data = data.replace(/ACCEPT_INVITATION/g, `${process.env.FRONTEND_URL}/auth/invitation/${user.verification}`)
+                data = data.replace(/ACCEPT_INV_AND_REGISTER/g, `${process.env.FRONTEND_URL}/auth/register?verification=${user.verification}`)
             }
 
             if (user.email) {

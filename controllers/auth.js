@@ -125,6 +125,36 @@ exports.register = async (req, res) => {
         req = matchedData(req)
         const item = await registerUser(req)
         emailer.sendRegistrationEmailMessage(locale, item)
+
+        if (req.verification) {
+            const { hash: verification } = matchedData(req)
+            const userId = item.id
+
+            user.findOne({
+                attributes: {
+                    exclude: ['password', 'verification', 'verified', 'forgotPassword']
+                },
+                where:{ verification },
+            })
+                .then(async (data) => {
+                    if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                    else {
+                        const senderData = data.dataValues
+                        // Coach
+                        if (req.user.roleId === 2) {
+                            await db.updateItem(userId, user, { vendor: senderData.id }, {
+                                userId: userId,
+                                event: `update_user_${userId}`
+                            })
+                            db.saveEvent({userId: userId, event: `accept_invitation_${verification}`}).then()
+                            res.status(200).json({ msg: 'success' })
+                        }
+                        else utils.buildErrObject(401, 'UNAUTHORIZED')
+                    }
+                })
+                .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
+        }
+
         res.status(201).json({
             token: auth.generateToken(item.id),
             user: auth.setUserInfo(item),
