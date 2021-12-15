@@ -120,6 +120,7 @@ const swaggerOptions = {
                     linkedin: { type: 'string' },
                     professions: { type: 'array' },
                     languages: { type: 'array' },
+                    statusPayment: { type: 'boolean' },
                 },
                 example: {
                     name: 'user',

@@ -122,6 +122,11 @@ module.exports = (sequelize, DataTypes) => {
         return this.setDataValue('languages', JSON.stringify(value));
       }
     },
+    statusPayment: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   }, {
     sequelize,
     modelName: 'user',

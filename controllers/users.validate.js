@@ -43,6 +43,8 @@ exports.createItem = [
         .optional(),
     check('languages')
         .optional(),
+    check('statusPayment')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -85,6 +87,8 @@ exports.updateItem = [
     check('languages')
         .optional(),
     check('vendor')
+        .optional(),
+    check('statusPayment')
         .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
