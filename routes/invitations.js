@@ -40,7 +40,7 @@ const requireAuth = passport.authenticate('jwt', {
  *           description: "parameters required to insert invitation"
  *           required: true
  *           schema:
- *                $ref: "#/definitions/invitations"
+ *                $ref: "#/definitions/invitationsToUnregisteredCoach"
  */
 
 router.post(

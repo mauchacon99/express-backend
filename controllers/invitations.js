@@ -178,7 +178,7 @@ exports.send = async (req, res) => {
         const senderData = req.user
         
         req = matchedData(req)
-        const receiverData = { email: req.to, name: req.name }
+        const receiverData = { email: req.email, name: req.name }
 
         emailer.sendInvitationEmailMessage(
             locale,

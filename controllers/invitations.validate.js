@@ -5,7 +5,7 @@ const { validationResult } = require('../middleware/utils')
  * Validates invitation to unregistered coach
  */
 exports.send = [
-    check('to')
+    check('email')
         .exists()
         .withMessage('MISSING')
         .not()

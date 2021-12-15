@@ -374,6 +374,21 @@ const swaggerOptions = {
                     to: 3,
                 }
             },
+            invitationsToUnregisteredCoach: {
+                type: 'object',
+                required: [
+                    'name',
+                    'email',
+                ],
+                properties: {
+                    name: { type: 'string' },
+                    email: { type: 'string' },
+                },
+                example: {
+                    name: 'bryan',
+                    email: 'bjbh415@gmail.com',
+                }
+            },
             profile: {
                 type: 'object',
                 required: [

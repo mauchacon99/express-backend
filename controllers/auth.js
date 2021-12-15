@@ -126,40 +126,46 @@ exports.register = async (req, res) => {
         const item = await registerUser(req)
         emailer.sendRegistrationEmailMessage(locale, item)
 
-        if (req.verification) {
-            const { hash: verification } = matchedData(req)
+        if (req.validation) {
+            const validation = req.validation
             const userId = item.id
 
             user.findOne({
                 attributes: {
                     exclude: ['password', 'verification', 'verified', 'forgotPassword']
                 },
-                where:{ verification },
+                where:{ verification: validation },
             })
                 .then(async (data) => {
                     if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                     else {
                         const senderData = data.dataValues
                         // Coach
-                        if (req.user.roleId === 2) {
+                        if (req.roleId === 2) {
                             await db.updateItem(userId, user, { vendor: senderData.id }, {
                                 userId: userId,
                                 event: `update_user_${userId}`
                             })
-                            db.saveEvent({userId: userId, event: `accept_invitation_${verification}`}).then()
-                            res.status(200).json({ msg: 'success' })
+                            db.saveEvent({userId: userId, event: `accept_invitation_${validation}`}).then()
+                            
+                            res.status(201).json({
+                                token: auth.generateToken(item.id),
+                                user: auth.setUserInfo(item),
+                                permissions: await auth.getPermissions(item.roleId)
+                            })
                         }
                         else utils.buildErrObject(401, 'UNAUTHORIZED')
                     }
                 })
-                .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
+                .catch((err) => console.log(err))
+        } else {
+            res.status(201).json({
+                token: auth.generateToken(item.id),
+                user: auth.setUserInfo(item),
+                permissions: await auth.getPermissions(item.roleId)
+            })
         }
 
-        res.status(201).json({
-            token: auth.generateToken(item.id),
-            user: auth.setUserInfo(item),
-            permissions: await auth.getPermissions(item.roleId)
-        })
     } catch (e) {
         utils.handleError(res, utils.buildErrObject(400, 'DONT_REGISTER'))
     }
