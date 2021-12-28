@@ -1,8 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const trimRequest = require('trim-request')
-const controller = require('../controllers/invitations')
-const validate = require('../controllers/invitations.validate')
+const controller = require('../controllers/payments')
+const validate = require('../controllers/payments.validate')
 const router = express.Router()
 require('../config/passport')
 const permissions = require("../middleware/permissions");
@@ -12,20 +12,20 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 /*
- * invitation routes
+ * payment routes
  */
 
 /**
  * @swagger
- * /invitations/send:
+ * /payments:
  *    post:
  *      tags:
- *        - invitations
- *      summary: "send invitation to unregistered coach"
- *      description: "send invitation to unregistered coach"
+ *        - payments
+ *      summary: "create new payment"
+ *      description: "create new payment"
  *      responses:
  *        '201':
- *          description: "return invitation created"
+ *          description: "return payment created"
  *        '400':
  *          description: "Created failed."
  *        '401':
@@ -37,55 +37,16 @@ const requireAuth = passport.authenticate('jwt', {
  *      parameters:
  *        -  in: "body"
  *           name: "body"
- *           description: "parameters required to insert invitation"
+ *           description: "parameters required to insert payment"
  *           required: true
  *           schema:
- *                $ref: "#/definitions/invitationsToUnregisteredCoach"
- */
-
-router.post(
-    '/send',
-    requireAuth,
-    permissions.roleAuthorization(),
-    permissions.ifRoleIdMatchesAuthorization(3),
-    trimRequest.all,
-    validate.send,
-    controller.send
-)
-
-/**
- * @swagger
- * /invitations:
- *    post:
- *      tags:
- *        - invitations
- *      summary: "create new invitation"
- *      description: "create new invitation"
- *      responses:
- *        '201':
- *          description: "return invitation created"
- *        '400':
- *          description: "Created failed."
- *        '401':
- *          description: "Unauthorized."
- *        '422':
- *          description: "Validation error in any of the fields entered or a field is missing."
- *        '500':
- *          description: "Internal server error."
- *      parameters:
- *        -  in: "body"
- *           name: "body"
- *           description: "parameters required to insert invitation"
- *           required: true
- *           schema:
- *                $ref: "#/definitions/invitations"
+ *                $ref: "#/definitions/payments"
  */
 
 router.post(
     '/',
     requireAuth,
     permissions.roleAuthorization(),
-    permissions.invitationAuthorization(),
     trimRequest.all,
     validate.createItem,
     controller.createItem
@@ -93,15 +54,15 @@ router.post(
 
 /**
  * @swagger
- * /invitations/{hash}:
+ * /payments/{id}:
  *    get:
  *      tags:
- *        - invitations
- *      summary: "accept invitation"
- *      description: "accept invitation"
+ *        - payments
+ *      summary: "search payment for id"
+ *      description: "search payment for id"
  *      responses:
  *        '200':
- *          description: "return invitation"
+ *          description: "return payment"
  *        '401':
  *          description: "Unauthorized."
  *        '404':
@@ -111,35 +72,39 @@ router.post(
  *        '500':
  *          description: "Internal server error."
  *      parameters:
- *        - name: hash
+ *        - name: id
  *          in: query
- *          description: "hash of sender (verification)"
+ *          description: "id of payment"
  *          required: true
  *          schema:
- *            type: string
- *            format: string
+ *            type: number
+ *            format: number
  */
 router.get(
-    '/:hash',
+    '/:id',
     requireAuth,
     permissions.roleAuthorization(),
     trimRequest.all,
     validate.getItem,
-    permissions.invitationAcceptingAuthorization(),
     controller.getItem
 )
 
 /**
  * @swagger
- * /invitations:
+ * /payments:
  *    get:
  *      tags:
- *        - invitations
- *      summary: "get all invitations"
- *      description: "get all invitations"
+ *        - payments
+ *      summary: "get all payments"
+ *      description: get all payments. relations alias
+ *
+ *
+ *        `userPA` = relation of table users.
+ *
+ *
  *      responses:
  *        '200':
- *          description: "return invitations"
+ *          description: "return payments"
  *        '401':
  *          description: "Unauthorized."
  *        '404':
@@ -157,12 +122,55 @@ router.get(
 
 /**
  * @swagger
- * /invitations/{id}:
+ * /payments/{id}:
+ *    patch:
+ *      tags:
+ *        - payments
+ *      summary: "update payment for id"
+ *      description: "search payment and update"
+ *      responses:
+ *        '201':
+ *          description: "return payment updated"
+ *        '400':
+ *          description: "Updated failed."
+ *        '401':
+ *          description: "Unauthorized."
+ *        '422':
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
+ *      parameters:
+ *        - name: id
+ *          in: query
+ *          description: "id of payment"
+ *          required: true
+ *          schema:
+ *            type: number
+ *            format: number
+ *        -  in: "body"
+ *           name: "body"
+ *           description: "parameters required to insert module."
+ *           required: true
+ *           schema:
+ *                $ref: "#/definitions/payments"
+ */
+router.patch(
+    '/:id',
+    requireAuth,
+    permissions.roleAuthorization(),
+    trimRequest.all,
+    validate.updateItem,
+    controller.updateItem
+)
+
+/**
+ * @swagger
+ * /payments/{id}:
  *    delete:
  *      tags:
- *        - invitations
- *      summary: "delete invitation for id"
- *      description: "delete invitation for id"
+ *        - payments
+ *      summary: "delete payment for id"
+ *      description: "delete payment for id"
  *      responses:
  *        '200':
  *          description: "message deleted"
@@ -177,7 +185,7 @@ router.get(
  *      parameters:
  *        - name: id
  *          in: query
- *          description: "id of invitation"
+ *          description: "id of payment"
  *          required: true
  *          schema:
  *            type: number

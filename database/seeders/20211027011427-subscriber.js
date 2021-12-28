@@ -7,6 +7,7 @@ module.exports = {
         id: 1,
         userId: 5,
         planId: 1,
+        subprogramId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

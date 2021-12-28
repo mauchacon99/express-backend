@@ -120,6 +120,25 @@ const checkInvitationAccepting = (hash, to, next) => {
 }
 
 /**
+ * check if given roleId matches with req.user.roleId
+ * @param {Object} req - request object
+ * @param {Number} roleId - id of role
+ * @param {Object || Function} next - next
+ */
+const checkIfRoleIdMatchesAuthorization = (req, roleId, next) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            if (req.user.roleId === roleId) next()
+            else reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+
+        } catch (err) {
+            reject(utils.buildErrObject(401, 'UNAUTHORIZED'))
+        }
+    })
+}
+
+/**
  * Public functions
  */
 
@@ -157,6 +176,17 @@ exports.invitationAuthorization = () => async (req, res, next) => {
         const { to } = body
 
         await checkInvitation(from, to, next)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
+ * check if given roleId matches with req.user.roleId
+ */
+exports.ifRoleIdMatchesAuthorization = (roleId) => async (req, res, next) => {
+    try {
+        await checkIfRoleIdMatchesAuthorization(req, roleId, next)
     } catch (error) {
         utils.handleError(res, error)
     }
