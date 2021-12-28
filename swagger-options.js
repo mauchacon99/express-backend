@@ -335,6 +335,7 @@ const swaggerOptions = {
                 properties: {
                     planId: { type: 'number' },
                     userId: { type: 'number' },
+                    subprogramId: { type: 'number' },
                 },
                 example: {
                     userId: 1,
@@ -451,6 +452,26 @@ const swaggerOptions = {
                 },
                 example: {
                     name: 'My updated document'
+                }
+            },
+            payments: {
+                type: 'object',
+                required: [
+                    'id',
+                    'token',
+                    'type',
+                ],
+                properties: {
+                    id: { type: 'number' },
+                    description: { type: 'string' },
+                    token: { type: 'string' },
+                    type: { type: 'string' },
+                },
+                example: {
+                    id: 1,
+                    description: 'Mollit anim non exercitation amet eu aliqua irure quis.',
+                    token: 'ipi_1HJsAi2qZvKhlo2Dfr8US8rS',
+                    type: 'plan',
                 }
             },
         }

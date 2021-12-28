@@ -12,7 +12,7 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('permissions', [
-      //Role 1 = admin
+      // role 1 = admin
       {
         roleId: 1,
         moduleId: 1, // /modules
@@ -154,6 +154,15 @@ module.exports = {
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 1,
+        moduleId: 17, // /payments
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -303,6 +312,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 2,
+        moduleId: 17, // /payments
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 3 = vendor
       {
@@ -446,6 +464,15 @@ module.exports = {
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
         visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 3,
+        moduleId: 17, // /payments
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -595,6 +622,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 4,
+        moduleId: 17, // /payments
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 5 = personal
       {
@@ -738,6 +774,15 @@ module.exports = {
         status: true,
         methods: JSON.stringify(['get']),
         visible: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 17, // /payments
+        status: true,
+        methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

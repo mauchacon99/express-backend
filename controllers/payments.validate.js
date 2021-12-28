@@ -5,21 +5,26 @@ const { validationResult } = require('../middleware/utils')
  * Validates create new item request
  */
 exports.createItem = [
-    check('userId')
+    check('id')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('planId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('subprogramId')
+    check('description')
         .optional(),
-    
+    check('token')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('type')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -35,7 +40,27 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('planId')
+    check('description')
+        .optional(),
+    check('transactionId')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('transaction')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('amount')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('type')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -47,8 +72,6 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('subprogramId')
-        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }
