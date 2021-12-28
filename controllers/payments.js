@@ -1,7 +1,8 @@
 const { matchedData } = require('express-validator')
-const { payment, user, subscriber } = require('../models')
+const { payment, user, plan } = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
+const stripe = require('../services/stripe')
 
 /********************
  * Public functions *
@@ -76,13 +77,25 @@ exports.getItem = async (req, res) => {
  */
 exports.updateItem = async (req, res) => {
     try {
-        const { id } = req
+        const user = req.user
+        const { id } = matchedData(req)
         const event = {
-            userId: req.user.id,
-            event: `update_payment_${id}`
+            userId: user.id,
+            event: `update_payment`
         }
-        req = matchedData(req)
-        res.status(201).json(await db.updateItem(req.id, payment, req, event))
+
+        const detail = await db.getItem(id, payment, event)
+        const checkPayment = stripe.checkPayment(detail.transactionId)
+
+        // if(detail.type === 'plan' && checkPayment.status === 'success') // Subscribir el usuario al plan
+
+        const body = {
+            status: checkPayment.status,
+            transaction: checkpayment.detailPayment
+        }
+
+        await db.updateItem(id, payment, body, event)
+        res.status(201).json()
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -95,28 +108,29 @@ exports.updateItem = async (req, res) => {
  */
 exports.createItem = async (req, res) => {
     try {
-        const events = { userId: req.user.id }
-
+        const user = req.user
         req = matchedData(req)
+        const event = {
+            userId: user.id,
+            event: `new_payment`
+        }
+        let dataPayment = {}
+        if (req.type === 'plan')
+            dataPayment = await db.getItem(req.id, plan, {userId: user.id, event: 'get_plan'})
+        const description = `${req.type}: ${dataPayment.name} - ${user.email}`
+        const resPaymentIntent = await stripe.paymentIntent(req.token, dataPayment.price, description)
 
-        events.event = 'new_payment'
-
-        const payload = await db.createItem(req, payment, events, (p) => {
-            
-            const { id: paymentId, type, userId } = p.dataValues
-            const { planId } = req
-
-            if (type === 'plan') {
-                events.event = 'update_subscriber'
-                
-                db.updateItem(null, subscriber, { paymentId }, events, { userId, planId }).then()
-            }
-
-        })
-
-
-
-        res.status(201).json(payload)
+        const body = {
+            userId: user.id,
+            description: req.description || '',
+            transactionId: resPaymentIntent.id,
+            transaction: resPaymentIntent,
+            amount: dataPayment.price,
+            type: req.type,
+            status: 'wait',
+        }
+        await db.createItem(body, payment, event)
+        res.status(201).json(resPaymentIntent)
     } catch (error) {
         utils.handleError(res, error)
     }

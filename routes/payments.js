@@ -42,11 +42,9 @@ const requireAuth = passport.authenticate('jwt', {
  *           schema:
  *                $ref: "#/definitions/payments"
  */
-
 router.post(
     '/',
     requireAuth,
-    permissions.roleAuthorization(),
     trimRequest.all,
     validate.createItem,
     controller.createItem

@@ -192,12 +192,12 @@ module.exports = {
         id: 17,
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
-        icon: 'brightness_7',
+        icon: 'paid',
         name: 'Payments',
         route: '/payments',
         createdAt: new Date(),
         updatedAt: new Date(),
-        visible: false
+        visible: true
       },
     ], {});
   },

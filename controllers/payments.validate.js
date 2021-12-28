@@ -5,7 +5,7 @@ const { validationResult } = require('../middleware/utils')
  * Validates create new item request
  */
 exports.createItem = [
-    check('userId')
+    check('id')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -13,19 +13,7 @@ exports.createItem = [
         .withMessage('IS_EMPTY'),
     check('description')
         .optional(),
-    check('transactionId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('transaction')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('amount')
+    check('token')
         .exists()
         .withMessage('MISSING')
         .not()
