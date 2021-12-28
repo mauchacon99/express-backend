@@ -168,6 +168,32 @@ exports.createItem = async (req, res) => {
 }
 
 /**
+ * Send invitation to unregistrated coach function called by route
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.send = async (req, res) => {
+    try {
+        const locale = req.getLocale()
+        const senderData = req.user
+        
+        req = matchedData(req)
+        const receiverData = { email: req.email, name: req.name }
+
+        emailer.sendInvitationEmailMessage(
+            locale,
+            senderData,
+            receiverData,
+            'invitationUnregistratedCoach.html'
+        ).then()
+
+        res.status(201).json(receiverData)
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+
+/**
  * Delete item function called by route
  * @param {Object} req - request object
  * @param {Object} res - response object

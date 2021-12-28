@@ -120,6 +120,7 @@ const swaggerOptions = {
                     linkedin: { type: 'string' },
                     professions: { type: 'array' },
                     languages: { type: 'array' },
+                    statusPayment: { type: 'boolean' },
                 },
                 example: {
                     name: 'user',
@@ -374,6 +375,21 @@ const swaggerOptions = {
                     to: 3,
                 }
             },
+            invitationsToUnregisteredCoach: {
+                type: 'object',
+                required: [
+                    'name',
+                    'email',
+                ],
+                properties: {
+                    name: { type: 'string' },
+                    email: { type: 'string' },
+                },
+                example: {
+                    name: 'bryan',
+                    email: 'bjbh415@gmail.com',
+                }
+            },
             profile: {
                 type: 'object',
                 required: [
@@ -466,6 +482,7 @@ const swaggerOptions = {
                     description: { type: 'string' },
                     token: { type: 'string' },
                     type: { type: 'string' },
+                    planId: { type: 'number' },
                 },
                 example: {
                     id: 1,
