@@ -34,6 +34,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
+        default: 'fail',
         allowNull: false
       },
       createdAt: {
