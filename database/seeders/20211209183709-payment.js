@@ -40,7 +40,7 @@ module.exports = {
         "wallet": null
       }),
       amount: 100.0,
-      type: 'coach',
+      type: 'plan',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
