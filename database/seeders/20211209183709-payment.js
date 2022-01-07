@@ -41,6 +41,7 @@ module.exports = {
       }),
       amount: 100.0,
       type: 'plan',
+      status: 'fail',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
