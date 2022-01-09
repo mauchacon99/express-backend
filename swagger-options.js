@@ -49,6 +49,10 @@ const swaggerOptions = {
                     roleId: { type: 'number' },
                     lastname: { type: 'string' },
                     description: { type: 'string' },
+                    hashValidation: {
+                        type: 'string',
+                        description: 'verification hash when a vendor invites a coach (only used when sending an invitation to join a company)'
+                    },
                 },
                 example: {
                     name: 'user',

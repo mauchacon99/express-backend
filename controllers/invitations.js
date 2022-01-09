@@ -80,7 +80,7 @@ exports.getItems = async (req, res) => {
 }
 
 /**
- * Get item function called by route
+ * Get item function called by route accept invitations
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
@@ -176,7 +176,7 @@ exports.send = async (req, res) => {
     try {
         const locale = req.getLocale()
         const senderData = req.user
-        
+
         req = matchedData(req)
         const receiverData = { email: req.email, name: req.name }
 

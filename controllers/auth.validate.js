@@ -39,7 +39,7 @@ exports.register = [
         .withMessage('PASSWORD_TOO_SHORT_MIN_5'),
     check('description')
         .optional(),
-    check('validation')
+    check('hashValidation')
         .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
