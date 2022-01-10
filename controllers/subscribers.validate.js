@@ -19,7 +19,7 @@ exports.createItem = [
         .withMessage('IS_EMPTY'),
     check('subprogramId')
         .optional(),
-    
+
     (req, res, next) => {
         validationResult(req, res, next)
     }
@@ -29,13 +29,7 @@ exports.createItem = [
  * Validates update item request
  */
 exports.updateItem = [
-    check('userId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('planId')
+    check('subprogramId')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -47,8 +41,6 @@ exports.updateItem = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('subprogramId')
-        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }

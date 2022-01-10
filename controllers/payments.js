@@ -1,5 +1,5 @@
-const { matchedData } = require('express-validator')
-const { payment, user, plan } = require('../models')
+const {matchedData} = require('express-validator')
+const {payment, user, plan, subscriber} = require('../models')
 const utils = require('../middleware/utils')
 const db = require('../middleware/db')
 const stripe = require('../services/stripe')
@@ -27,7 +27,7 @@ exports.getItems = async (req, res) => {
                     }
                 },
             ]
-		})
+        })
 
         db.saveEvent({userId: req.user.id, event: 'get_all_payments'})
         res.status(200).json(db.respOptions(data, query))
@@ -43,10 +43,10 @@ exports.getItems = async (req, res) => {
  */
 exports.getItem = async (req, res) => {
     try {
-        const { id } = matchedData(req)
+        const {id} = matchedData(req)
 
         payment.findOne({
-            where:{id},
+            where: {id},
             include: [
                 {
                     model: user,
@@ -58,7 +58,7 @@ exports.getItem = async (req, res) => {
             ]
         })
             .then((data) => {
-                if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+                if (!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {
                     db.saveEvent({userId: req.user.id, event: `get_payment_${id}`})
                     res.status(200).json(data)
@@ -77,25 +77,55 @@ exports.getItem = async (req, res) => {
  */
 exports.updateItem = async (req, res) => {
     try {
-        const user = req.user
-        const { id } = matchedData(req)
         const event = {
-            userId: user.id,
+            userId: req.user.id,
             event: `update_payment`
         }
+        req = matchedData(req)
+        res.status(201).json(await db.updateItem(req.id, payment, req, event))
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
 
-        const detail = await db.getItem(id, payment, event)
-        const checkPayment = stripe.checkPayment(detail.transactionId)
+/**
+ * Confirm payment and subscribe to plan
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.confirmAndSubscribe = async (req, res) => {
+    try {
+        const user = req.user
+        const data = matchedData(req)
+        const event = {
+            userId: user.id,
+            event: `confirm_payment`
+        }
 
-        // if(detail.type === 'plan' && checkPayment.status === 'success') // Subscribir el usuario al plan
+        const detail = await db.getItem(data.id, payment, event)
+        const checkPayment = await stripe.checkPayment(detail.transactionId)
+
+        //subscribe user to plan
+        if (detail.type === 'plan' && checkPayment.status === 'success') {
+            const event = {
+                userId: user.id,
+                event: `new_subscriber`
+            }
+            const bodySubscribe = {
+                planId: data.planId,
+                userId: user.id,
+                paymentId: data.id
+            }
+            await db.createItem(bodySubscribe, subscriber, event)
+        }
 
         const body = {
             status: checkPayment.status,
-            transaction: checkpayment.detailPayment
+            transaction: checkPayment.detailPayment
         }
-
-        await db.updateItem(id, payment, body, event)
-        res.status(201).json()
+        console.log(body)
+        // update payment
+        res.status(201).json(await db.updateItem(data.id, payment, body, event))
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -129,8 +159,8 @@ exports.createItem = async (req, res) => {
             type: req.type,
             status: 'wait',
         }
-        await db.createItem(body, payment, event)
-        res.status(201).json(resPaymentIntent)
+        const resPayment = await db.createItem(body, payment, event)
+        res.status(201).json({...resPaymentIntent, paymentId: resPayment.id})
     } catch (error) {
         utils.handleError(res, error)
     }
@@ -147,7 +177,7 @@ exports.deleteItem = async (req, res) => {
             userId: req.user.id,
             event: `delete_payment`
         }
-        const { id } = matchedData(req)
+        const {id} = matchedData(req)
         res.status(200).json(await db.deleteItem(id, payment, event))
     } catch (error) {
         utils.handleError(res, error)

@@ -122,8 +122,8 @@ router.get(
  *    patch:
  *      tags:
  *        - subscribers
- *      summary: "update subscriber for id"
- *      description: "search subscriber and update"
+ *      summary: "update subscriber subprogramId for id"
+ *      description: "update subscriber subprogramId for id"
  *      responses:
  *        '201':
  *          description: "return subscriber updated"
@@ -148,7 +148,7 @@ router.get(
  *           description: "parameters required to insert module."
  *           required: true
  *           schema:
- *                $ref: "#/definitions/subscribers"
+ *                $ref: "#/definitions/subscribersUpdate"
  */
 router.patch(
     '/:id',

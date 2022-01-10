@@ -33,6 +33,27 @@ exports.createItem = [
 ]
 
 /**
+ * Validates Confirm payment and subscribe to plan
+ */
+exports.confirmAndSubscribe = [
+    check('planId')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('id')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    (req, res, next) => {
+        validationResult(req, res, next)
+    }
+]
+
+/**
  * Validates update item request
  */
 exports.updateItem = [
@@ -45,29 +66,11 @@ exports.updateItem = [
     check('description')
         .optional(),
     check('transactionId')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('transaction')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('amount')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('type')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .optional(),
     check('planId')
         .optional(),
     check('id')

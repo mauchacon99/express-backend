@@ -347,6 +347,18 @@ const swaggerOptions = {
                     planId: 3,
                 }
             },
+            subscribersUpdate: {
+                type: 'object',
+                required: [
+                    'subprogramId'
+                ],
+                properties: {
+                    subprogramId: { type: 'number' }
+                },
+                example: {
+                    subprogramId: 1
+                }
+            },
             experiences: {
                 type: 'object',
                 required: [
@@ -493,6 +505,18 @@ const swaggerOptions = {
                     description: 'Mollit anim non exercitation amet eu aliqua irure quis.',
                     token: 'ipi_1HJsAi2qZvKhlo2Dfr8US8rS',
                     type: 'plan',
+                }
+            },
+            confirmPayments: {
+                type: 'object',
+                required: [
+                    'planId'
+                ],
+                properties: {
+                    planId: { type: 'number' },
+                },
+                example: {
+                    planId: 1
                 }
             },
         }
