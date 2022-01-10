@@ -347,6 +347,18 @@ const swaggerOptions = {
                     planId: 3,
                 }
             },
+            subscribersUpdate: {
+                type: 'object',
+                required: [
+                    'subprogramId'
+                ],
+                properties: {
+                    subprogramId: { type: 'number' }
+                },
+                example: {
+                    subprogramId: 1
+                }
+            },
             experiences: {
                 type: 'object',
                 required: [

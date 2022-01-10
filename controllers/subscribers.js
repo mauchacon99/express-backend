@@ -112,10 +112,9 @@ exports.getItem = async (req, res) => {
  */
 exports.updateItem = async (req, res) => {
     try {
-        const { id } = req
         const event = {
             userId: req.user.id,
-            event: `update_subscriber_${id}`
+            event: `update_subscriber`
         }
         req = matchedData(req)
         res.status(201).json(await db.updateItem(req.id, subscriber, req, event))

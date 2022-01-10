@@ -15,11 +15,13 @@ const db = require('../middleware/db')
  */
 const validateViewSubprogram = async (req, id) => {
     let shouldIncludeSubprograms = false
+    let isSubscriber = null
     if (req.user.roleId === 4 || req.user.roleId === 5) {
         const _res = await subscriber.findAndCountAll({
             where: Sequelize.literal(`subscriber.planId IN (SELECT p.id FROM plans as p WHERE p.programId = ${id}) AND subscriber.userId = ${req.user.id}`),
         })
         shouldIncludeSubprograms = (_res.count > 0)
+        if(shouldIncludeSubprograms) isSubscriber = _res.rows[0]
     } else {
         const pro = await program.findByPk(id)
         if(pro)
@@ -53,7 +55,7 @@ const validateViewSubprogram = async (req, id) => {
             as: 'programSP'
         })
     }
-    return include
+    return {include, isSubscriber}
 }
 
 /********************
@@ -181,17 +183,18 @@ exports.getItemsHome = async (req, res) => {
 exports.getItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
-        const include = await validateViewSubprogram(req, id)
+        const {include, isSubscriber} = await validateViewSubprogram(req, id)
 
         program.findOne({
-            where:{id},
+            where: {id},
             include
         })
             .then((data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {
                     db.saveEvent({userId: req.user.id, event: `get_program_${id}`})
-                    res.status(200).json(data)
+
+                    res.status(200).json({ program: data, subscriber: isSubscriber })
                 }
             })
             .catch(() => {
