@@ -495,6 +495,18 @@ const swaggerOptions = {
                     type: 'plan',
                 }
             },
+            confirmPayments: {
+                type: 'object',
+                required: [
+                    'planId'
+                ],
+                properties: {
+                    planId: { type: 'number' },
+                },
+                example: {
+                    planId: 1
+                }
+            },
         }
     },
     // routers

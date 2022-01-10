@@ -163,6 +163,49 @@ router.patch(
 
 /**
  * @swagger
+ * /payments/confirm/{id}:
+ *    patch:
+ *      tags:
+ *        - payments
+ *      summary: "Confirm payment and subscribe to plan"
+ *      description: "Confirm payment and subscribe to plan"
+ *      responses:
+ *        '201':
+ *          description: "return payment updated"
+ *        '400':
+ *          description: "Updated failed."
+ *        '401':
+ *          description: "Unauthorized."
+ *        '422':
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
+ *      parameters:
+ *        - name: id
+ *          in: query
+ *          description: "id of payment"
+ *          required: true
+ *          schema:
+ *            type: number
+ *            format: number
+ *        -  in: "body"
+ *           name: "body"
+ *           description: "parameters required to insert module."
+ *           required: true
+ *           schema:
+ *                $ref: "#/definitions/confirmPayments"
+ */
+router.patch(
+    '/confirm/:id',
+    requireAuth,
+    permissions.roleAuthorization(),
+    trimRequest.all,
+    validate.confirmAndSubscribe,
+    controller.confirmAndSubscribe
+)
+
+/**
+ * @swagger
  * /payments/{id}:
  *    delete:
  *      tags:

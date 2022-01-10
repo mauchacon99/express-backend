@@ -374,15 +374,14 @@ exports.getItem = (id, model, event) => {
  * @param {Object} model - model of db
  * @param {Object} event - object { userId, event}
  */
-exports.createItem = (req, model, event, onSuccess) => {
+exports.createItem = (req, model, event) => {
     return new Promise((resolve, reject) => {
         model.create(req)
             .then(item => {
                 if(!item) reject(utils.buildErrObject(400, 'NOT_CREATED'))
                 else {
                     this.saveEvent(event)
-                    onSuccess && onSuccess(item)
-                    resolve(item)   
+                    resolve(item)
                 }
             })
             .catch(() => reject(utils.buildErrObject(400, 'NOT_CREATED')))
