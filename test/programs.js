@@ -398,7 +398,7 @@ describe('*********** PROGRAMS ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys(
+                    res.body.program.should.include.keys(
                         'id',
                         'userId',
                         'storageId',
@@ -408,12 +408,12 @@ describe('*********** PROGRAMS ***********', () => {
                         'createdAt',
                         'updatedAt'
                     )
-                    res.body.id.should.be.a('number')
-                    res.body.userId.should.be.a('number')
-                    res.body.storageId.should.be.a('number')
-                    res.body.name.should.be.a('string')
-                    res.body.createdAt.should.be.a('string')
-                    res.body.updatedAt.should.be.a('string')
+                    res.body.program.id.should.be.a('number')
+                    res.body.program.userId.should.be.a('number')
+                    res.body.program.storageId.should.be.a('number')
+                    res.body.program.name.should.be.a('string')
+                    res.body.program.createdAt.should.be.a('string')
+                    res.body.program.updatedAt.should.be.a('string')
                     done()
                 })
         })
