@@ -1,4 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SK)
+const {user} = require('../models')
+const {Op} = require("sequelize");
 
 const paymentMethod = async (token) => {
     return await stripe.paymentMethods.create({
@@ -46,7 +48,7 @@ exports.createCustomer = (token, email) => {
     })
 }
 
-exports.createSubscription = async (customer, price ) => {
+exports.createSubscription = async (customer, price) => {
     return new Promise((resolve, reject) => {
         stripe.subscriptions
             .create({
@@ -66,4 +68,22 @@ exports.createSubscription = async (customer, price ) => {
                 }
             );
     })
+}
+
+exports.checkPaymentUsers = async () => {
+    const users = await user.findAll({
+        where: {
+            roleId: {
+                [Op.or]: [2, 3]
+            }
+        }
+    })
+
+
+    // TODO:
+    // la constante users son los usuarios que deberian estar al dia con el pago de la web
+    // crear propiedad statusPayment en el modulo de usuarios y migracion este debe ser booleano y default false y actualizar seeders
+    // se debe verificar por el id de subscripcion el estado de pago de un usuario en stripe
+    // este id de subscripcion es la propiedad transitionId de la tabla payment
+    // el cors que ejecute esta funcion debe ser diario
 }
