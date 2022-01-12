@@ -281,8 +281,10 @@ exports.createItem = async (req, res) => {
             event: `new_plan`
         }
         if(req.user.vendor) utils.handleError(res, utils.buildErrObject(401, 'UNAUTHORIZED'))
-        req = matchedData(req)
-        res.status(201).json(await db.createItem(req, plan, event))
+        else {
+            req = matchedData(req)
+            res.status(201).json(await db.createItem(req, plan, event))
+        }
     } catch (error) {
         utils.handleError(res, error)
     }

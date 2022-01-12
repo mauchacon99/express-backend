@@ -183,3 +183,42 @@ exports.deleteItem = async (req, res) => {
         utils.handleError(res, error)
     }
 }
+
+
+/**
+ * Create a subscription stripe
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ */
+exports.createSubscriptionStripe = async (req, res) => {
+    try {
+        const user = req.user
+        req = matchedData(req)
+        const event = {
+            userId: user.id,
+            event: `new_payment`
+        }
+
+        const customer = await stripe.createCustomer(req.token, user.email)
+        const subscriptionStripe = await stripe.createSubscription(customer.id, 'id-of-price')
+
+        if(subscriptionStripe.status === 'active') {
+            const body = {
+                userId: user.id,
+                description: req.description || '',
+                transactionId: subscriptionStripe.id,
+                transaction: subscriptionStripe,
+                amount: 0,
+                type: req.type,
+                status: 'wait',
+            }
+            const response = await db.createItem(body, payment, event)
+            res.status(201).json(response)
+        } else {
+            utils.handleError(res, utils.buildErrObject(400, 'NOT_CREATED'))
+        }
+    } catch (error) {
+        utils.handleError(res, error)
+    }
+}
+

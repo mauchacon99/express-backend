@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SK)
 const paymentMethod = async (token) => {
     return await stripe.paymentMethods.create({
         type: 'card',
-        card: { token }
+        card: {token}
     })
 }
 
@@ -25,5 +25,45 @@ exports.paymentIntent = async (token, amount, description) => {
 exports.checkPayment = async (id) => {
     const detailPayment = await stripe.paymentIntents.retrieve(id)
     const status = detailPayment.status.includes('succe') ? 'success' : 'fail'
-    return { status, detailPayment }
+    return {status, detailPayment}
+}
+
+exports.createCustomer = (token, email) => {
+    return new Promise((resolve, reject) => {
+        stripe.customers
+            .create({
+                source: token,
+                email
+            })
+            .then(
+                (response) => {
+                    resolve(response)
+                },
+                (err) => {
+                    reject(err)
+                }
+            )
+    })
+}
+
+exports.createSubscription = async (customer, price ) => {
+    return new Promise((resolve, reject) => {
+        stripe.subscriptions
+            .create({
+                customer,
+                items: [{
+                    price
+                }],
+                payment_behavior: 'default_incomplete',
+                expand: ['latest_invoice.payment_intent'],
+            })
+            .then(
+                (response) => {
+                    resolve(response)
+                },
+                (err) => {
+                    reject(err)
+                }
+            );
+    })
 }

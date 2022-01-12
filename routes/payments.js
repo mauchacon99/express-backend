@@ -50,6 +50,42 @@ router.post(
     controller.createItem
 )
 
+
+/**
+ * @swagger
+ * /payments/subscription:
+ *    post:
+ *      tags:
+ *        - payments
+ *      summary: "subscribe payment of user"
+ *      description: "subscribe payment of user"
+ *      responses:
+ *        '201':
+ *          description: "return payment created"
+ *        '400':
+ *          description: "Created failed."
+ *        '401':
+ *          description: "Unauthorized."
+ *        '422':
+ *          description: "Validation error in any of the fields entered or a field is missing."
+ *        '500':
+ *          description: "Internal server error."
+ *      parameters:
+ *        -  in: "body"
+ *           name: "body"
+ *           description: "parameters required to insert payment"
+ *           required: true
+ *           schema:
+ *                $ref: "#/definitions/paymentsSubscriptionStripe"
+ */
+router.post(
+    '/subscription',
+    requireAuth,
+    trimRequest.all,
+    validate.createSubscriptionStripe,
+    controller.createSubscriptionStripe
+)
+
 /**
  * @swagger
  * /payments/{id}:

@@ -113,3 +113,18 @@ exports.deleteItem = [
         validationResult(req, res, next)
     }
 ]
+
+/**
+ * Validates createSubscriptionStripe item request
+ */
+exports.createSubscriptionStripe = [
+    check('token')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    (req, res, next) => {
+        validationResult(req, res, next)
+    }
+]

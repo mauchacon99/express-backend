@@ -507,6 +507,18 @@ const swaggerOptions = {
                     type: 'plan',
                 }
             },
+            paymentsSubscriptionStripe: {
+                type: 'object',
+                required: [
+                    'token'
+                ],
+                properties: {
+                    token: { type: 'string' },
+                },
+                example: {
+                    token: 'card_1KGvlU2eZvKYlo2CiAYRRMXP'
+                }
+            },
             confirmPayments: {
                 type: 'object',
                 required: [
