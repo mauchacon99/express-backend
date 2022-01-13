@@ -15,7 +15,7 @@ const stripe = require('../services/stripe')
  */
 exports.getItems = async (req, res) => {
     try {
-        const query = await db.checkQuery(req.query)
+        const query = await db.checkQueryWhereUserIdExceptIfAdmin(req.query, req.user)
         const data = await payment.findAndCountAll({
             ...query,
             include: [
