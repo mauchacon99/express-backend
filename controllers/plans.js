@@ -237,14 +237,42 @@ exports.getItem = async (req, res) => {
                 },
             ]
         })
-            .then((data) => {
+            .then(async (data) => {
                 if(!data) utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
                 else {
                     db.saveEvent({userId: req.user.id, event: `get_plan_${id}`})
+
+                    // if it is personal or company then check availability of the plan
+                    if(req.user.roleId === 4 || req.user.roleId === 5) {
+                        const _res = await subscriber.findAndCountAll({
+                            where: { userId: req.user.id, planId: id }
+                        })
+
+                        db.saveEvent({userId: req.user.id, event: `get_all_subscribers_by_user_id_${req.user.id}` })
+
+                        if (_res.count > 0) {
+                            res.status(200).json({
+                                ...data.dataValues,
+                                available: false
+                            })
+                        } else {
+                            res.status(200).json({
+                                ...data.dataValues,
+                                available: true
+                            })
+                        }
+
+                        return;
+                    }
+
                     res.status(200).json(data)
                 }
             })
-            .catch(() => utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND')))
+            .catch((err) => {
+                console.log(err);
+
+                utils.handleError(res, utils.buildErrObject(404, 'NOT_FOUND'))
+            })
     } catch (error) {
         utils.handleError(res, error)
     }
