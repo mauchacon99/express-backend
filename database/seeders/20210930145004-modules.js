@@ -199,6 +199,17 @@ module.exports = {
         updatedAt: new Date(),
         visible: true
       },
+      {
+        id: 18,
+        status: true,
+        methods: JSON.stringify(['get']),
+        icon: '',
+        name: 'Statistics',
+        route: '/statistics',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        visible: true
+      },
     ], {});
   },
 
