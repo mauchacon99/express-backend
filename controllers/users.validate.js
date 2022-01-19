@@ -45,6 +45,8 @@ exports.createItem = [
         .optional(),
     check('statusPayment')
         .optional(),
+    check('cardToken')
+        .optional(),
     (req, res, next) => {
         validationResult(req, res, next)
     }

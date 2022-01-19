@@ -125,6 +125,7 @@ const swaggerOptions = {
                     professions: { type: 'array' },
                     languages: { type: 'array' },
                     statusPayment: { type: 'boolean' },
+                    cardToken: { type: 'string' },
                 },
                 example: {
                     name: 'user',
