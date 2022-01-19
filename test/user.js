@@ -218,7 +218,7 @@ describe('*********** USERS ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(201)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages', 'stripeCustomerId', 'updatedAt', 'createdAt')
+                    res.body.should.include.keys('id', 'name', 'lastname', 'roleId', 'email', 'skills', 'preferences', 'instagram', 'facebook', 'linkedin', 'professions', 'languages', 'updatedAt', 'createdAt')
                     res.body.id.should.be.a('number')
                     res.body.roleId.should.be.a('number')
                     res.body.name.should.be.a('string')
