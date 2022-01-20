@@ -166,6 +166,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 1,
+        moduleId: 18, // /statistics
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 2 = coach
       {
@@ -317,6 +326,15 @@ module.exports = {
         moduleId: 17, // /payments
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 2,
+        moduleId: 18, // /statistics
+        status: true,
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -476,6 +494,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 3,
+        moduleId: 18, // /statistics
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 4 = company
       {
@@ -631,6 +658,15 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        roleId: 4,
+        moduleId: 18, // /statistics
+        status: true,
+        methods: JSON.stringify(['get']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
 
       // role 5 = personal
       {
@@ -782,6 +818,15 @@ module.exports = {
         moduleId: 17, // /payments
         status: true,
         methods: JSON.stringify(['get', 'post', 'delete', 'patch']),
+        visible: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        roleId: 5,
+        moduleId: 18, // /statistics
+        status: true,
+        methods: JSON.stringify(['get']),
         visible: true,
         createdAt: new Date(),
         updatedAt: new Date(),

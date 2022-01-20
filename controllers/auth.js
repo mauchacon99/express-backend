@@ -1,5 +1,6 @@
 const {matchedData} = require("express-validator");
-const { user } = require("../models");
+const { user, payment } = require("../models");
+const stripe = require('../services/stripe')
 const utils = require("../middleware/utils");
 const emailer = require("../middleware/emailer")
 const auth = require('../middleware/auth')
@@ -143,8 +144,59 @@ exports.register = async (req, res) => {
     try {
         const locale = req.getLocale()
         req = matchedData(req)
+
+        let customer, subscriptionStripe
+
+        const stripePriceIdCoachSubscriptionPlan = 'price_1KJfvtBrEi53DxeRSv7Kj82b';
+        const stripePriceIdVendorSubscriptionPlan = 'price_1KJfvtBrEi53DxeRSv7Kj82b';
+
+
+        // if coach or vendor then subscribe to stripe
+        if (req.roleId == 2 || req.roleId == 3) {
+            try {
+                customer = await stripe.createCustomer(req.cardToken, req.email)
+                subscriptionStripe = await stripe.createSubscription(
+                    customer.id,
+                    req.roleId == 2
+                        ? stripePriceIdCoachSubscriptionPlan
+                        : stripePriceIdVendorSubscriptionPlan
+                )
+            } catch (error) {
+                console.log(error);
+                utils.handleError(res, error);
+                return;
+            }
+        }
+
+        const dataToRegister = { ...req }
+
+        if (customer) dataToRegister.stripeCustomerId = customer.id
+
         const item = await registerUser(req)
         emailer.sendRegistrationEmailMessage(locale, item)
+
+        if ((req.roleId == 2 || req.roleId == 3) && subscriptionStripe != null) {
+            const paymentData = {
+                userId: item.id,
+                description: subscriptionStripe.description,
+                transactionId: subscriptionStripe.id,
+                transaction: subscriptionStripe,
+                amount: subscriptionStripe.plan.amount,
+                type: 'subscription',
+                status: subscriptionStripe.status
+            };
+
+            try {
+                await db.createItem(paymentData, payment, {
+                    userId: item.id,
+                    event: `new_payment`
+                });
+            } catch (error) {
+                console.log(error);
+                utils.handleError(res, error);
+                return;
+            }
+        }
 
         res.status(201).json({
             token: auth.generateToken(item.id),

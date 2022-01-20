@@ -53,6 +53,7 @@ const swaggerOptions = {
                         type: 'string',
                         description: 'verification hash when a vendor invites a coach (only used when sending an invitation to join a company)'
                     },
+                    cardToken: { type: 'string' },
                 },
                 example: {
                     name: 'user',
@@ -60,7 +61,7 @@ const swaggerOptions = {
                     password: '123456',
                     roleId: 2,
                     lastname: "test",
-                    description: "Tempor est non dolore occaecat cupidatat."
+                    description: "Tempor est non dolore occaecat cupidatat.",
                 }
             },
             authLogin: {
