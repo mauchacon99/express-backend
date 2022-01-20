@@ -147,15 +147,20 @@ exports.register = async (req, res) => {
 
         let customer, subscriptionStripe
 
-        console.log(req);
+        const stripePriceIdCoachSubscriptionPlan = 'price_1KJfvtBrEi53DxeRSv7Kj82b';
+        const stripePriceIdVendorSubscriptionPlan = 'price_1KJfvtBrEi53DxeRSv7Kj82b';
+
 
         // if coach or vendor then subscribe to stripe
         if (req.roleId == 2 || req.roleId == 3) {
             try {
                 customer = await stripe.createCustomer(req.cardToken, req.email)
-                subscriptionStripe = await stripe.createSubscription(customer.id, 'price_1KJfvtBrEi53DxeRSv7Kj82b')
-
-                console.log(subscriptionStripe);
+                subscriptionStripe = await stripe.createSubscription(
+                    customer.id,
+                    req.roleId == 2
+                        ? stripePriceIdCoachSubscriptionPlan
+                        : stripePriceIdVendorSubscriptionPlan
+                )
             } catch (error) {
                 console.log(error);
                 utils.handleError(res, error);
@@ -167,7 +172,7 @@ exports.register = async (req, res) => {
 
         if (customer) dataToRegister.stripeCustomerId = customer.id
 
-        const item = await registerUser(dataToRegister)
+        const item = await registerUser(req)
         emailer.sendRegistrationEmailMessage(locale, item)
 
         if ((req.roleId == 2 || req.roleId == 3) && subscriptionStripe != null) {
@@ -176,7 +181,7 @@ exports.register = async (req, res) => {
                 description: subscriptionStripe.description,
                 transactionId: subscriptionStripe.id,
                 transaction: subscriptionStripe,
-                amount: subscriptionStripe.amount,
+                amount: subscriptionStripe.plan.amount,
                 type: 'subscription',
                 status: subscriptionStripe.status
             };
@@ -186,7 +191,6 @@ exports.register = async (req, res) => {
                     userId: item.id,
                     event: `new_payment`
                 });
-                console.log('pago creado!');
             } catch (error) {
                 console.log(error);
                 utils.handleError(res, error);
