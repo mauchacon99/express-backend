@@ -85,7 +85,8 @@ exports.getItemsHome = async (req, res) => {
             include: [
                 {
                     model: roles,
-                    as: 'roleU'
+                    as: 'roleU',
+                    where: { id: 2 }
                 },
                 {
                     model: storage,
